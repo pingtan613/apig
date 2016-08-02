@@ -1,10 +1,10 @@
-<div class="user_toolbit">
+<div class="user_toolbit" ng-controller="User as vm">
 	<ul>
 		<li>
 			<a href="#/service/overview">My Services</a>
 		</li>
 		<li>
-			<a href="#/logout">Logout</a>
+			<a href="#/logout" data-ng-click="vm.logout()">Logout</a>
 		</li>
 	</ul>
 </div>

@@ -2,6 +2,7 @@
 		<section class="loginPanel">
 			<h4>Login</h4>
 			<form ng-submit="vm.login()">
+				<div data-ng-show="vm.display_error" class="message error">Invalid login, please try again.</div>
 				<ul>
 					<li>
 						<label>Username</label>

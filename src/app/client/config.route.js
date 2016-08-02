@@ -12,6 +12,13 @@
     function getRoutes() {
         return [
             {
+                url: '/client/main',
+                config: {
+                    templateUrl: 'app/client/_intro.html',
+                    title: 'Client - Main'
+                }
+            }, 
+            {
                 url: '/client/search/result',
                 config: {
                     templateUrl: 'app/client/_result.html',

@@ -572,3 +572,14 @@ ul.list ul li {
 	padding: 10px 4px;
 	width: 200px;
 }
+
+.message {
+	border: 1px solid #000000;
+	padding: 5px 10px;
+}
+
+.message.error {
+	border-color: #ff1a1a;
+	color: #b30000;
+	background-color: #ffcccc;
+}
