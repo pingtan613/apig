@@ -1,0 +1,118 @@
+<!-- include service tab tool bit -->
+<div ng-include="'/app/service/_tabToolbit.html'"></div>
+
+<div class="content services">
+
+	<section>
+		<section class="edit_service">
+			<h4 class="text_purple">
+				AddresssService (4321)
+			</h4>
+			<ul>
+				<li>
+					<label>EAI Profile Name</label>
+					<span>ECUST-SHARE-AddressService</span>
+				</li>
+				<li>
+					<label>Category</label>
+					<span>Address EFS</span>
+				</li>
+				<li>
+					<label>Friendly Name</label>
+					<input type="text" value="SHARE" />
+				</li>
+				<li>
+					<label>Interface</label>
+					<span>SOAP</span>&nbsp;&nbsp;&nbsp;<a href="">Manage WSDL(s)</a>
+				</li>
+				<li>
+					<label>Status</label>
+					<select>
+						<option value="Active">Active</option>
+						<option value="Inactive">Inactive</option>
+					</select>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<label>Description</label>
+					<textarea>This is the description that will be displayed to users who are browsing available services.</textarea>
+				</li>
+				<li>
+					<label>URL's</label>
+					<select multiple class="multi_select">
+						<option value="">http://associated-wsdl.wsdl</option>
+						<option value="">http://share-documetation.com</option>
+					</select>
+				</li>
+			</ul>
+		</section>
+		<br class="clear" />
+		<br class="clear" />
+		<section class="wsdl_upload">
+			<div>
+				<h6>** IMPORTANT **</h6>
+				This SOAP Service currently does not have a WSDL
+				associated with it. <a href="#/wsdl/upload/5145" class="wsdl_upload_link">Please click here to add one</a>
+			</div>
+		</section>
+		<section class="service_wsdl">
+			<h6>WSDL</h6>
+			<section>
+				<div>
+					<select>
+						<option>WSDL 1</option>
+						<option>WSDL 2</option>
+					</select>
+					<a href="" class="button-small">Add WSDL</a>
+					<a href="" class="button-small">Remove WSDL</a>
+				</div>
+				<table>
+					<thead>
+						<tr>
+							<td>Name</td>
+							<td>Inactive</td>
+							<td>Internal</td>
+							<td>Description</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Operation 1</td>
+							<td><input type="checkbox"></td>
+							<td><input type="checkbox"></td>
+							<td>Operation 1 description</td>
+						</tr>
+						<tr>
+							<td>Operation 2</td>
+							<td><input type="checkbox"></td>
+							<td><input type="checkbox"></td>
+							<td>Operation 2 description</td>
+						</tr>
+						<tr>
+							<td>Operation 3</td>
+							<td><input type="checkbox"></td>
+							<td><input type="checkbox"></td>
+							<td>Operation 3 description</td>
+						</tr>
+						<tr>
+							<td>Operation 4</td>
+							<td><input type="checkbox"></td>
+							<td><input type="checkbox"></td>
+							<td>Operation 4 description</td>
+						</tr>
+						<tr>
+							<td>Operation 5</td>
+							<td><input type="checkbox" checked></td>
+							<td><input type="checkbox"></td>
+							<td>Operation 5 description</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</section>
+		<br class="clear" />
+		<a href="" class="button right">Save Changes</a>
+		<br class="clear" />
+	</section>
+</div>

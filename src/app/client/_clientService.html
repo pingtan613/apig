@@ -1,0 +1,33 @@
+<!-- include search/browse tool bit -->
+<div ng-include="'/app/service/_searchToolbit.html'"></div>
+
+<div class="content clients">
+	<section>
+		<h1>AddressService - getGEO</h1>
+		<p>
+			Address EFS AKA Share (Shipper And Recipient Enterprise) provides services for identifying and storing addressses and profile
+			information associated with those addresses.
+		</p>
+		<p>
+			Helpful Links:<br/>
+			<a href="">http://getGEO.fedex.wsdl</a><br/>
+			<a href="">http://getGEO.fedex.wsdl</a>
+		</p>
+		<section>
+			<div>
+			Use this service with:
+			</div>
+			<div>
+				<ui-select ng-model="vm.list" theme="selectize" class="select_dropdown left" style="width: 200px" title="Choose a category">
+					<ui-select-match placeholder="Choose a category">{{vm.selected.name}}</ui-select-match>
+					<ui-select-choices repeat="item in vm.list | filter: vm.search">
+					  <span ng-bind-html="item.name | highlight: vm.search"></span>
+					  <small ng-bind-html="item.id | highlight: vm.search"></small>
+					</ui-select-choices>
+				</ui-select>
+				<a href="#/client/service/engagement" class="button">GO</a>
+			</div>
+		</section>
+
+	</section>
+</div>

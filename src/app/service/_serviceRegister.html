@@ -1,0 +1,68 @@
+<!-- include service tab tool bit -->
+<div ng-include="'/app/service/_tabToolbit.html'"></div>
+
+<div class="content services">
+
+	<section>
+		<h2>
+			Register a New Service
+		</h2>
+		<section>
+			<h4>Select a service from the list below to begin the registration process</h4>
+			<select>
+				<option>Spectrum (5145)</option>
+				<option>Spectrum (5145)</option>
+				<option>Spectrum (5145)</option>
+			</select>
+			<button>Go</button>
+		</section>
+		<section>
+			<h4>Please complete the form below to process the service registration</h4>
+			<ul>
+				<li>
+					<label>EAI Profile Name</label>
+					<input type="text" value="ECUST-SHARE-AddressService" />
+				</li>
+				<li>
+					<label>Category</label>
+					<select>
+						<option>Address EFS</option>
+						<option>EAI</option>
+					</select>
+				</li>
+				<li>
+					<label>Friendly Name</label>
+					<input type="text" value="Spectrum" />
+				</li>
+				<li>
+					<label>Interface</label>
+					<select>
+						<option>SOAP</option>
+						<option>REST</option>
+					</select>
+				</li>
+				<li>
+					<label>Status</label>
+					<select>
+						<option value="Active">Active</option>
+						<option value="Inactive">Inactive</option>
+					</select>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<label>Description</label>
+					<textarea>This is the description that will be displayed to users who are browsing available services.</textarea>
+				</li>
+				<li>
+					<label>URL's</label>
+					<select multiple>
+						<option value="">http://associated-wsdl.wsdl</option>
+						<option value="">http://share-documetation.com</option>
+					</select>
+				</li>
+			</ul>
+			<button>Register Service</button>
+		</section>
+	</section>
+</div>

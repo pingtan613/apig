@@ -1,0 +1,21 @@
+<div class="search_toolbit" ng-controller="Service as vm">
+	<form id="service_search" name="service_search">
+		<ul>
+			<li><input type="text" placeholder="Browse by name" class=""></li>
+			<li>
+				<ui-select ng-model="vm.category.selected" theme="selectize" style="width: 100%" title="Choose a category">
+					<ui-select-match placeholder="Choose a category">{{vm.category.selected.name}}</ui-select-match>
+					<ui-select-choices repeat="item in vm.category.list | filter: vm.category.search">
+					  <span ng-bind-html="item.name | highlight: vm.category.search"></span>
+					  <small ng-bind-html="item.id | highlight: vm.category.search"></small>
+					</ui-select-choices>
+				</ui-select>
+			</li>
+			<li>
+				<a href="#/client/search/result" class="button">Search</a>
+			</li>
+		</ul>
+	</form>
+	<br class="clear" />
+</div>
+

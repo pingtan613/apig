@@ -1,0 +1,21 @@
+<div class="content user" ng-controller="User as vm">
+		<section class="loginPanel">
+			<h4>Login</h4>
+			<form ng-submit="vm.login()">
+				<ul>
+					<li>
+						<label>Username</label>
+						<input type="text" name="username" placeholder="Enter Username" data-ng-model="vm.user.username">
+					</li>
+					<li>
+						<label>Password</label>
+						<input type="password" name="password" placeholder="Enter Password" data-ng-model="vm.user.password">
+					</li>
+					<li>
+						<input type="submit" class="button" value="Login">
+					</li>
+				</ul>
+			</form>
+		</secion>
+	</div>
+</div>

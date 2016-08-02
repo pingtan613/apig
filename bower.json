@@ -1,0 +1,35 @@
+{
+  "name": "Fedex-APIG",
+  "version": "1.1.0",
+  "authors": [
+    "Ping Tan"
+  ],
+  "license": "",
+  "homepage": "",
+  "private": true,
+  "keywords": [
+    "AngularJS",
+    "Admin",
+    "Dashboard",
+    "Panel",
+    "App",
+    "Responsive"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "angular": "~1.5.5",
+    "angular-route": "~1.5.5",
+    "angular-ui-select": "0.17",
+    "angular-local-storage": "0.2.7",
+    "angular-cookies": "~1.5.6",
+    "angular-sanitize": "^1.5.8",
+    "bootstrap": "^3.3.7",
+    "selectize": "^0.12.1",
+    "moment": "^2.14.1",
+    "toastr": "^2.1.3"
+  }
+}
