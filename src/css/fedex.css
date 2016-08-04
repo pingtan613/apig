@@ -221,9 +221,12 @@ ul.list ul li {
 
 .tab_toolbit li:first-child {
 	border-right: 0px;
+
 }
 
 .tab_toolbit li:last-child {
+	background-color: #4d148c;
+	
 	border-left: 0px;
 }
 
@@ -582,4 +585,8 @@ ul.list ul li {
 	border-color: #ff1a1a;
 	color: #b30000;
 	background-color: #ffcccc;
+}
+
+.registerTable {
+	width: 35%;
 }

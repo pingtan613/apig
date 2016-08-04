@@ -9,59 +9,87 @@
 		</h2>
 		<section>
 			<h4>Select a service from the list below to begin the registration process</h4>
-			<select>
+			<form>
+			<select data-chosen="" data-placeholder="Choose a Service">
 				<option>Spectrum (5145)</option>
 				<option>Spectrum (5145)</option>
 				<option>Spectrum (5145)</option>
 			</select>
-			<button>Go</button>
+			<input type="submit" class="button" vlaue="Go">
+			</form>
 		</section>
 		<section>
 			<h4>Please complete the form below to process the service registration</h4>
-			<ul>
-				<li>
-					<label>EAI Profile Name</label>
-					<input type="text" value="ECUST-SHARE-AddressService" />
-				</li>
-				<li>
-					<label>Category</label>
-					<select>
-						<option>Address EFS</option>
-						<option>EAI</option>
-					</select>
-				</li>
-				<li>
-					<label>Friendly Name</label>
-					<input type="text" value="Spectrum" />
-				</li>
-				<li>
-					<label>Interface</label>
-					<select>
-						<option>SOAP</option>
-						<option>REST</option>
-					</select>
-				</li>
-				<li>
-					<label>Status</label>
-					<select>
-						<option value="Active">Active</option>
-						<option value="Inactive">Inactive</option>
-					</select>
-				</li>
-			</ul>
-			<ul>
-				<li>
-					<label>Description</label>
-					<textarea>This is the description that will be displayed to users who are browsing available services.</textarea>
-				</li>
-				<li>
-					<label>URL's</label>
-					<select multiple>
-						<option value="">http://associated-wsdl.wsdl</option>
-						<option value="">http://share-documetation.com</option>
-					</select>
-				</li>
-			</ul>
+			<table>
+				<tr>
+					<td class="registerTable">
+						<label>EAI Profile Name</label>
+					</td>
+					<td>
+						<input style="width:200px" type="text" value="ECUST-SHARE-AddressService" />
+					</td>
+				</tr>
+				<tr>
+					<td class="registerTable">
+						<label>Category</label>
+					</td>
+					<td>
+						<select>
+							<option>Address EFS</option>
+							<option>EAI</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="registerTable">
+						<label>Friendly Name</label>
+					</td>
+					<td>
+						<input type="text" value="Spectrum" />
+					</td>
+				</tr>
+				<tr>
+					<td class="registerTable">
+						<label>Interface</label>
+					</td>
+					<td>
+						<select>
+							<option>SOAP</option>
+							<option hidden="true">REST</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="registerTable">
+						<label>Status</label>
+					</td>
+					<td>
+						<select>
+							<option value="Active">Active</option>
+							<option value="Inactive">Inactive</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="registerTable">
+						<label>Description</label>
+					</td>
+					<td style="width: 100%">
+						<textarea style="width: 100%">This is the description that will be displayed to users who are browsing available services.</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td class="registerTable">
+						<label>URL's</label>
+					</td>
+					<td style="width:100%">
+						<select multiple>
+							<option value="">http://associated-wsdl.wsdl</option>
+							<option value="">http://share-documetation.com</option>
+						</select>
+					</td>
+				</tr>
+			</table>
 			<button>Register Service</button>
 		</section>
 	</section>
