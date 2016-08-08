@@ -2,34 +2,51 @@
     'use strict';
 
     angular
-        .module('app.user')
-        .factory('userservice', ['$http', serviceservice]);
+        .module('app.service')
+        .factory('serviceservice',  ['$http', 'userservice', 'coreservice', serviceservice]);
 
     serviceservice.$inject = [];
 
-    function serviceservice($http){
-    	
+    function serviceservice($http, userservice, coreservice){
+    	var service = {
+    		getServiceDetail: getServiceDetail,
+    		register: register,
+    		getServices: getServices,
+    		saveServiceDetails: saveServiceDetails
+
+    	};
+
+    	return service;
 
     	function getServiceDetail(serviceId)
     	{
-    		var server = "https://ec2-54-164-123-94.compute-1.amazonaws.com:8443";
-
     		return $http({
 	        method : "GET",
-	        url : server + "/apig/v1/px/eai/details?apig_token=" + $rootScope.apigTk + "&apig_session=" + $rootScope.sessionTk + "&eai=" + serviceId
+	        url : coreservice.getServerHost() + "/apig/v1/px/eai/details?apig_token=" + userservice.getApigToken() + "&apig_session=" + userservice.getSessionToken() + "&eai=" + serviceId
     		});
     	}
 
     	function register(data) 
     	{
-    		var server = "https://ec2-54-164-123-94.compute-1.amazonaws.com:8443";
- 			
  			return $http({
  				method : "POST",
 	        	headers: {'Content-Type': 'application/json'},
 	        	data: data,
-	        	url : server + "/apig/v1/eai/register/service?apig_token=" + $rootScope.apigTk + "&apig_session=" + $rootScope.sessionTk
+	        	url : coreservice.getServerHost() + "/apig/v1/eai/register/service?apig_token=" + $rootScope.apigTk + "&apig_session=" + $rootScope.sessionTk
 	    	});
+	    }
+
+	    function getServices()
+	    {
+	    	return $http({
+	    		method: "GET",
+	    		url: coreservice.getServerHost() + "/apig/v2/current/services?apig_token=" + userservice.getApigToken() + "&service_registration=true"
+	    	});
+	    }
+
+	    function saveServiceDetails(data) 
+	    {
+	    	//TODO send all service details back to the APIG server for storage
 	    }
 	}
 })();

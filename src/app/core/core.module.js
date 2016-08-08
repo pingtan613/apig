@@ -6,3 +6,4 @@
 		'ngRoute', 'ngSanitize', 'ui.select'
 	]);
 })();
+

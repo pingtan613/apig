@@ -3,30 +3,27 @@
 
     angular
         .module('app.user')
-        .factory('userservice', ['$http', userservice]);
+        .factory('userservice', ['$http', 'coreservice', userservice]);
 
     userservice.$inject = [];
 
-    function userservice($http) {
+    function userservice($http, coreservice) {
 
     	var apig_token = "";
-    	var session_token = "";
         var service = {
             login: login,
             isLoggedIn: isLoggedIn,
-            logout: logout
+            logout: logout,
+            getApigToken: getApigToken
         };
 
         return service;
 
         function login(data) {
-        	var server = "https://gateway84a.l7tech.com:8443";
-        	server = "https://ec2-54-164-123-94.compute-1.amazonaws.com:8443";
-
         	return $http({
 		        method : "POST",
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		        url : server + "/apig/v1/authn",
+		        url : coreservice.getServerHost() + "/apig/v1/authn",
 		        data : encodeURI("username=" + data.username + "&password=" + data.password)
         	});
         }
@@ -43,8 +40,11 @@
 
         function logout() {
         	apig_token = "";
-        	session_token = "";
         	return true;
         }
+
+		function getApigToken(){
+			return apig_token;
+		}        
     }
 })();

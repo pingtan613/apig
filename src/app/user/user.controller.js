@@ -15,6 +15,7 @@
 	    vm.login = function() {
 	    	userservice.login(vm.user).then(function(response) {
 	    		if (userservice.isLoggedIn(response.data)) {
+	    			
 	    			//redirect to intro
 	    			$location.path( "/client/main" );
 	    		} else {

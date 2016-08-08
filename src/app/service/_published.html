@@ -1,12 +1,13 @@
 <!-- include service tab tool bit -->
 <div ng-include="'/app/service/_tabToolbit.html'"></div>
 
-<div class="content services">
+<div ng-controller="Service as vm" class="content services">
+	<a href="#/service/register" ng-click="vm.getServicesForRegistration()" >Register a new service</a>
 	<section class="published_services">
 		<h5 class="text_purple">Services</h5>
 		<ul>
 			<li>
-				<ul>
+				<ul> <!-- ng-repeat="array of true services"-->
 					<li class="id">4321</li>
 					<li class="title">AddressService (SOAP)</li>
 					<li class="edit"><a href="#/service/edit/0000001234">edit</a></li>
@@ -23,7 +24,6 @@
 			</li>
 		</ul>
 		<br class="clear" />
-		<br/>
-		<a href="#/service/register">+Register a new service</a>
+		<br>
 	</section>
 </div>

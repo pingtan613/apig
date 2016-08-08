@@ -1,7 +1,7 @@
 <!-- include service tab tool bit -->
 <div ng-include="'/app/service/_tabToolbit.html'"></div>
 
-<div class="content services">
+<div ng-controller="Service as vm" class="content services">
 
 	<section>
 		<h2>
@@ -9,88 +9,91 @@
 		</h2>
 		<section>
 			<h4>Select a service from the list below to begin the registration process</h4>
-			<form>
-			<select data-chosen="" data-placeholder="Choose a Service">
-				<option>Spectrum (5145)</option>
-				<option>Spectrum (5145)</option>
-				<option>Spectrum (5145)</option>
-			</select>
-			<input type="submit" class="button" vlaue="Go">
+			<form ng-submit="vm.getServiceDetails()">
+				<select data-chosen="" data-placeholder="Choose a Service" >
+					<option>Spectrum (5145)</option>
+					<option>Spectrum (5145)</option>
+					<option>Spectrum (5145)</option>
+				</select>
+				<input type="submit" class="button" value="Go">
 			</form>
 		</section>
-		<section>
-			<h4>Please complete the form below to process the service registration</h4>
-			<table>
-				<tr>
-					<td class="registerTable">
-						<label>EAI Profile Name</label>
-					</td>
-					<td>
-						<input style="width:200px" type="text" value="ECUST-SHARE-AddressService" />
-					</td>
-				</tr>
-				<tr>
-					<td class="registerTable">
-						<label>Category</label>
-					</td>
-					<td>
-						<select>
-							<option>Address EFS</option>
-							<option>EAI</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td class="registerTable">
-						<label>Friendly Name</label>
-					</td>
-					<td>
-						<input type="text" value="Spectrum" />
-					</td>
-				</tr>
-				<tr>
-					<td class="registerTable">
-						<label>Interface</label>
-					</td>
-					<td>
-						<select>
-							<option>SOAP</option>
-							<option hidden="true">REST</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td class="registerTable">
-						<label>Status</label>
-					</td>
-					<td>
-						<select>
-							<option value="Active">Active</option>
-							<option value="Inactive">Inactive</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td class="registerTable">
-						<label>Description</label>
-					</td>
-					<td style="width: 100%">
-						<textarea style="width: 100%">This is the description that will be displayed to users who are browsing available services.</textarea>
-					</td>
-				</tr>
-				<tr>
-					<td class="registerTable">
-						<label>URL's</label>
-					</td>
-					<td style="width:100%">
-						<select multiple>
-							<option value="">http://associated-wsdl.wsdl</option>
-							<option value="">http://share-documetation.com</option>
-						</select>
-					</td>
-				</tr>
-			</table>
-			<button>Register Service</button>
+		<section data-ng-show="vm.displayForm"> 
+				<h4>Please complete the form below to process the service registration</h4>
+				<form ng-submit="vm.saveServiceDetails()">
+					<table>
+						<tr>
+							<td class="registerTable">
+							<label>EAI Profile Name</label>
+							</td>
+							<td>
+								<input style="width:200px" type="text" value="ECUST-SHARE-AddressService" data-ng-model="vm.servicesData.EAI_Profile_Name"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="registerTable">
+								<label>Category</label>
+							</td>
+							<td>
+								<select data-ng-model="vm.servicesData.Category">
+									<option>Address EFS</option>
+									<option>EAI</option>
+								</select>
+							</td>
+						</tr>
+						<tr> <!-- by default same as eai application name changable -->
+							<td class="registerTable">
+							<label>Friendly Name</label>
+							</td>
+							<td>
+								<input type="text" value="Spectrum" data-ng-model="vm.servicesData.FriendlyName"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="registerTable">
+								<label>Interface</label>
+							</td>
+							<td>
+								<select  required data-ng-model="vm.servicesData.Interface">
+									<option value="SOAP">SOAP</option>
+									<option value="REST" hidden="true">REST</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="registerTable">
+								<label>Status</label>
+							</td>
+							<td>
+								<select data-ng-model="vm.servicesData.Status">
+									<option value="Active">Active</option>
+									<option value="Inactive">Inactive</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="registerTable">
+								<label>Description</label>
+							</td>
+							<td style="width: 100%">
+								<textarea style="width: 100%" data-ng-model="vm.servicesData.Description">This is the description that will be displayed to users who are browsing available services.</textarea>
+							</td>
+						</tr>
+						<tr>
+							<td class="registerTable">
+								<label>URL's</label>
+							</td>
+							<td style="width:100%">
+								<select multiple data-ng-model="vm.servicesData.urls">
+									<option value="">http://associated-wsdl.wsdl</option>
+									<option value="">http://share-documetation.com</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+					<input type="submit" class="button" value="Register Service">
+				</form>
 		</section>
+		
 	</section>
 </div>

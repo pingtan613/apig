@@ -1,10 +1,10 @@
-<div class="tab_toolbit">
+<div class="tab_toolbit" ng-controller="Service as vm">
 	<ul>
 		<li>
 			<a href="#/service/overview">Overview</a>
 		</li>
 		<li>
-			<a href="#/service/published">My Published Services</a>
+			<a href="#/service/published" ng-click="vm.getServices()">My Published Services</a>
 		</li>
 		<li>
 			<a href="#/service/consumed">My Consumed Services</a>
