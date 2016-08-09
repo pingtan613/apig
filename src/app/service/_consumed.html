@@ -1,13 +1,20 @@
 <!-- include service tab tool bit -->
 <div ng-include="'/app/service/_tabToolbit.html'"></div>
 
-<div class="content services">
+<div class="content services" ng-contoller="Service as vm">
 
 	<section class="consumed_services">
 		<h5 class="text_purple">Services</h5>
-		<ul>
+		<br>
+			<div ng-init="showServices=false">
+				<label>
+          			<a href="" ng-show="!showServices" ng-click="showServices=!showServices">+</a>
+         			 <a href="" ng-show="showServices" ng-click="showServices=!showServices">-</a>
+        			 <a href="" ng-click="showServices=!showServices">5143 Busi Busi</a>
+        		</label>
+			
+		<ul style="border-top: 1px solid" ng-show="showServices">
 			<li>
-				<div class="service">- 5143 - Busi-Resi</div>
 				<ul>
 					<table style="width:100%">
 						<tr style="width:100%">
@@ -30,7 +37,9 @@
 					</table>
 				</ul>
 			</li>
-			<li>
+
+			
+		<!--	<li>
 				<div class="service">+ 1944 - PSALMSSRS</div>
 				<ul>
 					<li class="service_sla">
@@ -40,8 +49,9 @@
 						<a href="#/sla/view/6514">Platinum Exchange (6514) - pxOperation</a>
 					</li>
 				</ul>
-			</li>
+			</li> -->
 		</ul>
+		</div>
 	</section>
 	<br class="clear" />
 </div>

@@ -2,28 +2,20 @@
 <div ng-include="'/app/service/_tabToolbit.html'"></div>
 
 <div ng-controller="Service as vm" class="content services">
-	<a href="#/service/register" ng-click="vm.getServicesForRegistration()" >Register a new service</a>
+	<a href="#/service/register" ng-click="vm.getServices(false)" >Register a new service</a>
 	<section class="published_services">
 		<h5 class="text_purple">Services</h5>
 		<ul>
 			<li>
-				<ul> <!-- ng-repeat="array of true services"-->
-					<li class="id">4321</li>
-					<li class="title">AddressService (SOAP)</li>
-					<li class="edit"><a href="#/service/edit/0000001234">edit</a></li>
-					<li class="view_client"><a href="#/service/viewClients/0000001234">view clients</a></li>
-				</ul>
-			</li>
-			<li>
-				<ul>
-					<li class="id">1944</li>
-					<li class="title">PSALMSSRS (SOAP)</li>
-					<li class="edit"><a href="#/service/edit/1944">edit</a></li>
-					<li class="view_client"><a href="#/service/viewClients/1944">view clients</a></li>
+				<ul style="border-bottom: solid 1px" ng-repeat="data in vm.publishedData">
+					<li class="id">{{data.eai_number}}</li>
+					<li class="title">{{data.title}}</li>
+					<li class="edit"><a href="{{data.edit}}">edit</a></li>
+					<li class="view_client"><a href="{{data.view_client}}">view Clients</a></li>
 				</ul>
 			</li>
 		</ul>
 		<br class="clear" />
 		<br>
 	</section>
-</div>
+</div>	

@@ -226,7 +226,6 @@ ul.list ul li {
 
 .tab_toolbit li:last-child {
 	background-color: #4d148c;
-	
 	border-left: 0px;
 }
 
@@ -241,6 +240,11 @@ ul.list ul li {
 	background-color: #4d148c;
 	color: #ffffff;
 	text-decoration: none;
+}
+
+.active a{
+	background-color: #4d148c !important;
+	color: #ffffff !important;
 }
 
 .services h5 {
@@ -267,7 +271,7 @@ ul.list ul li {
 .services section.messages ul li,
 .services section.requests ul li {
 	border: 1px solid #000000;
-	border-top: 0px;
+	border-top: 1px solid;
 	float: left;
 	width: 100%;
 }

@@ -22,7 +22,7 @@
     	{
     		return $http({
 	        method : "GET",
-	        url : coreservice.getServerHost() + "/apig/v1/px/eai/details?apig_token=" + userservice.getApigToken() + "&apig_session=" + userservice.getSessionToken() + "&eai=" + serviceId
+	        url : coreservice.getServerHost() + "/apig/v2/services?apig_token=" + userservice.getApigToken() + "&eai=" + serviceId
     		});
     	}
 
@@ -32,15 +32,15 @@
  				method : "POST",
 	        	headers: {'Content-Type': 'application/json'},
 	        	data: data,
-	        	url : coreservice.getServerHost() + "/apig/v1/eai/register/service?apig_token=" + $rootScope.apigTk + "&apig_session=" + $rootScope.sessionTk
+	        	url : coreservice.getServerHost() + "/apig/v2/services?apig_token=" + userservice.getApigToken() 
 	    	});
 	    }
 
-	    function getServices()
+	    function getServices(bool)
 	    {
 	    	return $http({
 	    		method: "GET",
-	    		url: coreservice.getServerHost() + "/apig/v2/current/services?apig_token=" + userservice.getApigToken() + "&service_registration=true"
+	    		url: coreservice.getServerHost() + "/apig/v2/user/current/services?apig_token=" + userservice.getApigToken() + "&service_registration=true&registered=" + bool
 	    	});
 	    }
 

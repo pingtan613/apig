@@ -1,12 +1,13 @@
+
 <div class="tab_toolbit" ng-controller="Service as vm">
-	<ul>
-		<li>
+	<ul class="menu">
+		<li ng-class="{ active: vm.isActive('/service/overview') }">
 			<a href="#/service/overview">Overview</a>
 		</li>
-		<li>
-			<a href="#/service/published" ng-click="vm.getServices()">My Published Services</a>
+		<li ng-class="{ active: vm.isActive('/service/published') }">
+			<a href="#/service/published" ng-click="vm.getServices(true)">My Published Services</a>
 		</li>
-		<li>
+		<li ng-class="{ active: vm.isActive('/service/consumed') }">
 			<a href="#/service/consumed">My Consumed Services</a>
 		</li>
 	</ul>
