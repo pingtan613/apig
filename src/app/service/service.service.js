@@ -8,21 +8,30 @@
     serviceservice.$inject = [];
 
     function serviceservice($http, userservice, coreservice){
+    	var servicesTrue = [];
+    	var servicesFalse = [];
+    	var serviceDetails = [];
+
     	var service = {
-    		getServiceDetail: getServiceDetail,
+    		getServiceDetails: getServiceDetails,
     		register: register,
     		getServices: getServices,
-    		saveServiceDetails: saveServiceDetails
-
+    		saveServiceDetails: saveServiceDetails,
+    		getServicesTrue: getServicesTrue,
+    		setServicesTrue: setServicesTrue,
+    		getServicesFalse: getServicesFalse,
+    		setServicesFalse: setServicesFalse,
+    		setServiceData: setServiceData,
+    		getServiceData: getServiceData,
     	};
 
     	return service;
 
-    	function getServiceDetail(serviceId)
+    	function getServiceDetails(serviceId)
     	{
     		return $http({
 	        method : "GET",
-	        url : coreservice.getServerHost() + "/apig/v2/services?apig_token=" + userservice.getApigToken() + "&eai=" + serviceId
+	        url : coreservice.getServerHost() + "/apig/v2/services/" + serviceId + "?apig_token=" + userservice.getApigToken()
     		});
     	}
 
@@ -47,6 +56,39 @@
 	    function saveServiceDetails(data) 
 	    {
 	    	//TODO send all service details back to the APIG server for storage
+	    }
+
+
+
+	    //GET AND SET METHODS
+	    function setServicesTrue(data)
+	    {
+	    	servicesTrue = data;
+	    }
+
+	    function getServicesTrue()
+	    {
+	    	return servicesTrue;
+	    }
+
+	    function setServicesFalse(data)
+	    {
+	    	servicesFalse = data;
+	    }
+
+	    function getServicesFalse()
+	    {
+	    	return servicesFalse;
+	    }
+
+	    function setServiceData(data)
+	    {
+	    	serviceDetails = data;
+	    }
+
+	    function getServiceData()
+	    {
+	    	return serviceDetails;
 	    }
 	}
 })();

@@ -11,6 +11,7 @@
         var vm = this;
         vm.bool = false;
         vm.displayForm = false;
+        vm.getDataById = "";
         vm.category = {};
 		vm.category.list = [
 			{id: 1, name: 'firstfasd'},
@@ -21,34 +22,22 @@
 		];
 		vm.category.selected = { value: vm.category.list[0] };
 
-		vm.servicestrue = []; //list of all services from list 
-		vm.servicesfalse = []; //list of all services from list 
-		vm.servicesData = []; //data for serivce picked for registration
+		var list = [];
 
+		//unique on eai number
 		vm.getServices = function(bool) {
 			if(bool)
 			{
-				console.log(bool)
-				serviceservice.getServices(bool).then(function(response) {
-				console.log(response.data);
-				console.log(response.status);
-
-					//TODO put all in array
-				
-					//TODO display all true services
+				serviceservice.getServices(bool).then(function(response) {					
+					serviceservice.setServicesTrue(response.data.Services);
 				});
 			}
 			else
 			{
-				console.log(bool)
-				serviceservice.getServices(bool).then(function(response) {
-				console.log(response.data);
-				console.log(response.status);
+				serviceservice.getServices(bool).then(function(response){
+					serviceservice.setServicesFalse(response.data.Services);
 
-					//TODO put all in array
-				
-					//TODO display all true services
-				});
+				})
 			}
 			
 		}
@@ -62,46 +51,46 @@
 			// TODO send the data and ID to the backend to save details 
 		}
 
-
-		vm.publishedData = [{
-			eai_number:"4321",
-			title:"AddressService (SOAP)",
-			edit:"#/service/edit/0000001234",
-			view_client:"#/service/viewClients/0000001234",
-			id:"1234-5678-9876-5432"
-		},
-		{
-			eai_number:"1944",
-			title:"PSALMSSRS (SOAP)",
-			edit:"#/service/edit/1944",
-			view_client:"#/service/viewClients/1944",
-			id:"2345-6789-8765-4321"
-		}];
-
 		vm.getPublishedServices = function() {
 			//TODO get all published services data for display. 
 		}
 
 		vm.getServiceDetails = function() {
+			serviceservice.getServiceDetails(vm.getDataById.eai_number).then(function(response){
+				serviceservice.setServiceData(response);
+				console.log(response)
+			});
+			vm.list = vm.getServiceData();
+			console.log(vm.list);
 			vm.displayForm = true;
-
-			//TODO once the serivce is picked send ID to get details
 		}
+
+		vm.getConsumedServices = function(){
+			//TODO get all consumed services
+		}
+
+
+		// SET AND GET
+		// for local page data
 
 		vm.getDisplayForm = function(){
 			return vm.displayForm; 
 		}
 
+		vm.getPublishedData = function(){
+			return serviceservice.getServicesTrue();
+		}
+
+		vm.getUnpublishedData = function(){
+			return serviceservice.getServicesFalse();
+		}
 
 		vm.isActive = function(viewLocation) {
-			console.log(viewLocation === $location.path());
 			return viewLocation === $location.path();
 		}
 
-		vm.consumedServices = [];
-
-		vm.getConsumedServices = function(){
-			//TODO get all consumed services
+		vm.getServiceData = function() {
+			return serviceservice.getServiceData();
 		}
 
     }

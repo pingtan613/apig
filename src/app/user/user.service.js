@@ -23,7 +23,7 @@
         	return $http({
 		        method : "POST",
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		        url : coreservice.getServerHost() + "/apig/v1/authn",
+		        url : coreservice.getServerHost() + "/apig/v2/authn",
 		        data : encodeURI("username=" + data.username + "&password=" + data.password)
         	});
         }

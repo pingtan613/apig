@@ -7,9 +7,9 @@
 		<h5 class="text_purple">Services</h5>
 		<ul>
 			<li>
-				<ul style="border-bottom: solid 1px" ng-repeat="data in vm.publishedData">
+				<ul style="border-bottom: solid 1px" ng-repeat="data in vm.getPublishedData()">
 					<li class="id">{{data.eai_number}}</li>
-					<li class="title">{{data.title}}</li>
+					<li class="title">{{data.eai_application_name}} ({{data.interface}})</li>
 					<li class="edit"><a href="{{data.edit}}">edit</a></li>
 					<li class="view_client"><a href="{{data.view_client}}">view Clients</a></li>
 				</ul>
