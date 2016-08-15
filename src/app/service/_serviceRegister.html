@@ -9,13 +9,15 @@
 		</h2>
 		<section>
 			<h4>Select a service from the list below to begin the registration process</h4>
+			<div data-ng-show="vm.showError" class="message error">There was an error retrieving the unpublished services. </div>
 			<form ng-submit="vm.getServiceDetails()">
-				<select ng-model="vm.getDataById" ng-options="option as option.eai_application_name for option in vm.getUnpublishedData() | orderBy:'eai_application_name' ">
+				<select ng-model="vm.getDataById" ng-options="option as option.display_name for option in vm.getUnpublishedData() | orderBy:'eai_application_name' ">
 					
 				</select>
 				<input type="submit" class="button" value="Go">
 			</form>
 		</section>
+		<div data-ng-show="vm.showError" class="message error">There was an error retrieving the unpublished service data. </div>
 		<section data-ng-show="vm.displayForm"> 
 				<h4>Please complete the form below to process the service registration</h4>
 				<form ng-submit="vm.saveServiceDetails()">
@@ -25,7 +27,15 @@
 							<label>EAI Application Name</label>
 							</td>
 							<td>
-								<input style="width:200px" type="text" value="{{vm.getServiceData().data.eai_application_name}}" readonly></input>
+								<input style="width:200px" type="text" data-ng-model="vm.list.data.eai_application_name" readonly></input>
+							</td>
+						</tr>
+						<tr>
+							<td class="registerTable">
+							<label>EAI Friendly Name</label>
+							</td>
+							<td>
+								<input style="width:200px" type="text" data-ng-model="vm.list.data.eai_friendly_name" required></input>
 							</td>
 						</tr>
 						<tr>
@@ -33,10 +43,7 @@
 								<label>Category</label>
 							</td>
 							<td>
-								<select>
-									<option>Address EFS</option>
-									<option>EAI</option>
-								</select>
+								<input style="width:200px" type="text" data-ng-model="vm.list.data.eai_category" readonly></input>
 							</td>
 						</tr>
 						<tr> <!-- by default same as eai application name changable -->
@@ -44,7 +51,7 @@
 							<label>Friendly Name</label>
 							</td>
 							<td>
-								<input type="text" value="{{vm.getServiceData().data.eai_profile_name}}"/>
+								<input type="text" data-ng-model="vm.list.data.eai_profile_name" required/>
 							</td>
 						</tr>
 						<tr>
@@ -52,11 +59,10 @@
 								<label>Interface</label>
 							</td>
 							<td>
-								<select  required value="Please Choose One">
-									<option  selected="selected" value="SOAP">SOAP</option>
+								<select data-ng-model="vm.list.data.type" ng-required="vm.requiredField">
+									<option value="SOAP">SOAP</option>
 									<option value="REST" hidden="true">REST</option>
 								</select>
-								<br>
 							</td>
 						</tr>
 						<tr>
@@ -64,11 +70,10 @@
 								<label>Status</label>
 							</td>
 							<td>
-								<select value="Please Choose One">
-									<option  selected="selected" value="Active">Active</option>
+								<select data-ng-model="vm.list.data.state" ng-required="vm.requiredField">
+									<option value="Active">Active</option>
 									<option value="Inactive">Inactive</option>
 								</select>
-								<br>
 
 							</td>
 						</tr>
@@ -77,21 +82,17 @@
 								<label>Description</label>
 							</td>
 							<td style="width: 100%">
-								<textarea rows="7" cols="150">{{vm.getServiceData().data.eai_description}}</textarea>
+								<textarea required rows="5" cols="65" data-ng-model="vm.list.data.eai_description"></textarea>
 							</td>
-								<br>
-
 						</tr>
 						<tr>
 							<td class="registerTable">
 								<label>URL's</label>
 							</td>
 							<td style="width:100%">
-								<textarea rows="7" cols="150">{{vm.getServiceData().data.url}}
+								<textarea rows="5" cols="65" data-ng-model="vm.list.data.url" >
 								</textarea>
 							</td>
-								<br>
-							
 						</tr>
 					</table>
 					<input type="submit" class="button" value="Register Service">

@@ -5,6 +5,7 @@
 	<a href="#/service/register" ng-click="vm.getServices(false)" >Register a new service</a>
 	<section class="published_services">
 		<h5 class="text_purple">Services</h5>
+		<div data-ng-show="vm.showError" class="message error">There was an error retrieving the published services. </div>
 		<ul>
 			<li>
 				<ul style="border-bottom: solid 1px" ng-repeat="data in vm.getPublishedData()">

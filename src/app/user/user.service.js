@@ -14,7 +14,7 @@
             login: login,
             isLoggedIn: isLoggedIn,
             logout: logout,
-            getApigToken: getApigToken
+            getApigToken: getApigToken,
         };
 
         return service;
@@ -23,7 +23,7 @@
         	return $http({
 		        method : "POST",
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		        url : coreservice.getServerHost() + "/apig/v2/authn",
+		        url : coreservice.getServerHost() + "/apig/v2/user/authn",
 		        data : encodeURI("username=" + data.username + "&password=" + data.password)
         	});
         }
@@ -45,6 +45,6 @@
 
 		function getApigToken(){
 			return apig_token;
-		}        
+		}      
     }
 })();

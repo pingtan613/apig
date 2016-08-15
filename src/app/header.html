@@ -1,3 +1,5 @@
-<a href="#/client/main" class="logo"><img src="/images/logo-header-fedex.png" /></a>
+<div ng-controller= "Service as vm">
+<a href="#/client/main" class="logo" ng-click="vm.getNameAndCat()"><img src="/images/logo-header-fedex.png" /></a>
+</div>
 <!-- include user tool bit -->
 <div ng-include="'/app/user/_userToolbit.html'"></div>

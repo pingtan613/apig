@@ -11,18 +11,21 @@
     	var servicesTrue = [];
     	var servicesFalse = [];
     	var serviceDetails = [];
+    	var categoriesList = [];
 
     	var service = {
     		getServiceDetails: getServiceDetails,
     		register: register,
     		getServices: getServices,
-    		saveServiceDetails: saveServiceDetails,
     		getServicesTrue: getServicesTrue,
     		setServicesTrue: setServicesTrue,
     		getServicesFalse: getServicesFalse,
     		setServicesFalse: setServicesFalse,
     		setServiceData: setServiceData,
     		getServiceData: getServiceData,
+    		getSearchCategories: getSearchCategories,
+    		getCategories: getCategories,
+    		setCategories: setCategories,
     	};
 
     	return service;
@@ -37,6 +40,7 @@
 
     	function register(data) 
     	{
+
  			return $http({
  				method : "POST",
 	        	headers: {'Content-Type': 'application/json'},
@@ -53,10 +57,17 @@
 	    	});
 	    }
 
-	    function saveServiceDetails(data) 
+	    function getSearchCategories()
 	    {
-	    	//TODO send all service details back to the APIG server for storage
+	    	return $http({
+	    		method: "GET",
+	    		url: coreservice.getServerHost() + "/apig/v2/categories?apig_token=" + userservice.getApigToken()
+	    	});
 	    }
+
+
+
+
 
 
 
@@ -89,6 +100,16 @@
 	    function getServiceData()
 	    {
 	    	return serviceDetails;
+	    }
+
+	    function setCategories(data)
+	    {
+	    	categoriesList = data;
+	    }
+
+	    function getCategories()
+	    {
+	    	return categoriesList;
 	    }
 	}
 })();

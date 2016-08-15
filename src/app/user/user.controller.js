@@ -15,9 +15,8 @@
 	    vm.login = function() {
 	    	userservice.login(vm.user).then(function(response) {
 	    		if (userservice.isLoggedIn(response.data)) {
-	    			
-	    			//redirect to intro
 	    			$location.path( "/client/main" );
+	    			
 	    		} else {
 	    			//false return on isLoggin
 	    			vm.display_error = true; //display login error
@@ -30,6 +29,17 @@
 
 	    vm.logout = function() {
 	    	if (userservice.logout()) {
+	    		$location.path( "/" );
+	    	}
+	    }
+
+	    vm.default = function() {
+	    	if(userservice.getApigToken().length > 0)
+	    	{
+	    		$location.path("/client/main");
+	    	}
+	    	else
+	    	{
 	    		$location.path( "/" );
 	    	}
 	    }
