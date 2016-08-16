@@ -26,6 +26,8 @@
     		getSearchCategories: getSearchCategories,
     		getCategories: getCategories,
     		setCategories: setCategories,
+    		getSearchNames: getSearchNames,
+    		getNamesWithCat: getNamesWithCat,
     	};
 
     	return service;
@@ -62,6 +64,30 @@
 	    	return $http({
 	    		method: "GET",
 	    		url: coreservice.getServerHost() + "/apig/v2/categories?apig_token=" + userservice.getApigToken()
+	    	});
+	    }
+
+	    function getSearchNames()
+	    {
+	    		return $http({
+	    			method:"GET",
+	    		url: coreservice.getServerHost() + "/apig/v2/services?apig_token=" + userservice.getApigToken()
+	    		});
+	    	
+	    }
+
+	    function getNamesWithCat(cat)
+	    {
+	    	var and = encodeURI('&');
+	    	console.log(and);
+	    	var encode = encodeURI(cat.name);
+	    	console.log(encode);
+	    	return $http({
+	    		method: "GET",
+		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+
+	    		url: coreservice.getServerHost() + "/apig/v2/services?apig_token=" + userservice.getApigToken() + "&category=" + encode
+
 	    	});
 	    }
 

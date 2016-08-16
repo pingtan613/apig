@@ -32,7 +32,7 @@
 						</tr>
 						<tr>
 							<td class="registerTable">
-							<label>EAI Friendly Name</label>
+							<label>Friendly Name</label>
 							</td>
 							<td>
 								<input style="width:200px" type="text" data-ng-model="vm.list.data.eai_friendly_name"></input>
@@ -48,7 +48,7 @@
 						</tr>
 						<tr> <!-- by default same as eai application name changable -->
 							<td class="registerTable">
-							<label>Friendly Name *</label>
+							<label>EAI Profile Name *</label>
 							</td>
 							<td>
 								<input type="text" data-ng-model="vm.list.data.eai_profile_name"/>
@@ -59,7 +59,7 @@
 								<label>Interface *</label>
 							</td>
 							<td>
-								<select data-ng-model="vm.list.data.type" ng-required="vm.requiredField">
+								<select data-ng-model="vm.list.data.interface" ng-required="vm.requiredField">
 									<option value="SOAP">SOAP</option>
 									<option value="REST" hidden="true">REST</option>
 								</select>
