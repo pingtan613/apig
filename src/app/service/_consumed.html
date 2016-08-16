@@ -3,7 +3,7 @@
 
 <div class="content services" ng-contoller="Service as vm">
 
-	<section class="consumed_services">
+	<section class="consumed_services" >
 		<h5 class="text_purple">Services</h5>
 		<br>
 			<div ng-init="showServices=false">
@@ -13,25 +13,16 @@
         			 <a href="" ng-click="showServices=!showServices">5143 Busi Busi</a>
         		</label>
 			
-		<ul style="border-top: 1px solid" ng-show="showServices">
+		<ul style="border: 0px solid" ng-show="showServices">
 			<li>
 				<ul>
 					<table style="width:100%">
-						<tr style="width:100%">
+						<tr style="width:100%; border: 1px solid" ng-repeat="consumed in vm.consumedService()">
 							<td style="width:50%; text-align:center;" >
-								AddressService (4321) - validateAddress
+								{{consumed.serviceNameID}}
 							</td>
 							<td style="width:50%; text-align:center">
-								<a href="#/sla/view/4321">View SLA</a>
-							</td>
-						</tr>
-
-						<tr>
-							<td style="width:50%; text-align:center;"">
-								Platinum Exchange (6514) - pxOperation
-							</td>
-							<td style="width:50%; text-align:center;">
-								<a href="#/sla/view/6514">View SLA</a>
+								<a href="{{consumed.linkSLA}}">View SLA</a>
 							</td>
 						</tr>
 					</table>

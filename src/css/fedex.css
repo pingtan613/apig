@@ -594,3 +594,7 @@ ul.list ul li {
 .registerTable {
 	width: 35%;
 }
+
+.registerTable.ng-invalid {
+	color: red;
+}

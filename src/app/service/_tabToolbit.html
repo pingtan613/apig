@@ -8,7 +8,7 @@
 			<a href="#/service/published" ng-click="vm.getServices(true)">My Published Services</a>
 		</li>
 		<li ng-class="{ active: vm.isActive('/service/consumed') }">
-			<a href="#/service/consumed">My Consumed Services</a>
+			<a href="#/service/consumed" ng-click="vm.consumedService()">My Consumed Services</a>
 		</li>
 	</ul>
 	<br class="clear" />

@@ -11,7 +11,7 @@
 			<h4>Select a service from the list below to begin the registration process</h4>
 			<div data-ng-show="vm.showError" class="message error">There was an error retrieving the unpublished services. </div>
 			<form ng-submit="vm.getServiceDetails()">
-				<select ng-model="vm.getDataById" ng-options="option as option.display_name for option in vm.getUnpublishedData() | orderBy:'eai_application_name' ">
+				<select ng-model="vm.getDataById" ng-options="option as option.display_name for option in vm.getUnpublishedData() | orderBy:'eai_application_name'">
 					
 				</select>
 				<input type="submit" class="button" value="Go">
@@ -35,7 +35,7 @@
 							<label>EAI Friendly Name</label>
 							</td>
 							<td>
-								<input style="width:200px" type="text" data-ng-model="vm.list.data.eai_friendly_name" required></input>
+								<input style="width:200px" type="text" data-ng-model="vm.list.data.eai_friendly_name"></input>
 							</td>
 						</tr>
 						<tr>
@@ -48,15 +48,15 @@
 						</tr>
 						<tr> <!-- by default same as eai application name changable -->
 							<td class="registerTable">
-							<label>Friendly Name</label>
+							<label>Friendly Name *</label>
 							</td>
 							<td>
-								<input type="text" data-ng-model="vm.list.data.eai_profile_name" required/>
+								<input type="text" data-ng-model="vm.list.data.eai_profile_name"/>
 							</td>
 						</tr>
 						<tr>
 							<td class="registerTable">
-								<label>Interface</label>
+								<label>Interface *</label>
 							</td>
 							<td>
 								<select data-ng-model="vm.list.data.type" ng-required="vm.requiredField">
@@ -67,7 +67,7 @@
 						</tr>
 						<tr>
 							<td class="registerTable">
-								<label>Status</label>
+								<label>Status *</label>
 							</td>
 							<td>
 								<select data-ng-model="vm.list.data.state" ng-required="vm.requiredField">
@@ -94,7 +94,11 @@
 								</textarea>
 							</td>
 						</tr>
+						<tr>
+								* Indicates Required Fields
+						</tr>
 					</table>
+					<p  style="color: red"> * Indicates Required Fields</p>
 					<input type="submit" class="button" value="Register Service">
 				</form>
 		</section>
