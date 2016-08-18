@@ -2,15 +2,15 @@
 	<form id="service_search" name="service_search" ng-init="vm.getNameAndCat()">
 		<ul>
 			<li>
-				<input type="text" placeholder="Browse by name" ng-model="query" typeahead="name for name in vm.names | filter: query">
+				<input type="text" placeholder="Browse by name" typeahead="name for name in vm.names" data-ng-model="vm.searchText">
 			</li>
 			<li>
-				<select style="height: 33px" data-ng-init="vm.category.list" data-ng-model="vm.categoryPicked[0].name" ng-options="option as option.name for option in vm.category.list" ng-change="vm.getNewNames()">
+				<select style="height: 33px" data-ng-init="vm.category.list" data-ng-model="vm.categoryPicked" ng-options="option as option for option in vm.category.list" ng-change="vm.getNewNames()">
 				</select>
 				
 			</li>
 			<li>
-				<a href="" class="button" ng-click="vm.seachServices()">Search</a>
+				<a href="#/client/search/result" class="button" ng-click="vm.saveSearchParam()">Search</a>
 			</li>
 		</ul>
 	</form>

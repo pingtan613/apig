@@ -15,12 +15,13 @@
         var list = [];
         vm.getDataById = "";
         vm.category = {};
-		vm.category.list = [];
+		vm.category.list = [""];
 		vm.names =[];
 
 		vm.category.selected = { };
 
 		vm.categoryPicked = "";
+		vm.searchText = "";
 
 		vm.requiredField = false;
 
@@ -86,7 +87,7 @@
 			}
 			
 		}
-
+		
 
 
 		var custDialog = function(text, buttonOptions, esc) {
@@ -190,16 +191,14 @@
 		vm.getNameAndCat = function()
 		{
 			serviceservice.getSearchCategories().then(function(response){
-				console.log(response.data);
 				if(response.status < 400)
 				{
 					serviceservice.setCategories(response.data.tlc);
 
 					for (var i = 0; i < response.data.tlc.length; i++) {
 						for(var j = 0; j < response.data.tlc[i].categories.length; j++){
-							var item = {};
-							item.id = response.data.tlc[i].categories[j]
-							item.name = response.data.tlc[i].categories[j]
+							var item = "";
+							item = response.data.tlc[i].categories[j]
 
 							vm.category.list.push(item)
 						}
@@ -212,7 +211,7 @@
 			});
 
 			serviceservice.getSearchNames().then(function(response){
-				console.log(response.data.result)
+				//console.log(response.data.result)
 				if(response.status < 400)
 				{
 					for(var i = 0; i < response.data.result.length; i++){
@@ -226,8 +225,10 @@
 					}
 
 					var arrUnique = uniqueSearch(vm.names);
-					console.log(arrUnique);
 
+					serviceservice.setFullServiceArray(response.data.result);
+
+					//TODO get list to dropdown when typing
 
 				}
 				else
@@ -239,10 +240,10 @@
 		}
 
 		vm.getNewNames = function(){
+			serviceservice.setSearchParam(vm.categoryPicked, vm.searchText);
+
 			vm.names.splice(0,vm.names.length);	
-			console.log(vm.names);
-			serviceservice.getNamesWithCat(vm.categoryPicked[0].name).then(function(response){
-				console.log(response.data);
+			serviceservice.getNamesWithCat(vm.categoryPicked).then(function(response){
 				if(response.status < 400)
 				{
 					for(var i = 0; i < response.data.result.length; i++){
@@ -256,7 +257,8 @@
 					}
 
 					var arrUnique1 = uniqueSearch(vm.names);
-					console.log(arrUnique1);
+					serviceservice.setFullServiceArray(response.data.result);
+
 
 
 				}
@@ -267,8 +269,8 @@
 			});
 		}
 
-		vm.seachServices = function() {
-			console.log(vm.categoryPicked);
+		vm.saveSearchParam = function() {
+			serviceservice.setSearchParam(vm.categoryPicked, vm.searchText);
 		}
 
 		var fakeConsumed = [

@@ -1,12 +1,16 @@
 <!-- include search/browse tool bit -->
 <div ng-include="'/app/service/_searchToolbit.html'"></div>
 
-<div class="content clients">
-	<section>
-		<h1>AddressService - getGEO</h1>
+<div class="content clients" ng-controller="Client as vm">
+	<section ng-init="vm.clientService()">
+		<h1>{{vm.clicked.operation.eai_application_name}} - {{vm.clicked.operation.operation_name}}</h1>
+		<h5>Service Description</h3>
 		<p>
-			Address EFS AKA Share (Shipper And Recipient Enterprise) provides services for identifying and storing addressses and profile
-			information associated with those addresses.
+			{{vm.clicked.service.eai_description}}
+		</p>
+		<h5>Operation Description</h3>
+		<p>
+			{{vm.clicked.operation.description}}
 		</p>
 		<p>
 			Helpful Links:<br/>
@@ -18,13 +22,9 @@
 			Use this service with:
 			</div>
 			<div>
-				<ui-select ng-model="vm.list" theme="selectize" class="select_dropdown left" style="width: 200px" title="Choose a category">
-					<ui-select-match placeholder="Choose a category">{{vm.selected.name}}</ui-select-match>
-					<ui-select-choices repeat="item in vm.list | filter: vm.search">
-					  <span ng-bind-html="item.name | highlight: vm.search"></span>
-					  <small ng-bind-html="item.id | highlight: vm.search"></small>
-					</ui-select-choices>
-				</ui-select>
+				<select ng-init="vm.servicesPersonCanAccess()" data-ng-model="vm.servicePicked" ng-options="option as option.display_name for option in vm.accessableServices | orderBy:'display_name'">
+				</select>
+				
 				<a href="#/client/service/engagement" class="button">GO</a>
 			</div>
 		</section>

@@ -1,31 +1,22 @@
 <!-- include search/browse tool bit -->
 <div ng-include="'/app/service/_searchToolbit.html'"></div>
 
-<div class="content clients">
-	<section>
-		<h1>Address EFS</h1>
-		<p>
-			<strong>
-			Below is a list of all "Address EFS" Services that are currently available
-			</strong>
-		</p>
+<div class="content clients" ng-controller="Client as vm">
+	<section ng-init="vm.searchText()">
+		<h1 ng-show="vm.hasCat">{{vm.searchParameters.categoryPicked}}</h1>
 		<ul class="list client_list">
-			<li>
-				<div>
-					AddressService (4321)
-				</div>
-				<ul>
-					<li><a href="#/client/service/clientId123">getGEO</a></li>
-					<li><a href="#/client/service/clientId123">validateAddresss</a></li>
-				</ul>
-			</li>
-			<li>
-				<div>
-					PSALMSSRS (1994)
-				</div>
-				<ul>
-					<li><a href="#/client/service/clientId123">ping</a></li>
-				</ul>
+			<li ng-repeat="items in vm.getServiceArray()">
+			<label ng-init="showServices=false">
+          			<a href="" ng-show="!showServices" ng-click="showServices=!showServices">+</a>
+         			 <a href="" ng-show="showServices" ng-click="showServices=!showServices">-</a>
+        			 <a href="" ng-click="showServices=!showServices">{{items.title}}</a>
+        		</label>
+				
+				<ul style="list-style: none;" ng-show="showServices">
+					<li ng-repeat="item in items.data | filter:vm.searchParameters.textSearch ">
+						<a href="#/client/service/{{item.id}}" title="{{item.description}}" ng-click="vm.serviceClicked(item)">{{item.operation_name}}</a>
+					</li>
+				</ul> 
 			</li>
 		</ul>
 	</section>

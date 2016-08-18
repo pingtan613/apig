@@ -12,6 +12,8 @@
     	var servicesFalse = [];
     	var serviceDetails = [];
     	var categoriesList = [];
+    	var search = [];
+    	var names = [];
 
     	var service = {
     		getServiceDetails: getServiceDetails,
@@ -28,6 +30,10 @@
     		setCategories: setCategories,
     		getSearchNames: getSearchNames,
     		getNamesWithCat: getNamesWithCat,
+    		setSearchParam: setSearchParam,
+    		getSearchParam: getSearchParam,
+    		setFullServiceArray: setFullServiceArray,
+    		getFullServiceArray: getFullServiceArray,
     	};
 
     	return service;
@@ -63,7 +69,7 @@
 	    {
 	    	return $http({
 	    		method: "GET",
-	    		url: coreservice.getServerHost() + "/apig/v2/categories?apig_token=" + userservice.getApigToken()
+	    		url: coreservice.getServerHost() + "/apig/v2/categories?apig_token=" + userservice.getApigToken() 
 	    	});
 	    }
 
@@ -71,22 +77,20 @@
 	    {
 	    		return $http({
 	    			method:"GET",
-	    		url: coreservice.getServerHost() + "/apig/v2/services?apig_token=" + userservice.getApigToken()
+	    		url: coreservice.getServerHost() + "/apig/v2/services?apig_token=" + userservice.getApigToken() + "&state=active"
 	    		});
 	    	
 	    }
 
 	    function getNamesWithCat(cat)
 	    {
-	    	var and = encodeURI('&');
-	    	console.log(and);
-	    	var encode = encodeURI(cat.name);
-	    	console.log(encode);
+	    	console.log(cat);
+	    	var encode = encodeURI(cat);
 	    	return $http({
 	    		method: "GET",
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 
-	    		url: coreservice.getServerHost() + "/apig/v2/services?apig_token=" + userservice.getApigToken() + "&category=" + encode
+	    		url: coreservice.getServerHost() + "/apig/v2/services?apig_token=" + userservice.getApigToken() + "&category=" + encode  + "&state=active"
 
 	    	});
 	    }
@@ -136,6 +140,78 @@
 	    function getCategories()
 	    {
 	    	return categoriesList;
+	    }
+
+	    function setSearchParam(catPicked, searchText)
+	    {
+	    	search.splice(0,search.length);
+	    	search.categoryPicked = catPicked;
+	    	search.textSearch = searchText;
+	    }
+
+	    function getSearchParam()
+	    {
+	    	return search; 
+	    }
+
+	    function setFullServiceArray(arrayJson)
+	    {
+	    	var searchCat = getSearchParam();
+	    	names = undefined;
+	    	names = [];
+	    	var fullServiceArray = undefined;
+	    	var fullServiceArray = [];
+	    	var cat = undefined;
+	    	var title = "";
+	    	var item = [];
+	    	item.splice(0, item.length);
+
+	    	for(var i = 0; i < arrayJson.length; i++)
+	    	{
+	    		title = arrayJson[i].eai_application_name + "(" + arrayJson[i].eai_number + ")";
+
+	    		if(title !== cat && arrayJson[i].category === searchCat.categoryPicked)
+	    		{
+	    			fullServiceArray[title] = [];
+	    			for(var j = 0; j < arrayJson.length; j++)
+	    			{
+	    				if(arrayJson[i].eai_application_name === arrayJson[j].eai_application_name)
+	    				{
+	    					fullServiceArray[title].push(arrayJson[j]);
+	    				}
+
+
+	    			}
+	    			cat = title;
+	    		}
+	    		else if( title !== cat && searchCat.categoryPicked === "")
+	    		{
+	    			fullServiceArray[title] = [];
+	    			for(var j = 0; j < arrayJson.length; j++)
+	    			{
+	    				if(arrayJson[i].eai_application_name === arrayJson[j].eai_application_name)
+	    				{
+	    					fullServiceArray[title].push(arrayJson[j]);
+	    				}
+
+
+	    			}
+	    			cat = title;
+	    		}
+	    	}
+
+	   		for(var i in fullServiceArray)
+          	{
+            	var item = [];
+            	item.title = i;
+           		item.data = fullServiceArray[i];
+            	names.push(item);
+          	}
+	    }
+
+	    function getFullServiceArray()
+	    {
+	    	return names;
 	    }
 	}
 })();
