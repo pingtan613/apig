@@ -16,7 +16,7 @@
         vm.clicked = [];
         vm.serviceToEngage = [];
         vm.accessableServices = [];
-        vm.servicePicked = "";
+        vm.servicePicked = [];
 
         vm.searchText = function()
         {
@@ -26,6 +26,26 @@
         vm.serviceClicked = function(data)
         {
           clientservice.saveClickedOperation(data);
+        }
+
+        vm.checkEngagement = function() {
+          console.log(vm.servicePicked.id);
+          console.log(vm.clicked.operation.eai_number);
+
+          clientservice.checkSlaExists(vm.servicePicked.id, vm.clicked.operation.eai_number).then(function(response) {
+            console.log(response);
+            if(response.status === 404)
+            {
+              
+              //GOTO inital engagement form
+              //#/client/service/engagement
+            }
+            else
+            {
+              //TODO stay on page
+            }
+          });
+
         }
 
         vm.clientService = function() 

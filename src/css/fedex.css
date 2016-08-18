@@ -192,8 +192,7 @@ ul.list ul li {
 	margin: 2px 0px;
 	overflow: hidden;
 }
-
-.clients section.request_details ul li label {
+.clients section.request_details div label {
 	display: block;
 	margin-bottom: 0px;
 	overflow: hidden;
@@ -201,7 +200,15 @@ ul.list ul li {
 	font-size: 12px;
 }
 
-.clients section.request_details ul li input[type='text'] {
+.clients section.request_details div div label {
+	display: block;
+	margin-bottom: 0px;
+	overflow: hidden;
+	height: 20px;
+	font-size: 12px;
+}
+
+.clients section.request_details div div input[type='text'] {
 	border: 1px solid #000000;
 	padding: 2px 5px;
 	width: 90%;
@@ -597,4 +604,8 @@ ul.list ul li {
 
 .registerTable.ng-invalid {
 	color: red;
+}
+
+input[readonly] {
+	background-color: #D8D8D8
 }

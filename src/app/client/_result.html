@@ -14,7 +14,7 @@
 				
 				<ul style="list-style: none;" ng-show="showServices">
 					<li ng-repeat="item in items.data | filter:vm.searchParameters.textSearch ">
-						<a href="#/client/service/{{item.id}}" title="{{item.description}}" ng-click="vm.serviceClicked(item)">{{item.operation_name}}</a>
+						<a href="#/client/service/{{item.id}}" title="{{item.description}}" ng-click="vm.serviceClicked(item)">{{item.operation_name}} ({{item.interface}})</a>
 					</li>
 				</ul> 
 			</li>

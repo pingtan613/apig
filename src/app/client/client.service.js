@@ -17,6 +17,7 @@
             getclickedOperation: getclickedOperation,
             getOperationServiceDetails: getOperationServiceDetails,
             getServiceAccess: getServiceAccess,
+            checkSlaExists: checkSlaExists,
         };
 
         return service;
@@ -34,6 +35,15 @@
             return  $http ({
                 method: "GET",
                 url: coreservice.getServerHost() + "/apig/v2/services/" + clickedOperationData.eai_number + "?apig_token=" + userservice.getApigToken()
+            });
+        }
+
+        function checkSlaExists(serviceID, clientEAI)
+        {
+            console.log(coreservice.getServerHost() + "/apig/v2/services/" + serviceID + "/clients/" + clientEAI + "?apig_token=" + userservice.getApigToken() );
+            return $http ({
+                method: "GET",
+                url: coreservice.getServerHost() + "/apig/v2/services/" + serviceID + "/clients/" + clientEAI + "?apig_token=" + userservice.getApigToken()
             });
         }
 

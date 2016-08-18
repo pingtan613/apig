@@ -87,7 +87,7 @@
 			}
 			
 		}
-		
+
 
 
 		var custDialog = function(text, buttonOptions, esc) {
@@ -113,18 +113,6 @@
 				//if(response.status < 400)
 				//{
 
-					/*custDialog("Service registration completed Successfuly.", {
-					"Edit Registered Service": function() {
-						jQuery(this).dialog( "destroy" );
-						$location.path("#/service/edit" + vm.list.data.eai_number);
-					},
-					"My Published Services": function() {
-						jQuery(this).dialog( "destroy" );
-						$location.path("#/service/published");
-					}
-					}, true);
-					*/
-					console.log("does this happen")
 					var r = confirm("Service Registation Successful\nPlease click 'OK' to view the Service or click 'Cancel' to return to My Published Services")
 					if(r)
 					{

@@ -1,61 +1,62 @@
+<!-- //opco read only (maybe)
+ -->
 <div class="content clients">
 	<section>
 		<h1>AddressService getGEO - Initial Engagement Form</h1>
 		<section class="request_details">
 			<h5>Request Details</h5>
-			<ul>
-				<li>
-					<label>Requestor</label>
-					<input type="text" value="200604" />
-				</li>
-				<li>
-					<label>Applicaiton Contacts: IT Owner</label>
-					<input type="text" value="200604" />
-				</li>
-				<li>
-					<label>Initial Test Date / Access Needed Date</label>
-					<input type="text" value="200604" />
-				</li>
-				<li>
-					<label>Client System</label>
-					<input type="text" value="200604" />
-				</li>
-				<li>
-					<label>Application Contacts: Tech Lead</label>
-					<input type="text" value="200604" />
-				</li>
-				<li>
-					<label>Initial Move to Production Date</label>
-					<input type="text" value="200604" />
-				</li>
-				<li>
-					<label>Client EAI</label>
-					<input type="text" value="200604" />
-				</li>
-				<li>
-					<label>Data Center</label>
-					<input type="text" value="200604" />
-				</li>
-				<li>
-					<label>OpCo</label>
-					<input type="text" value="200604" />
-				</li>
-				<li>
-					<label>Client BCDR Tier</label>
-					<input type="text" value="200604" />
-				</li>
-				<li>
-					<label>Region</label>
-					<input type="text" value="200604" />
-				</li>
-				<li>
-					<label>Comments</label>
-					<input type="text" value="200604" />
-				</li>
-			</ul>
+			<div style="background-color: #dfdfdf;">
+			<div style="float: left; width: 33%; background-color: #dfdfdf;">
+				<label>Requestor</label>
+				<input type="text" value="200604" readonly />
+				<label>Client System</label> <!-- //selected application name from dropdown -->
+				<input type="text" value="200604" readonly/>
+				<label>Client BCDR Tier</label>
+				<input type="text" value="200604" readonly/>
+				<label>Client EAI</label> <!-- // selected eai from dropdown -->
+				<input type="text" value="200604" readonly/>
+			</div>
+
+
+			<div style="float: right; width: 33%; background-color: #dfdfdf;">
+				<label>Initial Test Date / Access Needed Date</label>
+				<input type="text" value="200604" />
+				<label>Initial Move to Production Date</label>
+				<input type="text" value="200604" />
+				<label>Data Center</label>
+					<select>
+						<option>Dallas</option>
+						<option>Colorado Springs</option>
+						<option>Memphis</option>
+					</select>
+				<label>Region</label>
+					<select>
+						<option>US - East</option>
+						<option>US - Central</option>
+						<option>Singapore</option>
+					</select>
+			</div>
+
+
+			<div style="display: inline-block; width: 34%; background-color: #dfdfdf;">
+				<label>Applicaiton Contacts: IT Owner</label>
+				<input type="text" value="200604" readonly/>
+				<label>Application Contacts: Tech Lead</label>
+				<input type="text" value="200604" readonly/>
+				<label>OpCo</label>
+				<input type="text" value="200604" readonly/>
+				<br><br>
+				<br><br>
+			</div>
+			<br>
+				<label>Comments</label>
+				<textarea style="width:100%" rows="5" cols="75" value="Comments"></textarea>
+
+			</div>
+			
 			<br class="clear" />
 		</section>
-		<a class="button right" href="#/client/service/submit">Submit</a>
+		<a class="button right" href="#/service/overview">Submit</a>
 		<br class="clear" />
 	</section>
 </div>
