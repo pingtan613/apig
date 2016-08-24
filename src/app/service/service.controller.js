@@ -7,7 +7,7 @@
 
     Service.$inject = ['serviceservice', '$location'];
 
-    function Service(serviceservice, $location, $window) {
+    function Service(serviceservice, $location) {
         var vm = this;
         vm.bool = false;
         vm.displayForm = false;
@@ -17,6 +17,7 @@
         vm.category = {};
 		vm.category.list = [""];
 		vm.names =[];
+        vm.editList = [];
 
 		vm.category.selected = { };
 
@@ -24,6 +25,7 @@
 		vm.searchText = "";
 
 		vm.requiredField = false;
+		vm.showLink = false;
 
 
 		var unique = function(origArr) {
@@ -51,7 +53,6 @@
 			if(bool)
 			{
 				serviceservice.getServices(bool).then(function(response) {	
-					console.log(response);	
 					if(response.status < 400)
 					{
 						vm.showError = false;
@@ -68,8 +69,7 @@
 			}
 			else
 			{
-				serviceservice.getServices(bool).then(function(response){
-					console.log(response);				
+				serviceservice.getServices(bool).then(function(response){			
 					if(response.status < 400)
 					{
 						vm.showError = false;
@@ -107,9 +107,7 @@
 
 
 		vm.saveServiceDetails = function() {
-			console.log(vm.list.data);
 			//serviceservice.register(vm.list.data).then(function(response){
-			console.log(vm.requiredField);
 				//if(response.status < 400)
 				//{
 
@@ -257,6 +255,29 @@
 			});
 		}
 
+
+		vm.editServiceDetails = function(serviceID) {
+			serviceservice.getServiceDetails(serviceID).then(function(response) {
+				if(response.status < 400)
+				{
+					serviceservice.setServiceData(response);
+					vm.list = serviceservice.getServiceData();
+					vm.list = vm.list.data.services[0];
+
+					if(vm.list.interface === "SOAP")
+					{
+						vm.showLink = true;
+					}
+
+					$location.path("/service/edit/" + vm.list.eai_number);
+				}
+				else
+				{
+					//TODO error response
+				}
+			});
+		}
+
 		vm.saveSearchParam = function() {
 			serviceservice.setSearchParam(vm.categoryPicked, vm.searchText);
 		}
@@ -299,7 +320,8 @@
 		}
 
 		vm.getServiceData = function() {
-			return serviceservice.getServiceData();
+
+			return serviceservice.getServiceData().data.services[0];
 		}
 
 		vm.getCategories = function() {

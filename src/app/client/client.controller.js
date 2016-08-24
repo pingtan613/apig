@@ -17,6 +17,9 @@
         vm.serviceToEngage = [];
         vm.accessableServices = [];
         vm.servicePicked = [];
+        vm.display_error = false;
+
+
 
         vm.searchText = function()
         {
@@ -40,10 +43,12 @@
               //GOTO inital engagement form
               //#/client/service/engagement
             }
-            else
-            {
-              //TODO stay on page
-            }
+          },
+          function(data)
+          {
+            vm.errorInfo = data.data;
+            vm.display_error = true;
+            window.scrollTo(0, 0);
           });
 
         }
@@ -58,10 +63,12 @@
                 console.log(vm.clicked);
 
             }
-            else
-            {
-
-            }
+          },
+          function(data)
+          {
+            vm.errorInfo = data.data;
+            vm.display_error = true;
+            window.scrollTo(0, 0);
           });
 
         }
@@ -94,10 +101,12 @@
                 console.log(response.data.Services);
                 vm.accessableServices = unique(response.data.Services);
             }
-            else
-            {
-
-            }
+          },
+          function(data)
+          {
+            vm.errorInfo = data.data;
+            vm.display_error = true;
+            window.scrollTo(0, 0);
           });
         }
 
