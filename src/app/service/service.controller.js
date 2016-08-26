@@ -11,7 +11,8 @@
         var vm = this;
         vm.bool = false;
         vm.displayForm = false;
-        vm.showError = false;
+        vm.display_error = false;
+        vm.errorInfo = {};
         var list = [];
         vm.getDataById = "";
         vm.category = {};
@@ -55,62 +56,45 @@
 				serviceservice.getServices(bool).then(function(response) {	
 					if(response.status < 400)
 					{
-						vm.showError = false;
+						vm.display_error = false;
 
 						var arrUnique = unique(response.data.Services);
 						serviceservice.setServicesTrue(arrUnique);
-					}
-					else
-					{
-						serviceservice.setServicesTrue('');
-						vm.showError = true;
 					}	
-				});
+				},
+		        function(data)
+		        {
+		            vm.errorInfo = data.data;
+		            vm.display_error = true;
+		            window.scrollTo(0, 0);
+		        });
 			}
 			else
 			{
 				serviceservice.getServices(bool).then(function(response){			
 					if(response.status < 400)
 					{
-						vm.showError = false;
+						vm.display_error = false;
 
 						var arrUnique = unique(response.data.Services);
 						serviceservice.setServicesFalse(arrUnique);
 					}
-					else
-					{
-						serviceservice.setServicesFalse('');	
-						vm.showError = true;
-					}
 
-				})
+				},
+		        function(data)
+		        {
+		            vm.errorInfo = data.data;
+		            vm.display_error = true;
+		            window.scrollTo(0, 0);
+		        });
 			}
-			
 		}
-
-
-
-		var custDialog = function(text, buttonOptions, esc) {
-			if (esc != true) esc = false;
-    		jQuery("#dialog-confirm p").html(text);
-    		jQuery( "#dialog-confirm" ).dialog({
-    			title: "Notification",
-    			closeOnEscape: esc,
-	    		draggabe: false,
-				resizable: false,
-				width: 500,
-				height:200,
-				modal: true,
-				buttons: buttonOptions
-    		});
-		}
-
 
 		vm.saveServiceDetails = function() {
 			//serviceservice.register(vm.list.data).then(function(response){
 				//if(response.status < 400)
 				//{
-
+					vm.display_error = false;
 					var r = confirm("Service Registation Successful\nPlease click 'OK' to view the Service or click 'Cancel' to return to My Published Services")
 					if(r)
 					{
@@ -127,7 +111,13 @@
 					//mark which fields are required.
 					alert("please fill in required fields")
 				//}
-			//});
+			//},
+		        // function(data)
+		        // {
+		        //     vm.errorInfo = data.data;
+		        //     vm.display_error = true;
+		        //     window.scrollTo(0, 0);
+		        // });
 
 		}
 
@@ -136,19 +126,19 @@
 			serviceservice.getServiceDetails(vm.getDataById.eai_number).then(function(response){
 				if(response.status < 400 )
 				{
-					vm.showError = false;
+					vm.display_error = false;
 					serviceservice.setServiceData(response);
 					vm.list = serviceservice.getServiceData();
 					vm.displayForm = true;
 				}
-				else
-				{
-					vm.displayForm = false;
-					vm.showError = true;
-				}
-
-			});
-			
+			},
+	        function(data)
+	        {
+	        	vm.displayForm = false;
+	            vm.errorInfo = data.data;
+	            vm.display_error = true;
+	            window.scrollTo(0, 0);
+	        });
 		}
 
 		var uniqueSearch = function(origArr) {
@@ -179,6 +169,7 @@
 			serviceservice.getSearchCategories().then(function(response){
 				if(response.status < 400)
 				{
+					vm.display_error = false;
 					serviceservice.setCategories(response.data.tlc);
 
 					for (var i = 0; i < response.data.tlc.length; i++) {
@@ -190,16 +181,19 @@
 						}
 					}
 				}
-				else
-				{
-					//TODO work error flow
-				}
-			});
+			},
+	        function(data)
+	        {
+	            vm.errorInfo = data.data;
+	            vm.display_error = true;
+	            window.scrollTo(0, 0);
+	        });
 
 			serviceservice.getSearchNames().then(function(response){
 				//console.log(response.data.result)
 				if(response.status < 400)
 				{
+					vm.display_error = false;
 					for(var i = 0; i < response.data.result.length; i++){
 						var item = [];
 						
@@ -213,16 +207,14 @@
 					var arrUnique = uniqueSearch(vm.names);
 
 					serviceservice.setFullServiceArray(response.data.result);
-
-					//TODO get list to dropdown when typing
-
 				}
-				else
-				{
-					//TODO error
-				}
-			});
-
+			},
+	        function(data)
+	        {
+	            vm.errorInfo = data.data;
+	            vm.display_error = true;
+	            window.scrollTo(0, 0);
+	        });
 		}
 
 		vm.getNewNames = function(){
@@ -230,6 +222,7 @@
 
 			vm.names.splice(0,vm.names.length);	
 			serviceservice.getNamesWithCat(vm.categoryPicked).then(function(response){
+				display_error = false;
 				if(response.status < 400)
 				{
 					for(var i = 0; i < response.data.result.length; i++){
@@ -244,15 +237,14 @@
 
 					var arrUnique1 = uniqueSearch(vm.names);
 					serviceservice.setFullServiceArray(response.data.result);
-
-
-
 				}
-				else
-				{
-					//TODO error
-				}
-			});
+			},
+	        function(data)
+	        {
+	            vm.errorInfo = data.data;
+	            vm.display_error = true;
+	            window.scrollTo(0, 0);
+	        });
 		}
 
 
@@ -260,6 +252,7 @@
 			serviceservice.getServiceDetails(serviceID).then(function(response) {
 				if(response.status < 400)
 				{
+					vm.display_error = false;
 					serviceservice.setServiceData(response);
 					vm.list = serviceservice.getServiceData();
 					vm.list = vm.list.data.services[0];
@@ -271,12 +264,57 @@
 
 					$location.path("/service/edit/" + vm.list.eai_number);
 				}
-				else
-				{
-					//TODO error response
-				}
-			});
+			},
+	        function(data)
+	        {
+	            vm.errorInfo = data.data;
+	            vm.display_error = true;
+	            window.scrollTo(0, 0);
+	        });
 		}
+
+		var uniquePending = function(origArr) {
+    		var newArr = [],
+       		origLen = origArr.length,
+       		found, x, y;
+
+		    for (x = 0; x < origLen; x++) {
+  		      found = undefined;
+    		    for (y = 0; y < newArr.length; y++) {
+    		        if (origArr[x].client === newArr[y].client) {
+      		          found = true;
+        	        break;
+         	   		 }
+       			}
+        		if (!found) {
+           		 newArr.push(origArr[x]);
+       		 	}
+    		}
+   			 return newArr;
+		}
+
+		vm.getPendingSLA = function()
+		{
+			serviceservice.getPendingSLA().then(function(response) {
+				if(response.status < 400)
+				{
+					vm.display_error = false;
+					var newArr = uniquePending(response.data.engagements);
+					serviceservice.setPendingRequests(newArr);
+				}
+			},
+			function(data)
+	        {
+	            vm.errorInfo = data.data;
+	            vm.display_error = true;
+	            window.scrollTo(0, 0);
+	        });
+
+		}
+
+
+
+
 
 		vm.saveSearchParam = function() {
 			serviceservice.setSearchParam(vm.categoryPicked, vm.searchText);
@@ -326,6 +364,10 @@
 
 		vm.getCategories = function() {
 			return serviceservice.getCategories();
+		}
+
+		vm.getPendingSLAData = function() {
+			return serviceservice.getPendingRequests();
 		}
 
     }

@@ -28,6 +28,7 @@
     		vm.wsdlVersion = "All";
     		vm.textarea = "";
     		vm.urlInput = "";
+            vm.showWsdlstable = false;
     		vm.inputArea = true;
     		vm.details.splice(0, vm.details.length);
     		vm.wsdlAdd = true;
@@ -75,11 +76,9 @@
 
     				vm.item = {};
     				vm.item.name = "All"
-    				vm.item.version = -99999999999;
-    				list.wsdl.push(vm.item);
+    				vm.item.version = 99999999999;
+    				list.wsdl.splice(0, 0, vm.item);
     				wsdlservice.setWsdlList(list.wsdl);
-
-
 
     				wsdlservice.getWsdlOpertations(eai.data.services[0].eai_number).then(function(response)
     				{
@@ -96,17 +95,13 @@
 		    			window.scrollTo(0, 0);
     				});
     			}
-    			else
-    			{
-
-    			}
     		});
     	}
 
     	vm.changedOption = function(picked)
     	{
     	
-    		
+    		vm.showWsdlstable = true;
     		var oldArr = wsdlservice.getWsdlOperationsArray();
     		var newArr = [],
     		found, x, y;
@@ -115,7 +110,7 @@
     		{
     			wsdlservice.setWsdlSubList(oldArr);
     			vm.wsdlList = wsdlservice.getWsdlSubList();
-
+                console.log(vm.wsdlList);
     			return;
     		}
 
@@ -133,6 +128,8 @@
     		}
     		wsdlservice.setWsdlSubList(newArr);
     		vm.wsdlList = wsdlservice.getWsdlSubList();
+                console.log(vm.wsdlList);
+
 
     	}
 
@@ -213,6 +210,7 @@
 
     	vm.getWsdlList = function()
     	{
+            console.log(wsdlservice.getWsdlListArray());
     		return wsdlservice.getWsdlListArray();
     	}
 
@@ -270,41 +268,95 @@
     	
     	vm.saveNewWsdl = function()
     	{
-    		var newJson = JSON.stringify({service_id:vm.details.id, 
-    				wsdl_name:vm.newWsdlList.wsdl_name, 
-    				wsdl_url:vm.urlInput, 
-    				wsdl_xml:vm.textarea,
-    				version:"",
-    				replace_existing:"true",
-    				operation_list: vm.newWsdlList.result });
-
-    		wsdlservice.postNewWsdl(newJson, vm.details.eai_number).then(function(response) {
-    			if(response.status < 400)
-    			{
-    				vm.display_error = false;
-    				var r = confirm("WSDL Add successful\nPlease click OK to edit service details\nPlease click Cancel to view all WSDLs for the service.")
-					if(r)
-					{
-						$location.path("/service/edit/" + vm.details.eai_number);
-					}
-					else
-					{
-						$location.path("/wsdl/upload/" + vm.details.eai_number);
-					}
-    			}
-    		},
-    		function(data){
-    			vm.errorInfo = data.data;
-    			vm.display_error = true;
-    			window.scrollTo(0, 0);
-
-    		});
+            vm.getCustDialog("Please choose one of the operations\n\tReplace: will replace the old WSDL with the new one\n\tIgnore: will ignore any confilicitng services from the current WSDL\n\tCancel: will not save the WSDL and will stay on the same page", {
+                "Replace": function() {
+                    jQuery(this).dialog( "destroy" );
+                    vm.callback(1);
+                }, 
+                "Ignore": function() {
+                    jQuery(this).dialog( "destroy" );
+                    vm.callback(2);
+                },
+                "Cancel": function() {
+                    jQuery(this).dialog( "destroy" );
+                    vm.callback(3);
+                }
+            });
     	}
+
+        vm.callback = function(num)
+        {
+            console.log(num);
+
+            switch(num){
+                case 1:
+                    console.log(num);
+                    var newJson = JSON.stringify({service_id:vm.details.id, 
+                        wsdl_name:vm.newWsdlList.wsdl_name, 
+                        wsdl_url:vm.urlInput, 
+                        wsdl_xml:vm.textarea,
+                        version:"",
+                        replace_existing:"true",
+                        operation_list: vm.newWsdlList.result });
+
+                    wsdlservice.postNewWsdl(newJson, vm.details.eai_number).then(function(response) {
+                        if(response.status < 400)
+                        {
+                            vm.display_error = false;
+                        }
+                    },
+                    function(data){
+                        vm.errorInfo = data.data;
+                        vm.display_error = true;
+                        window.scrollTo(0, 0);
+
+                    });
+                    break;
+
+                case 2:
+                    console.log(num);
+                    var newJson = JSON.stringify({service_id:vm.details.id, 
+                        wsdl_name:vm.newWsdlList.wsdl_name, 
+                        wsdl_url:vm.urlInput, 
+                        wsdl_xml:vm.textarea,
+                        version:"",
+                        replace_existing:"false",
+                        operation_list: vm.newWsdlList.result });
+
+                    wsdlservice.postNewWsdl(newJson, vm.details.eai_number).then(function(response) {
+                        if(response.status < 400)
+                        {
+                            vm.display_error = false;
+                        }
+                    },
+                    function(data){
+                        vm.errorInfo = data.data;
+                        vm.display_error = true;
+                        window.scrollTo(0, 0);
+
+                    });
+                    break;
+
+                case 3:
+                default:
+                    alert("The WSDL data was not saved");
+            }
+        }
+
+        vm.back = function()
+        {
+            vm.wsdlAdd = !vm.wsdlAdd;
+        }
 
     	vm.getNewWsdlOperationsArray = function()
     	{
     		return wsdlservice.getNewWsdlOperations();
     	}
+
+        vm.getCustDialog = function(message, buttons, etc)
+        {
+            wsdlservice.custPopUp(message, buttons, etc);
+        }
     }
 
 })();

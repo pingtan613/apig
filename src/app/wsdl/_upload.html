@@ -1,65 +1,68 @@
 <!-- include service tab tool bit -->
 <div ng-include="'/app/service/_tabToolbit.html'"></div>
-	<div ng-controller="Wsdl as vm">
-		<div class="content wsdl" ng-show="vm.wsdlAdd" ng-init="vm.getWsdlDetails()">
-			<div ng-show="vm.display_error" class="message error">Error: Please try again.  
-				<br/>
-				Message: {{vm.errorInfo.message}} <br/>
-				success: {{vm.errorInfo.success}} <br/>
-				clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
-
-			</div>
-			<h4 class="text_purple">{{vm.details.eai_application_name}} ({{vm.detials.eai_number}}) </h4>
-			
-			<section class="wsdl_upload" >
-				<h6>WSDL Operations</h6>
-				<div >
-					<select ng-model="vm.wsdlVersion" ng-change="vm.changedOption(vm.wsdlVersion)" ng-options="option as option.name for option in vm.getWsdlList() | orderBy:'-version'">
-					</select>
-					<a href="" ng-click="vm.showChange()" class="button-small">Add WSDL</a>
-					<a href="" class="button-small">Remove WSDL</a>
-					<a href="" class="button-small">Save</a>
-				</div>
-			</section>
-			<br class="clear" />
-			<section class="wsdl_operations">
-				<table>
-					<thead>
-						<tr>
-							<td>WSDL Name</td>
-							<td>Name</td>
-							<td>Inactive</td>
-							<td>Internal</td>
-							<td>Description</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="operation in vm.wsdlList">
-							<td>{{operation.wsdl_display_name}}</td>
-							<td>{{operation.operation}}</td>
-							<td><input type="checkbox" ng-checked="vm.getState(operation.state)" ng-true-value="'inactive'" ng-false-value="'active'" ng-model=vm.wsdlList[$index].state></td>
-							<td><input type="checkbox" ng-checked="vm.getInternal(operation.internal)" ng-true-value="'true'" ng-false-value="'false'" ng-model=vm.wsdlList[$index].internal></td>
-							<td><input type="text" value="{{operation.description}}"  ng-model="vm.wsdlList[$index].description"></td>
-						</tr>
-					</tbody>
-				</table>
-
-			</section>
+<div ng-controller="Wsdl as vm">
+	<div class="content wsdl" ng-show="vm.wsdlAdd" ng-init="vm.getWsdlDetails()">
+		<div ng-show="vm.display_error" class="message error">Error: Please try again.
+			<br/>
+			Message: {{vm.errorInfo.message}} <br/>
+			success: {{vm.errorInfo.success}} <br/>
+			clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
 		</div>
-
-
-		<div class="content wsdl" ng-hide="vm.wsdlAdd">
-			<div ng-show="vm.display_error" class="message error">Error saving WSDL data. Please try again.  
-				<br/>
-				Message: {{vm.errorInfo.message}} <br/>
-				success: {{vm.errorInfo.success}} <br/>
-				clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
-
+		<h4 class="text_purple">{{vm.details.eai_application_name}} ({{vm.details.eai_number}}) </h4>
+		
+		<section class="wsdl_upload" >
+			<h6>WSDL Operations</h6>
+			<div >
+				<select ng-model="vm.wsdlVersion" ng-change="vm.changedOption(vm.wsdlVersion)" ng-options="option as option.name for option in vm.getWsdlList() | orderBy:'name'">
+				</select>
+				<a href="" ng-click="vm.showChange()" class="button-small">Add WSDL</a>
+				<a href="" class="button-small">Remove WSDL</a>
+				<a href="" class="button-small">Save</a>
 			</div>
-			<h4 class="text_purple"> {{vm.details.eai_application_name}} ({{vm.detials.eai_number}}) </h4>
-			<section class="wsdl_upload">
-				<h6>WSDL Upload</h6>
-				<form name="myForm">
+		</section>
+		<br class="clear" />
+		<section class="wsdl_operations" ng-show="vm.showWsdlstable">
+			<table>
+				<thead>
+					<tr>
+						<td>WSDL Name</td>
+						<td>Name</td>
+						<td>State</td>
+						<td>Internal</td>
+						<td>Description</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="operation in vm.wsdlList | orderBy:['-wsdl_display_name', 'operation']">
+						<td>{{operation.wsdl_display_name}}</td>
+						<td>{{operation.operation}}</td>
+						<td>
+							<select ng-model="vm.wsdlList[$index].state">
+								<option ng-selected="operation.state ==='active'" value="active">Active</option>
+								<option ng-selected="operation.state ==='inactive'" value="inactive">
+								Inactive</option>
+								<option ng-selected="operation.state ==='deprecated'" value="deprecated">Deprecated</option>
+							</select>
+						</td>
+						<td><input type="checkbox" ng-checked="vm.getInternal(operation.internal)" ng-true-value="'true'" ng-false-value="'false'" ng-model="vm.wsdlList[$index].internal"></td>
+						<td><input type="text" value="{{operation.description}}"  ng-model="vm.wsdlList[$index].description"></td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</div>
+	<div class="content wsdl" ng-hide="vm.wsdlAdd">
+		<div ng-show="vm.display_error" class="message error">Error saving WSDL data. Please try again.
+			<br/>
+			Message: {{vm.errorInfo.message}} <br/>
+			success: {{vm.errorInfo.success}} <br/>
+			clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
+		</div>
+		<h4 class="text_purple"> {{vm.details.eai_application_name}} ({{vm.details.eai_number}}) </h4>
+		<a href="" ng-click="vm.back()" style="text-align:right">Back</a>
+		<section class="wsdl_upload">
+			<h6>WSDL Upload</h6>
+			<form name="myForm">
 				<table>
 					<tr>
 						<td>
@@ -72,7 +75,6 @@
 							<label>WSDL XML</label>
 							<textarea ng-model="vm.textarea" cols="45" rows="7"/></textarea>
 						</td>
-
 					</tr>
 					<tr>
 						<td>
@@ -80,30 +82,42 @@
 						</td>
 					</tr>
 				</table>
-				</form>
-			</section>
-			<br class="clear"/>
-			<section class="wsdl_operations" >
-				<table ng-show="vm.wsdlAddGoCLicked">
-					<thead>
-						<tr>
-							<td>Name</td>
-							<td>Inactive</td>
-							<td>Internal</td>
-							<td>Description</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="data in vm.newWsdlList.result">
-							<td>{{data.operation_name}}</td>
-							<td><input type="checkbox" ng-checked="vm.getState(data.state)" ng-true-value="'inactive'" ng-false-value="'active'" ng-model="vm.newWsdlList.result[$index].state"></td>
-							<td><input type="checkbox" ng-checked="vm.getInternal(data.internal)" ng-true-value="'true'" ng-false-value="'false'" ng-model="vm.newWsdlList.result[$index].internal"></td>
-							<td><input type="text" value="{{data.description}}" ng-model="vm.newWsdlList.result[$index].description"/></td>
-						</tr>
-					</tbody>
-				</table>
-			</section>
-		</div>
+			</form>
+		</section>
+		<br>
+		<section class="wsdl_operations"  ng-show="vm.wsdlAddGoCLicked">
+			<div class="WARNING">
+				Hitting save will give the user 3 options if the WSDL name excists:<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;option 1: The user can overwrite all excitisting entries<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;option 2: The user can write only new entries<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;option 3: The user can discard all changes and cancel adding the WSDL<br>
+			</div>
+			<table >
+				<thead>
+					<tr>
+						<td>Name</td>
+						<td>State</td>
+						<td>Internal</td>
+						<td>Description</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="data in vm.newWsdlList.result">
+						<td>{{data.operation_name}}</td>
+						<td>
+							<select ng-model="vm.newWsdlList.result[$index].state">
+								<option ng-selected="operation.state ==='active'" value="active">Active</option>
+								<option ng-selected="operation.state ==='inactive'" value="inactive">
+								Inactive</option>
+								<option ng-selected="operation.state ==='deprecated'" value="deprecated">Deprecated</option>
+							</select>
+						</td>
+						<td><input type="checkbox" ng-checked="vm.getInternal(data.internal)" ng-true-value="'true'" ng-false-value="'false'" ng-model="vm.newWsdlList.result[$index].internal"></td>
+						<td><input type="text" value="{{data.description}}" ng-model="vm.newWsdlList.result[$index].description"/></td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
 		<a href="" class="button" ng-show="vm.wsdlAddGoCLicked" ng-click="vm.saveNewWsdl()">Save</a>
 	</div>
 </div>

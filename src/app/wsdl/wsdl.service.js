@@ -28,6 +28,7 @@
 			setNewWsdlOperations: setNewWsdlOperations,
 			getNewWsdlOperations: getNewWsdlOperations,
 			postNewWsdl: postNewWsdl,
+			custPopUp: custPopUp,
 
 		};
 
@@ -126,6 +127,10 @@
 			return wsdlSubList;
 		}
 
+		function custPopUp(message, buttons, esc)
+		{
+			coreservice.custDialog(message, buttons, esc);
+		}
 
 	}
 })();

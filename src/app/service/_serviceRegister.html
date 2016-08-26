@@ -9,7 +9,12 @@
 		</h2>
 		<section>
 			<h4>Select a service from the list below to begin the registration process</h4>
-			<div data-ng-show="vm.showError" class="message error">There was an error retrieving the unpublished services. </div>
+			<div ng-show="vm.display_error" class="message error">Error: Please try again.  
+				<br/>
+				Message: {{vm.errorInfo.message}} <br/>
+				success: {{vm.errorInfo.success}} <br/>
+				clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
+			</div>
 			<form ng-submit="vm.getServiceDetails()">
 				<select ng-model="vm.getDataById" ng-options="option as option.display_name for option in vm.getUnpublishedData() | orderBy:'eai_application_name'">
 					

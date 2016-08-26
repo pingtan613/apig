@@ -2,6 +2,12 @@
 <div ng-include="'/app/service/_tabToolbit.html'"></div>
 
 <div ng-controller="Service as vm" class="content services">
+	<div ng-show="vm.display_error" class="message error">Error: Please try again.  
+		<br/>
+		Message: {{vm.errorInfo.message}} <br/>
+		success: {{vm.errorInfo.success}} <br/>
+		clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
+	</div>
 	<a href="#/service/register" ng-click="vm.getServices(false)" >Register a new service</a>
 	<section class="published_services">
 		<h5 class="text_purple">Services</h5>

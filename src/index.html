@@ -15,16 +15,15 @@
 	<link rel="stylesheet" media="all" href="../css/select.css">
 	<link rel="stylesheet" href="../css/selectize.css">
 	<link rel="stylesheet" media="all" href="../css/fedex.css"> 
-
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-	<script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
-  </script>
+	<link rel="stylesheet" media="all" href="../css/jquery-ui.css">
 </head>
 <body>
+
+	<div id="dialog-confirm" style="display: none;" title="">
+	  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span></p>
+	</div>
+
+
 	<div data-ng-include="'app/layout.html'">
 
 	</div>
@@ -36,6 +35,9 @@
 	<script type="text/javascript" src="../js/select.js"></script>
 	<script type="text/javascript" src="../js/angular-local-storage.js"></script>
 	<script type="text/javascript" src="../js/angular-sanitize.js"></script>
+	<script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui-1.11.2.min.js"></script>
+	<script type="text/javascript" src="../js/chosen.jquery.js"></script>
 
 
 <!-- application plugin libraries ends -->

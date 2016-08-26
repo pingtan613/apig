@@ -14,6 +14,7 @@
     	var categoriesList = [];
     	var search = [];
     	var names = [];
+    	var pendingRequests = [];
 
     	var service = {
     		getServiceDetails: getServiceDetails,
@@ -34,6 +35,10 @@
     		getSearchParam: getSearchParam,
     		setFullServiceArray: setFullServiceArray,
     		getFullServiceArray: getFullServiceArray,
+    		getPendingSLA: getPendingSLA,
+    		setPendingRequests: setPendingRequests,
+    		getPendingRequests: getPendingRequests,
+
     	};
 
     	return service;
@@ -95,6 +100,13 @@
 	    	});
 	    }
 
+	    function getPendingSLA()
+	    {
+	    	return $http({
+	    		method: "GET",
+	    		url: coreservice.getServerHost() + "/apig/v2/user/current/engagements?status=pending&apig_token=" + userservice.getApigToken()
+	    	});
+	    }
 
 
 
@@ -102,6 +114,16 @@
 
 
 	    //GET AND SET METHODS
+	    function setPendingRequests(data)
+	    {
+	    	pendingRequests = data;
+	    }
+
+	    function getPendingRequests()
+	    {
+	    	return pendingRequests;
+	    }
+
 	    function setServicesTrue(data)
 	    {
 	    	servicesTrue = data;

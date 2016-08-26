@@ -609,3 +609,10 @@ ul.list ul li {
 input[readonly] {
 	background-color: #D8D8D8
 }
+
+.WARNING {
+	border-color:yellow; 
+	background-color: yellow; 
+	color:#000000; 
+	border: 1px solid;
+}

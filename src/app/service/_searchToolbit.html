@@ -1,4 +1,10 @@
 <div class="search_toolbit" ng-controller="Service as vm">
+	<div ng-show="vm.display_error" class="message error">Error: Please try again.  
+		<br/>
+		Message: {{vm.errorInfo.message}} <br/>
+		success: {{vm.errorInfo.success}} <br/>
+		clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
+	</div>
 	<form id="service_search" name="service_search" ng-init="vm.getNameAndCat()">
 		<ul>
 			<li>

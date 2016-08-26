@@ -1,25 +1,23 @@
 <!-- include service tab tool bit -->
 <div ng-include="'/app/service/_tabToolbit.html'"></div>
 
-<div class="content services">
+<div class="content services" ng-controller="Service as vm">
 
-	<section class="requests">
+	<section class="requests" ng-init="vm.getPendingSLA()">
+	<div ng-show="vm.display_error" class="message error">Error: Please try again.  
+			<br/>
+			Message: {{vm.errorInfo.message}} <br/>
+			success: {{vm.errorInfo.success}} <br/>
+			clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
+		</div>
 		<h5>Pending Requests</h5>
 		<ul>
-			<li>
+			<li ng-repeat="data in vm.getPendingSLAData()">
 				<ul>
 					<li class="id">000001234</li>
-					<li class="description">AddressService getGEO - for client ServiceRegistry</li>
+					<li class="description">{{data.client_engagement[0].service_display_name}}</li>
 					<li class="view_sla"><a href="#/sla/view/0000001234">view SLA</a></li>
 					<li class="workflow"><a href="#/workflow/0000001234">Workflow</a></li>
-				</ul>
-			</li>
-			<li>
-				<ul>
-					<li class="id">00001111</li>
-					<li class="description">AddressService valiateAddresss - for client Busi-Resi</li>
-					<li class="view_sla"><a href="#/sla/view/00001111">view SLA</a></li>
-					<li class="workflow"><a href="#/workflow/00001111">Workflow</a></li>
 				</ul>
 			</li>
 		</ul>
@@ -27,7 +25,8 @@
 	</section>
 	<section class="messages">
 		<h5>Messages</h5>
-		<ul>
+		Coming Soon!
+		<!-- <ul>
 			<li>
 				<ul>
 					<li class="message">ServiceRegistry will be down for maintenance on Saturday 7/9/16 from 10-11pm</li>
@@ -40,7 +39,7 @@
 					<li class="details"><a href="#/mesasges/1111111">details</a></li>
 				</ul>
 			</li>
-		</ul>
+		</ul> -->
 		<br class="clear" />
 	</section>
 </div>

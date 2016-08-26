@@ -3,6 +3,13 @@
 
 <div class="content clients" ng-controller="Client as vm">
 	<section ng-init="vm.searchText()">
+		<div ng-show="vm.display_error" class="message error">Error: Please try again.  
+			<br/>
+			Message: {{vm.errorInfo.message}} <br/>
+			success: {{vm.errorInfo.success}} <br/>
+			clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
+
+		</div>
 		<h1 ng-show="vm.hasCat">{{vm.searchParameters.categoryPicked}}</h1>
 		<ul class="list client_list">
 			<li ng-repeat="items in vm.getServiceArray()">

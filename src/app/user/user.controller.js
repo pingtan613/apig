@@ -9,12 +9,20 @@
 
     function User(userservice, $location) {
     	var vm = this;
+
     	vm.user = [];
     	vm.display_error = false;
     	
+    	/**
+    	 * @return allows users through if login was successful. 
+    	 */
 	    vm.login = function() {
 	    	userservice.login(vm.user).then(function(response) {
 	    		if (userservice.isLoggedIn(response.data)) {
+
+
+	    			
+
 	    			$location.path( "/client/main" );
 	    			
 	    		} else {
@@ -27,12 +35,18 @@
 	    	});
 	    }
 
+	    /**
+	     * @return logout function if successful will display the login screen
+	     */
 	    vm.logout = function() {
 	    	if (userservice.logout()) {
 	    		$location.path( "/" );
 	    	}
 	    }
 
+	    /**
+	     * @return default landing page if a page does not excist
+	     */
 	    vm.default = function() {
 	    	if(userservice.getApigToken().length > 0)
 	    	{
@@ -43,8 +57,8 @@
 	    		$location.path( "/" );
 	    	}
 	    }
-
     }
+
 
 
 })();

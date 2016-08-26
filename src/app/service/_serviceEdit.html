@@ -38,10 +38,11 @@
 					&nbsp;&nbsp;&nbsp;<a href="/#/wsdl/upload/{{data.eai_number}}">Manage WSDL(s)</a>
 				</li>
 				<li>
-					<label>Status</label>
+					<label>State</label>
 					<select data-ng-model="data.state">
-						<option ng-selected="data.state ==='active'" value="Active">Active</option>
-						<option ng-selected="data.state ==='inactive'" value="Inactive">Inactive</option>
+						<option ng-selected="data.state ==='active'" value="active">Active</option>
+						<option ng-selected="data.state ==='inactive'" value="inactive">Inactive</option>
+						<option ng-selected="data.state ==='deprecated'" value="deprecated">Deprecated</option>
 					</select>
 				</li>
 			</ul>
