@@ -32,7 +32,7 @@
 									{{value.service_display_name}}
 								</td>
 								<td style="width:25%; text-align:center">
-									<a href="#/sla/view/{{value.workflow_id}}">View Engagement/SLA</a>
+									<a href="#/sla/view/{{value.workflow_id}}" ng-click="vm.setClickedSLA(value)">View Engagement/SLA</a>
 								</td>
 								<td>
 									<a href="#/workflow/{{value.workflow_id}}">Workflow</a>

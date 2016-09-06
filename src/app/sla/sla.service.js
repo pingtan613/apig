@@ -30,7 +30,6 @@
 		function getClickeSlaData()
 		{
 			var data = coreservice.getSlaClickedView();
-
 			return $http({
 				method: "GET",
 				url: coreservice.getServerHost() + "/apig/v2/clients/" + data.client_eai + "/services/" + data.service_id + "/engagements?apig_token=" + userservice.getApigToken()

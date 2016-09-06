@@ -43,8 +43,6 @@
        * checks for the sla and deals with the http response and produces the error or success.
        */
       vm.checkEngagement = function() {
-        console.log(vm.servicePicked);
-        console.log(vm.clicked);
 
         clientservice.setPicked(vm.servicePicked);
         clientservice.setClicked(vm.clicked);
@@ -61,11 +59,10 @@
         {
           if(data.status === 404)
           {
-            $location.path("/client/service/engagement")
+            $location.path("/client/service/engagement");
           }
           else
           {
-            console.log(data);
             vm.errorInfo = data.data;
             vm.display_error = true;
             window.scrollTo(0, 0);
@@ -79,7 +76,6 @@
        */
       vm.clientService = function() 
       {
-        console.log(vm.servicePicked);
         vm.clicked.operation = clientservice.getclickedOperation();
         clientservice.getOperationServiceDetails().then(function(response) {
           if(response.status < 400)
@@ -150,15 +146,16 @@
         vm.initialTestDate = document.getElementsByName("initialTestDate")[0].value;
         vm.productionDate = document.getElementsByName("productionDate")[0].value;
 
+        console.log(vm.initialTestDate);
         var date1 = new Date(vm.initialTestDate)
-
-        vm.initialTestDate = (date1.getMonth() + 1) + "/" + date1.getDate() + "/" + date1.getFullYear();
+        console.log(date1);
+        //vm.initialTestDate = (date1.getMonth() + 1) + "/" + date1.getDate() + "/" + date1.getFullYear();
 
         console.log(vm.initialTestDate);
 
         var date2 = new Date(vm.productionDate)
 
-        vm.productionDate = (date2.getMonth() + 1) + "/" + date2.getDate() + "/" + date2.getFullYear();
+        //vm.productionDate = (date2.getMonth() + 1) + "/" + date2.getDate() + "/" + date2.getFullYear();
 
         console.log(vm.productionDate);
 
@@ -192,24 +189,29 @@
           var client = clientservice.getPicked();
           var click = clientservice.getClicked();
 
+          date1 = date1.getTime() / 1000;
+          date2 = date2.getTime() / 1000; 
+
+          console.log(isNaN(date1.toString()));
+
           vm.missingValues = false;
           var json = JSON.stringify({version : "",
               client_eai : client.eai_number,
               service_eai : click.operation.eai_number,
               operation : click.operation.operation_name,
               state : "init",
-              test_date : date1.getTime(),
-              mtp_date : date2.getTime(),
+              test_date : date1.toString(),
+              mtp_date : date2.toString(),
               datacenter : vm.dataCenter,
               region : vm.region,
               sla : "",
               comment : vm.textarea});
 
-
+          console.log(json);
             clientservice.postEngagementForm(json).then(function(response) {
               if(response.data.result === 'success')
               {
-                vm.getCustDialog("Please choose one of the operations\n\tReplace: will replace the old WSDL with the new one\n\tIgnore: will ignore any confilicitng services from the current WSDL\n\tCancel: will not save the WSDL and will stay on the same page", {
+                vm.getCustDialog("Initial Engagment successfully submitted", {
                     "Ok": function() {
                         jQuery(this).dialog( "destroy" );
                     }

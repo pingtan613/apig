@@ -26,7 +26,7 @@
 		<div data-ng-show="vm.requiredError" class="message error">Please fill in all required fields</div>
 		<section data-ng-show="vm.displayForm"> 
 				<h4>Please complete the form below to process the service registration</h4>
-				<form ng-submit="vm.saveServiceDetails()">
+				<form >
 					<table>
 						<tr>
 							<td class="registerTable">
@@ -77,8 +77,8 @@
 							</td>
 							<td>
 								<select data-ng-model="vm.list.data.services[0].state">
-									<option value="Active">Active</option>
-									<option value="Inactive">Inactive</option>
+									<option value="active">Active</option>
+									<option value="inactive">Inactive</option>
 								</select>
 
 							</td>
@@ -102,7 +102,7 @@
 						</tr>
 					</table>
 					<p  style="color: red"> * Indicates Required Fields</p>
-					<input type="submit" class="button" value="Register Service">
+					<input type="submit" class="button" value="Register Service" ng-click="vm.saveServiceDetails()">
 				</form>
 		</section>
 		

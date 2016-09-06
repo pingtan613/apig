@@ -44,7 +44,7 @@
 								<option ng-selected="operation.state ==='deprecated'" value="deprecated">Deprecated</option>
 							</select>
 						</td>
-						<td><input type="checkbox" ng-checked="vm.getInternal(operation.internal)" ng-true-value="'true'" ng-false-value="'false'" ng-model="vm.wsdlList[$index].internal"></td>
+						<td><input type="checkbox" ng-checked="operation.internal" ng-true-value="'true'" ng-false-value="'false'" ng-model="vm.wsdlList[$index].internal"></td>
 						<td><input type="text" value="{{operation.description}}"  ng-model="vm.wsdlList[$index].description"></td>
 					</tr>
 				</tbody>
@@ -88,9 +88,9 @@
 		<section class="wsdl_operations"  ng-show="vm.wsdlAddGoCLicked">
 			<div class="WARNING">
 				Hitting save will give the user 3 options if the WSDL name excists:<br>
-				&nbsp;&nbsp;&nbsp;&nbsp;option 1: The user can overwrite all excitisting entries<br>
-				&nbsp;&nbsp;&nbsp;&nbsp;option 2: The user can write only new entries<br>
-				&nbsp;&nbsp;&nbsp;&nbsp;option 3: The user can discard all changes and cancel adding the WSDL<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;Replace: The user can overwrite all excitisting entries<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;Ignore: The user can write only new entries<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;Cancel: The user can discard all changes and cancel adding the WSDL<br>
 			</div>
 			<table >
 				<thead>

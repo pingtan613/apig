@@ -1,7 +1,7 @@
 <!-- include service tab tool bit -->
 <div ng-include="'/app/service/_tabToolbit.html'"></div>
 
-<div ng-controller="Service as vm" class="content services">
+<div ng-controller="Service as vm" class="content services" ng-init="vm.getServices(true)">
 	<div ng-show="vm.display_error" class="message error">Error: Please try again.  
 		<br/>
 		Message: {{vm.errorInfo.message}} <br/>

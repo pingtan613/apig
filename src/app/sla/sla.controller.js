@@ -36,7 +36,7 @@
                 slaservice.setRevisions(response.data.engagements);
 
                 slaservice.getSlaDetails(response.data.engagements[0].id).then(function(response) {
-                    console.log(response.data.engagement);
+                    console.log(response.data.engagement.test_date);
 
                     var date = new Date(response.data.engagement.test_date);
                     console.log(date);

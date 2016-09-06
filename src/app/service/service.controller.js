@@ -5,9 +5,9 @@
         .module('app.service')
         .controller('Service', Service);
 
-    Service.$inject = ['serviceservice', '$location'];
+    Service.$inject = ['serviceservice', '$location', '$scope'];
 
-    function Service(serviceservice, $location) {
+    function Service(serviceservice, $location, $scope) {
         var vm = this;
         vm.bool = false;
         vm.displayForm = false;
@@ -97,6 +97,8 @@
 
 		vm.saveServiceDetails = function() {
 
+			var numberData = 0;
+
 			if(vm.list.data.services[0].eai_profile_name === "" || vm.list.data.services[0].interface === "" || vm.list.data.services[0].state === "")
 			{
 				vm.requiredError = true;
@@ -110,28 +112,65 @@
 				serviceservice.register(vm.list.data.services[0]).then(function(response){
 					if(response.status < 400)
 					{
+						console.log(response.data)
 						vm.display_error = false;
 						vm.getCustDialog("Service Registation Successful<br>", {
 	                		"Register Another Service": function() {
 	                    		jQuery(this).dialog( "destroy" );
-	                    		$location.path("/service/register");  
+								numberData = 1; 
+								vm.callback(1);                   		  
 	                   		}, 
 	                		"View Service": function() {
 	                  			jQuery(this).dialog( "destroy" );
-	                    		$location.path("/service/edit/" + vm.list.data.eai_number);
+								numberData = 2;  
+								vm.callback(2);                  		  
+	                    		
 	                		},
 	                		"My Published Services": function() {
 	                    		jQuery(this).dialog( "destroy" );
-	                    		$location.path("/service/published");                		
+								numberData = 3;
+								vm.callback(3);                    		  
+	                    		
 	                    	}
 	                	});
 					}
+				
+				console.log(numberData);
+
 				},function(data)
 		        {
 		            vm.errorInfo = data.data;
 		            vm.display_error = true;
 		            window.scrollTo(0, 0);
 		        });
+			}
+		}
+
+		vm.callback = function(num)
+		{
+			console.log("callback" + num);
+			switch(num) 
+			{
+				case 1: 
+					vm.displayForm = false;
+	            	$location.path("/service/register").replace();
+	            	$scope.$apply();
+	            	break;
+	            case 2: 
+	               	$location.path("/service/edit/" + vm.list.data.services[0].eai_number).replace();
+	            	$scope.$apply();
+
+	               	break;
+	            case 3:
+	              	$location.path("/service/published").replace();   
+	            	$scope.$apply();
+
+	              	break;
+	            default:
+	            	$location.path("/service/overview").replace();     
+	            	$scope.$apply();
+
+
 			}
 		}
 

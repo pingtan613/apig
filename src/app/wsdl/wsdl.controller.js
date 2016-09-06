@@ -30,7 +30,8 @@
     		vm.urlInput = "";
             vm.showWsdlstable = false;
     		vm.inputArea = true;
-    		vm.details.splice(0, vm.details.length);
+    		vm.details = undefined;
+            vm.details = [];
     		vm.wsdlAdd = true;
     		vm.wsdlAddGoCLicked = false;
     		vm.errorInfo = undefined;
@@ -234,6 +235,7 @@
 
     	vm.getInternal = function(operationInternal)
     	{
+            console.log(operationInternal);
     		if(operationInternal === true)
     		{
     			return true;
@@ -268,7 +270,7 @@
     	
     	vm.saveNewWsdl = function()
     	{
-            vm.getCustDialog("Please choose one of the operations\n\tReplace: will replace the old WSDL with the new one\n\tIgnore: will ignore any confilicitng services from the current WSDL\n\tCancel: will not save the WSDL and will stay on the same page", {
+            vm.getCustDialog("Please choose one of the operations:<br>&#09;Replace: will replace the old WSDL with the new one<br>&#09;Ignore: will ignore any confilicitng services from the current WSDL<br>&#09;Cancel: will not save the WSDL and will stay on the same page", {
                 "Replace": function() {
                     jQuery(this).dialog( "destroy" );
                     vm.callback(1);
@@ -302,7 +304,8 @@
                     wsdlservice.postNewWsdl(newJson, vm.details.eai_number).then(function(response) {
                         if(response.status < 400)
                         {
-                            vm.display_error = false;
+                            vm.wsdlAdd = true;
+                            vm.getWsdlDetails();
                         }
                     },
                     function(data){
@@ -326,7 +329,8 @@
                     wsdlservice.postNewWsdl(newJson, vm.details.eai_number).then(function(response) {
                         if(response.status < 400)
                         {
-                            vm.display_error = false;
+                            vm.wsdlAdd = true;
+                            vm.getWsdlDetails();
                         }
                     },
                     function(data){
