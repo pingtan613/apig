@@ -1,4 +1,4 @@
-(function() {
+	(function() {
     'use strict';
 
     angular
@@ -15,6 +15,9 @@
     	var search = [];
     	var names = [];
     	var pendingRequests = [];
+    	var clientServiceArray = [];
+
+    	var viewClientDisplayName = "";
 
     	var service = {
     		getServiceDetails: getServiceDetails,
@@ -38,7 +41,14 @@
     		getPendingSLA: getPendingSLA,
     		setPendingRequests: setPendingRequests,
     		getPendingRequests: getPendingRequests,
-
+    		getConsumedServices: getConsumedServices,
+    		getClientList: getClientList,
+    		setClientListArr: setClientListArr,
+    		getClientListArr: getClientListArr,
+    		setViewClientDisplayName: setViewClientDisplayName,
+    		getViewClientDisplayName: getViewClientDisplayName,
+    		setClickedSLAData: setClickedSLAData,
+    		custPopUp: custPopUp,
     	};
 
     	return service;
@@ -89,7 +99,6 @@
 
 	    function getNamesWithCat(cat)
 	    {
-	    	console.log(cat);
 	    	var encode = encodeURI(cat);
 	    	return $http({
 	    		method: "GET",
@@ -109,7 +118,21 @@
 	    }
 
 
+	    function getConsumedServices()
+	    {
+	    	return $http({
+	    		method: "GET",
+	    		url: coreservice.getServerHost() + "/apig/v2/user/current/engagements?apig_token=" + userservice.getApigToken()
+	    	});
+	    }
 
+	    function getClientList (id)
+	    {
+	    	return $http({
+	    		method: "GET",
+	    		url: coreservice.getServerHost() + "/apig/v2/services/" + id + "/clients?apig_token=" + userservice.getApigToken()
+	    	});
+	    }
 
 
 
@@ -235,5 +258,36 @@
 	    {
 	    	return names;
 	    }
+
+	    function setClientListArr(data)
+	    {
+	    	clientServiceArray = data;
+	    }
+
+	    function getClientListArr()
+	    {	
+	    	return clientServiceArray;
+	    }
+
+		function setViewClientDisplayName(eai_num, eai_app_name)
+		{
+    		viewClientDisplayName = eai_app_name + " (" + eai_num + ")";
+		}
+
+		function getViewClientDisplayName()
+		{
+			return viewClientDisplayName;
+		}
+
+		function setClickedSLAData(data)
+		{
+			coreservice.setSlaClickedView(data);
+		}
+
+		function custPopUp(message, buttons, etc)
+		{
+			coreservice.custDialog(message, buttons, etc);
+		}
+
 	}
 })();

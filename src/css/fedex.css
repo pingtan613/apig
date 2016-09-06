@@ -309,19 +309,23 @@ ul.list ul li {
 
 .services section.published_services ul ul li.edit,
 .services section.published_services ul ul li.view_client,
-.services section.requests ul ul li.view_sla,
 .services section.requests ul ul li.workflow {
 	width: 15%;
 }
 
+.services section.requests ul ul li.view_sla{
+	width: 25%;
+}
+
+
 .services section.published_services ul ul li.title,
 .services section.requests ul ul li.description {
-	width: 50%
+	width: 46%
 }
 
 .services section.published_services ul ul li.id,
 .services section.requests ul ul li.id {
-	width: 20%
+	width: 14%
 }
 
 .services section.messages ul ul li.message {

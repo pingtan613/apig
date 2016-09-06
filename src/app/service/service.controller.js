@@ -12,6 +12,7 @@
         vm.bool = false;
         vm.displayForm = false;
         vm.display_error = false;
+        vm.requiredError = false;
         vm.errorInfo = {};
         var list = [];
         vm.getDataById = "";
@@ -20,10 +21,14 @@
 		vm.names =[];
         vm.editList = [];
 
+		vm.getClientListArrData = [];
+        vm.newConsumedArr = {};
+
 		vm.category.selected = { };
 
 		vm.categoryPicked = "";
 		vm.searchText = "";
+
 
 		vm.requiredField = false;
 		vm.showLink = false;
@@ -91,39 +96,49 @@
 		}
 
 		vm.saveServiceDetails = function() {
-			//serviceservice.register(vm.list.data).then(function(response){
-				//if(response.status < 400)
-				//{
-					vm.display_error = false;
-					var r = confirm("Service Registation Successful\nPlease click 'OK' to view the Service or click 'Cancel' to return to My Published Services")
-					if(r)
-					{
-						$location.path("/service/edit/" + vm.list.data.eai_number);
-					}
-					else
-					{
-						$location.path("/service/published");
-					}
-				//}
-				//else
-				//{
-					//Make Proper Diolog box
-					//mark which fields are required.
-					alert("please fill in required fields")
-				//}
-			//},
-		        // function(data)
-		        // {
-		        //     vm.errorInfo = data.data;
-		        //     vm.display_error = true;
-		        //     window.scrollTo(0, 0);
-		        // });
 
+			if(vm.list.data.services[0].eai_profile_name === "" || vm.list.data.services[0].interface === "" || vm.list.data.services[0].state === "")
+			{
+				vm.requiredError = true;
+		        window.scrollTo(0, 0);
+
+			}
+			else
+			{
+				vm.requiredError = false;
+				console.log(vm.list.data.services[0]);
+				serviceservice.register(vm.list.data.services[0]).then(function(response){
+					if(response.status < 400)
+					{
+						vm.display_error = false;
+						vm.getCustDialog("Service Registation Successful<br>", {
+	                		"Register Another Service": function() {
+	                    		jQuery(this).dialog( "destroy" );
+	                    		$location.path("/service/register");  
+	                   		}, 
+	                		"View Service": function() {
+	                  			jQuery(this).dialog( "destroy" );
+	                    		$location.path("/service/edit/" + vm.list.data.eai_number);
+	                		},
+	                		"My Published Services": function() {
+	                    		jQuery(this).dialog( "destroy" );
+	                    		$location.path("/service/published");                		
+	                    	}
+	                	});
+					}
+				},function(data)
+		        {
+		            vm.errorInfo = data.data;
+		            vm.display_error = true;
+		            window.scrollTo(0, 0);
+		        });
+			}
 		}
 
 		vm.getServiceDetails = function() {
 
 			serviceservice.getServiceDetails(vm.getDataById.eai_number).then(function(response){
+				console.log(response.data.services);
 				if(response.status < 400 )
 				{
 					vm.display_error = false;
@@ -190,7 +205,6 @@
 	        });
 
 			serviceservice.getSearchNames().then(function(response){
-				//console.log(response.data.result)
 				if(response.status < 400)
 				{
 					vm.display_error = false;
@@ -320,22 +334,87 @@
 			serviceservice.setSearchParam(vm.categoryPicked, vm.searchText);
 		}
 
-		var fakeConsumed = [
-			
-			{
-				serviceNameID: "AddressService (4321) - validateAddress",
-				linkSLA: "#/sla/view/4321",
-			},
-			{
-				serviceNameID: "Platinum Exchange (6514) - pxOperation",
-				linkSLA: "#/sla/view/6514",
-			}
-		];
+		var uniqueConsumed = function(origArr) {
+    		var newArr = [],
+       		origLen = origArr.length,
+       		found, x, y;
 
+		    for (x = 0; x < origLen; x++) {
+  		      found = undefined;
+    		    for (y = 0; y < newArr.length; y++) {
+    		        if (origArr[x].client === newArr[y].client) {
+      		          found = true;
+        	        break;
+         	   		 }
+       			}
+        		if (!found) {
+           		 newArr.push(origArr[x]);
+       		 	}
+    		}
+   			 return newArr;
+		}
 
 		vm.consumedService = function(){
-			console.log(fakeConsumed);
-			return fakeConsumed;
+			serviceservice.getConsumedServices().then(function(response) {
+				if(response.status < 400)
+				{
+					vm.display_error = false;
+
+					vm.newConsumedArr = uniqueConsumed(response.data.engagements);
+				}
+			},
+			function(data)
+	        {
+	            vm.errorInfo = data.data;
+	            vm.display_error = true;
+	            window.scrollTo(0, 0);
+	        });
+
+
+		}
+
+		vm.getClientList = function(eai_num, eai_app_name) 
+		{
+			serviceservice.setViewClientDisplayName(eai_num, eai_app_name);
+			serviceservice.getClientList(eai_num).then(function(response){
+				if(response.status < 400)
+				{
+					var opArray = [];
+					var listArr = response.data.clients;
+					var found = undefined;
+
+					for(var i in listArr)
+					{
+						var item = []
+						item.service = [];
+
+						found = undefined;
+						for(var j in opArray)
+						{
+							if(opArray[j].operation === listArr[i].operation)
+							{
+								found = true;
+
+
+
+								break;
+							}
+						}
+						if(!found)
+						{
+							item.operation = listArr[i].operation;
+							item.service.push(listArr[i]);
+							opArray.push(listArr[i].operation);
+							vm.getClientListArrData.push(item);
+						}
+					}
+					serviceservice.setClientListArr(vm.getClientListArrData);
+				}
+
+			},function(data)
+			{
+				console.log(data);
+			});
 		}
 
 		// SET AND GET
@@ -368,6 +447,26 @@
 
 		vm.getPendingSLAData = function() {
 			return serviceservice.getPendingRequests();
+		}
+
+		vm.getClientListArr = function()
+		{
+			return serviceservice.getClientListArr();
+		}
+
+		vm.getclientDisplayName = function()
+		{
+			return serviceservice.getViewClientDisplayName();
+		}
+
+		vm.setClickedSLA = function(data)
+		{
+			serviceservice.setClickedSLAData(data);
+		}
+
+		vm.getCustDialog = function(message, buttons, etc)
+		{
+			serviceservice.custPopUp(message, buttons, etc);
 		}
 
     }

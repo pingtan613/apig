@@ -1,7 +1,10 @@
 <!-- //opco read only (maybe)
  -->
-<div class="content clients">
+<div class="content clients" ng-controller="Client as vm" ng-init="vm.getEngagementDetails()">
 	<section>
+		<div ng-show="vm.missingValues" class="message error">
+			Please fill in missing values
+		</div>
 		<div ng-show="vm.display_error" class="message error">Error: Please try again.  
 			<br/>
 			Message: {{vm.errorInfo.message}} <br/>
@@ -13,30 +16,28 @@
 			<h5>Request Details</h5>
 			<div style="background-color: #dfdfdf;">
 			<div style="float: left; width: 33%; background-color: #dfdfdf;">
-				<label>Requestor</label>
-				<input type="text" value="200604" readonly />
 				<label>Client System</label> <!-- //selected application name from dropdown -->
-				<input type="text" value="200604" readonly/>
+				<input type="text" data-ng-model="vm.getLeftEngagement().eai_application_name" readonly>
 				<label>Client BCDR Tier</label>
-				<input type="text" value="200604" readonly/>
+				<input type="text" data-ng-model="vm.getLeftEngagement().bcdr_tier" readonly/>
 				<label>Client EAI</label> <!-- // selected eai from dropdown -->
-				<input type="text" value="200604" readonly/>
+				<input type="text" data-ng-model="vm.getLeftEngagement().eai_number" readonly/>
 			</div>
 
 
 			<div style="float: right; width: 33%; background-color: #dfdfdf;">
-				<label>Initial Test Date / Access Needed Date</label>
-				<input type="text" id="datepicker" />
-				<label>Initial Move to Production Date</label>
-				<input type="text" id="datepicker" />
-				<label>Data Center</label>
-					<select>
+				<label>Initial Test Date / Access Needed Date*</label>
+				<input type='text' id='start_dt' class='datepicker' onclick="return showDatePicker('start_dt')" name="initialTestDate">
+				<label>Initial Move to Production Date*</label>
+				<input type="text" id='another_dt' class='myclass datepicker' onclick="return showDatePicker('another_dt')" name="productionDate"> 
+				<label>Data Center*</label>
+					<select ng-model="vm.dataCenter">
 						<option>Dallas</option>
 						<option>Colorado Springs</option>
 						<option>Memphis</option>
 					</select>
-				<label>Region</label>
-					<select>
+				<label>Region*</label>
+					<select ng-model="vm.region">
 						<option>US - East</option>
 						<option>US - Central</option>
 						<option>Singapore</option>
@@ -46,23 +47,24 @@
 
 			<div style="display: inline-block; width: 34%; background-color: #dfdfdf;">
 				<label>Applicaiton Contacts: IT Owner</label>
-				<input type="text" value="200604" readonly/>
+				<input type="text" data-ng-model="vm.getCenterEngagement().registered_by" readonly/>
 				<label>Application Contacts: Tech Lead</label>
-				<input type="text" value="200604" readonly/>
+				<input type="text" data-ng-model="vm.getCenterEngagement().registered_by" readonly/>
 				<label>OpCo</label>
-				<input type="text" value="200604" readonly/>
+				<input type="text" data-ng-model="vm.getCenterEngagement().registered_by" readonly/>
 				<br><br>
 				<br><br>
 			</div>
 			<br>
 				<label>Comments</label>
-				<textarea style="width:100%" rows="5" cols="75" value="Comments"></textarea>
+				<textarea style="width:100%" rows="5" cols="75" ng-model="vm.textarea"></textarea>
 
 			</div>
 			
 			<br class="clear" />
 		</section>
-		<a class="button right" href="#/service/overview">Submit</a>
+		<p  style="color: red"> * Indicates Required Fields</p>
+		<a class="button right" href="" ng-click="vm.submitInitialEngagement()">Submit</a>
 		<br class="clear" />
 	</section>
 </div>

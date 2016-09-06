@@ -1,39 +1,35 @@
 <!-- include service tab tool bit -->
 <div ng-include="'/app/service/_tabToolbit.html'"></div>
 
-<div class="content services">
-	<section class="client_list">
-		<h1>4321 - Address Service</h1>
-		<ul>
-			<li>
-				<div class="service_name">
-					<a href="">- validateAddress</a>
-				</div>
-				<ul>
-					<li>
-						<label>5143 - Busi-Resi (SOAP)</label>
-						<a href="#/sla/view/slaId1234">view SLA</a>
-					</li>
-					<li>
-						<label>6103 - OSSScanning (SOAP)</label>
-						<a href="#/sla/view/slaId1234">view SLA</a>
-					</li>
-				</ul>
-				</li>
-				<li>
-				<div class="service_name">
-					<a href="">+ getGEO</a>
-				</div>
-				<ul>
-					<li>
-						<label>5143 - Busi-Resi</label>
-						<a href="#/sla/view/slaId1234">view SLA</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
+<div class="content services" ng-controller="Service as vm">
+	<h1>{{vm.getclientDisplayName()}}</h1>
+	<section class="client_list" ng-repeat="data in vm.getClientListArr()">
+		<br>
+		<div ng-init="showServices=false">
+			<label>
+      			<a href="" ng-show="!showServices" ng-click="showServices=!showServices">+</a>
+     			 <a href="" ng-show="showServices" ng-click="showServices=!showServices">-</a>
+    			 <a href="" ng-click="showServices=!showServices">{{data.operation}}</a>
+    		</label>
 
-		<br class="clear" />
+			<ul style="border: 0px solid" ng-show="showServices">
+				<li>
+					<ul>
+						<table style="width:100%">
+							<tr style="width:100%; border: 1px solid" ng-repeat="info in data.service">
+								<td style="width:50%; text-align:left;" >
+									{{info.client_display_name}}
+								</td>
+								
+								<td style="width:50%; text-align:center">
+									<a href="#/sla/view/{{info.workflow_id}}">View SLA</a>
+								</td>
+							</tr>
+						</table>
+					</ul>
+				</li>
+			</ul>
+		</div>
 	</section>
 	<br class="clear" />
 </div>

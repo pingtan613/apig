@@ -1,36 +1,33 @@
 <!-- include service tab tool bit -->
 <div ng-include="'/app/service/_tabToolbit.html'"></div>
 
-<div class="content services" ng-contoller="Service as vm">
-
-	<section class="consumed_services" >
-		<h5 class="text_purple">Services</h5>
-		<br>
-			<div ng-init="showServices=false">
-				<label>
-          			<a href="" ng-show="!showServices" ng-click="showServices=!showServices">+</a>
-         			 <a href="" ng-show="showServices" ng-click="showServices=!showServices">-</a>
-        			 <a href="" ng-click="showServices=!showServices">5143 Busi Busi</a>
-        		</label>
-			
-		<ul style="border: 0px solid" ng-show="showServices">
-			<li>
-				<ul>
-					<table style="width:100%">
-						<tr style="width:100%; border: 1px solid" ng-repeat="consumed in vm.consumedService()">
-							<td style="width:50%; text-align:center;" >
-								{{consumed.serviceNameID}}
-							</td>
-							
-							<td style="width:50%; text-align:center">
-								<a href="{{consumed.linkSLA}}">View SLA</a>
-							</td>
-						</tr>
-					</table>
-				</ul>
-			</li>
-		</ul>
+<div class="content services" ng-contoller="Service as vm"  ng-init="vm.consumedService()">
+	<h5 class="text_purple">Services</h5>
+	<section class="consumed_services" ng-repeat="data in vm.newConsumedArr">
+		<div ng-init="showServices=false">
+			<label>
+      			<a href="" ng-show="!showServices" ng-click="showServices=!showServices">+</a>
+     			 <a href="" ng-show="showServices" ng-click="showServices=!showServices">-</a>
+    			 <a href="" ng-click="showServices=!showServices">{{data.client}}</a>
+    		</label>
+		
+			<ul style="border: 0px solid" ng-show="showServices">
+				<li>
+					<ul>
+						<table style="width:100%">
+							<tr style="width:100%; border: .5px solid; padding: 3px" ng-repeat="value in data.client_engagement">
+								<td style="width:50%; text-align:left; padding: 3px" >
+									{{value.service_display_name}}
+								</td>
+								
+								<td style="width:50%; text-align:center">
+									<a href="#/sla/view/{{value.workflow_id}}">View Engagement/SLA</a>
+								</td>
+							</tr>
+						</table>
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</section>
-	<br class="clear" />
 </div>

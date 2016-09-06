@@ -18,7 +18,7 @@
 					<li class="id">{{data.eai_number}}</li>
 					<li class="title">{{data.eai_application_name}} ({{data.interface}})</li>
 					<li class="edit"><a href="" ng-click="vm.editServiceDetails(data.eai_number)">edit</a></li>
-					<li class="view_client"><a href="#/service/viewClients/{{data.eai_number}}">view Clients</a></li>
+					<li class="view_client"><a href="#/service/viewClients/{{data.eai_number}}" ng-click="vm.getClientList(data.eai_number, data.eai_application_name)">view Clients</a></li>
 				</ul>
 			</li>
 		</ul>

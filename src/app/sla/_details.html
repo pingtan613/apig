@@ -1,16 +1,17 @@
-<div class="sla_revision_toolbit">
-	<section>
-		Choose Revision: 
-		<select>
-			<option>v3_07072016 (pending)</option>
-			<option></option>
-			<option></option>
-		</select>
-	</section>
-	<br class="clear" />
-</div>
 
-<div class="content sla">
+
+<div class="content sla" ng-controller="Sla as vm" ng-init="vm.init()">
+
+	<div class="sla_revision_toolbit" style="text-align:right">
+		<section>
+			Choose Revision: 
+			<select ng-repeat="data in vm.getRevisions()">
+				<option>{{data.version}} ({{data.state}})</option>
+			</select>
+		</section>
+		<br class="clear" />
+	</div>
+
 	<h4 class="text_purple">AddressServie getGEO</h4>
 	<div class="note status_pending">
 		*** This SLA is Pending Approval and is not currenlty active ***
@@ -18,115 +19,98 @@
 	<div class="note status_active">
 		This SLA is currently active. It must be unlocked before changes can be made. <a href="#/sla/edit/slaid1234">Unlock</a>
 	</div>
-	<section>
-		<h6><strong>Request Details</strong></h6>
-		<ul>
+	<section ng-init="showServices=true">
+		<label>
+  			<a href="" ng-show="!showServices" ng-click="showServices=!showServices">+</a>
+ 			 <a href="" ng-show="showServices" ng-click="showServices=!showServices">-</a>
+			 <a href="" ng-click="showServices=!showServices">Request Detials</a>
+		</label>
+		<ul ng-show="showServices">
 			<li>
 				<label>Requestor</label>
-				<span class="value">200604</span>
+				<span class="value">{{vm.getSlaData().requestor}}</span>
 			</li>
 			<li>
 				<label>Application Contacts: IT Owner</label>
-				<span class="value">810543</span>
+				<span class="value">Need Data from APIG</span>
 			</li>
 			<li>
 				<label>Inital Test Date/ Access Needed Date</label>
-				<span class="value">05/15/2016</span>
+				<span class="value">{{vm.getSlaData().test_date}}</span>
 			</li>
 			<li>
 				<label>Client System</label>
-				<span class="value">ServiceRegistry</span>
+				<span class="value">Need Data from APIG</span>
 			</li>
 			<li>
 				<label>Application Contacts: Tech Lead</label>
-				<span class="value">200604</span>
+				<span class="value">Need Data from APIG</span>
 			</li>
 			<li>
 				<label>Inital Move to Production Date</label>
-				<span class="value">05/16/2017</span>
+				<span class="value">{{vm.getSlaData().mtp_date}}</span>
 			</li>
 			<li>
 				<label>Client EAI</label>
-				<span class="value">7003</span>
+				<span class="value">{{vm.getSlaData().client_eai}}</span>
 			</li>
 			<li>
-				<label>Date Center</label>
-				<span class="value">WTC</span>
+				<label>Data Center</label>
+				<span class="value">{{vm.getSlaData().datacenter}}</span>
 			</li>
 			<li>
 				<label>OpCo</label>
-				<span class="value">FXE</span>
+				<span class="value">Need Data from APIG</span>
 			</li>
 			<li>
 				<label>Client BCDR Tier</label>
-				<span class="value">Tier 2</span>
+				<span class="value">Need Data from APIG</span>
 			</li>
 			<li>
 				<label>Region</label>
-				<span class="value">US</span>
+				<span class="value">{{vm.getSlaData().region}}</span>
 			</li>
 			<li>
 				<label>Comments</label>
-				<span class="value"></span>
+				<span class="value">{{vm.getSlaData().comment}}</span>
 			</li>
 		</ul>
 		<br class="clear" />
+		
+		<a style="align:center" href="#/sla/edit/1234" class="button" ng-hide="vm.showButton" ng-click="vm.showButton = !vm.showButton">Create SLA</a>
 	</section>
-	<section>
+	<section ng-hide="!vm.showButton">
 		<h6><strong>Outage Information</strong></h6>
 		<ul>
 			<li>
-				<label>Requestor</label>
-				<span class="value">200604</span>
+				<label>Preferred Outage Window (If Needed)</label>
+				<span class="value"></span>
+
 			</li>
 			<li>
-				<label>Application Contacts: IT Owner</label>
-				<span class="value">810543</span>
+				<label>Preferred Outage Start</label>
+				<span class="value"> Hour(s)</span>
 			</li>
 			<li>
-				<label>Inital Test Date/ Access Needed Date</label>
-				<span class="value">05/15/2016</span>
+				<label>Preferred Outage Duration</label>
+				<span class="value"> Hour(s)</span>
 			</li>
 			<li>
-				<label>Client System</label>
-				<span class="value">ServiceRegistry</span>
+				<label>Unplanned Outage Duration</label>
+				<span class="value">Hour(s)</span>
 			</li>
 			<li>
-				<label>Application Contacts: Tech Lead</label>
-				<span class="value">200604</span>
+				<label>Disaster Recovery Outage Duration</label>
+				<span class="value">Hour(s)</span>
 			</li>
 			<li>
-				<label>Inital Move to Production Date</label>
-				<span class="value">05/16/2017</span>
-			</li>
-			<li>
-				<label>Client EAI</label>
-				<span class="value">7003</span>
-			</li>
-			<li>
-				<label>Date Center</label>
-				<span class="value">WTC</span>
-			</li>
-			<li>
-				<label>OpCo</label>
-				<span class="value">FXE</span>
-			</li>
-			<li>
-				<label>Client BCDR Tier</label>
-				<span class="value">Tier 2</span>
-			</li>
-			<li>
-				<label>Region</label>
-				<span class="value">US</span>
-			</li>
-			<li>
-				<label>Comments</label>
+				<label>Quantified Impact</label>
 				<span class="value"></span>
 			</li>
 		</ul>
 		<br class="clear" />
 	</section>
-	<section>
+	<section ng-hide="!vm.showButton">
 		<h6><strong>SLA Details</strong></h6>
 		<section>
 			<h6>Volume</h6>
@@ -226,15 +210,15 @@
 		</section>
 		<br class="clear" />
 		<br class="clear" />
-		<a href="#/sla/edit/12312" class="button center btn_update_sla">Update SLA</a>
+		<a href="" class="button center btn_update_sla">Update SLA</a>
 	</section>
 	<br class="clear" />
 	<br class="clear" />
 	<!-- include sla table -->
-	<div ng-include="'/app/sla/_slaTable.html'"></div>
+	<div ng-include="'/app/sla/_slaTable.html'" ng-hide="!vm.showButton"></div>
 	<br class="clear" />
 	<div class="action_buttons"> 
-		<a href="#/service/overview" class="button">Back to My Services</a>
-		<a href="" class="button">View in Workflow</a>
+		<a href="#/service/overview" class="button" ng-hide="!vm.showButton">Back to My Services</a>
+		<a href="" class="button" ng-hide="!vm.showButton">View in Workflow</a>
 	</div>
 </div>

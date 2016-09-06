@@ -9,6 +9,10 @@
 
     function clientservice($http, userservice, coreservice,serviceservice) {
         var clickedOperationData = [];
+        var clickedService = [];
+        var leftEngagement = [];
+        var centerEngagement = [];
+        var clicked = [];
 
         var service = {
             getSearchDetails: getSearchDetails,
@@ -18,6 +22,18 @@
             getOperationServiceDetails: getOperationServiceDetails,
             getServiceAccess: getServiceAccess,
             checkSlaExists: checkSlaExists,
+            setPicked: setPicked, 
+            getPicked: getPicked,
+            getClientDetailsEngagement: getClientDetailsEngagement,
+            setLeftEngagement: setLeftEngagement, 
+            getLeftEngagement: getLeftEngagement,
+            getServiceDetailsEngagement: getServiceDetailsEngagement,
+            setCenterEngagement: setCenterEngagement,
+            getCenterEngagement: getCenterEngagement,
+            setClicked: setClicked,
+            getClicked: getClicked,
+            postEngagementForm: postEngagementForm,
+            getButton: getButton,
         };
 
         return service;
@@ -66,6 +82,34 @@
             });
         }
 
+        function getClientDetailsEngagement(id)
+        {
+            return $http ({
+                method: "GET",
+                url: coreservice.getServerHost() + "/apig/v2/clients/" + id + "?apig_token=" + userservice.getApigToken()
+            });
+        }
+
+        function getServiceDetailsEngagement(id)
+        {
+            return $http ({
+                method: "GET",
+                url: coreservice.getServerHost() + "/apig/v2/services/" + id + "?apig_token=" + userservice.getApigToken()
+            });
+        }
+
+        function postEngagementForm(body)
+        {
+            return $http ({
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                url: coreservice.getServerHost() + "/apig/v2/engagement?apig_token=" + userservice.getApigToken(),
+                data: body
+            });
+        }
+
+
+
         /**
          * Get and Set methods
          */
@@ -103,5 +147,52 @@
         {
             return clickedOperationData;
         }
+
+        function setPicked(data)
+        {
+            clickedService = data;
+        }
+
+        function getPicked()
+        {
+            return clickedService;
+        }
+
+        function setLeftEngagement(data)
+        {
+            leftEngagement = data;
+        }
+
+        function getLeftEngagement()
+        {
+            return leftEngagement;
+        }
+
+        function setCenterEngagement(data)
+        {
+            centerEngagement = data;
+        }
+
+        function getCenterEngagement()
+        {
+            return centerEngagement;
+        }
+
+        function setClicked(data)
+        {
+            clicked = data;
+        }
+
+        function getClicked()
+        {
+            return clicked;
+        }
+
+        function getButton(message, button, etc)
+        {
+            coreservice.custDialog(message, button, etc);
+        }
+
+
     }
 })();

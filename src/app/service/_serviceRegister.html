@@ -23,6 +23,7 @@
 			</form>
 		</section>
 		<div data-ng-show="vm.showError" class="message error">There was an error retrieving the unpublished service data. </div>
+		<div data-ng-show="vm.requiredError" class="message error">Please fill in all required fields</div>
 		<section data-ng-show="vm.displayForm"> 
 				<h4>Please complete the form below to process the service registration</h4>
 				<form ng-submit="vm.saveServiceDetails()">
@@ -32,7 +33,7 @@
 							<label>EAI Application Name</label>
 							</td>
 							<td>
-								<input style="width:200px" type="text" data-ng-model="vm.list.data.eai_application_name" readonly></input>
+								<input style="width:200px" type="text" data-ng-model="vm.list.data.services[0].eai_application_name" readonly></input>
 							</td>
 						</tr>
 						<tr>
@@ -40,7 +41,7 @@
 							<label>Friendly Name</label>
 							</td>
 							<td>
-								<input style="width:200px" type="text" data-ng-model="vm.list.data.eai_friendly_name"></input>
+								<input style="width:200px" type="text" data-ng-model="vm.list.data.services[0].eai_friendly_name"></input>
 							</td>
 						</tr>
 						<tr>
@@ -48,7 +49,7 @@
 								<label>Category</label>
 							</td>
 							<td>
-								<input style="width:200px" type="text" data-ng-model="vm.list.data.eai_category" readonly></input>
+								<input style="width:200px" type="text" data-ng-model="vm.list.data.services[0].eai_category" readonly></input>
 							</td>
 						</tr>
 						<tr> <!-- by default same as eai application name changable -->
@@ -56,7 +57,7 @@
 							<label>EAI Profile Name *</label>
 							</td>
 							<td>
-								<input type="text" data-ng-model="vm.list.data.eai_profile_name"/>
+								<input type="text" data-ng-model="vm.list.data.services[0].eai_profile_name"/>
 							</td>
 						</tr>
 						<tr>
@@ -64,7 +65,7 @@
 								<label>Interface *</label>
 							</td>
 							<td>
-								<select data-ng-model="vm.list.data.interface" ng-required="vm.requiredField">
+								<select data-ng-model="vm.list.data.services[0].interface">
 									<option value="SOAP">SOAP</option>
 									<option value="REST" hidden="true">REST</option>
 								</select>
@@ -75,7 +76,7 @@
 								<label>Status *</label>
 							</td>
 							<td>
-								<select data-ng-model="vm.list.data.state" ng-required="vm.requiredField">
+								<select data-ng-model="vm.list.data.services[0].state">
 									<option value="Active">Active</option>
 									<option value="Inactive">Inactive</option>
 								</select>
@@ -87,7 +88,7 @@
 								<label>Description</label>
 							</td>
 							<td style="width: 100%">
-								<textarea required rows="5" cols="65" data-ng-model="vm.list.data.eai_description"></textarea>
+								<textarea rows="5" cols="65" data-ng-model="vm.list.data.services[0].eai_description"></textarea>
 							</td>
 						</tr>
 						<tr>
@@ -95,12 +96,9 @@
 								<label>URL's</label>
 							</td>
 							<td style="width:100%">
-								<textarea rows="5" cols="65" data-ng-model="vm.list.data.url" >
+								<textarea rows="5" cols="65" data-ng-model="vm.list.data.services[0].url" >
 								</textarea>
 							</td>
-						</tr>
-						<tr>
-								* Indicates Required Fields
 						</tr>
 					</table>
 					<p  style="color: red"> * Indicates Required Fields</p>

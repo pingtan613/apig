@@ -1,128 +1,118 @@
-<div class="sla_revision_toolbit">
-	<section>
-		Choose Revision: 
-		<select>
-			<option>v3_07072016 (pending)</option>
-			<option></option>
-			<option></option>
-		</select>
-	</section>
-	<br class="clear" />
-</div>
 
-<div class="content sla">
+<div class="content sla" ng-controller="Sla as vm" ng-init="vm.init()">
+	<div class="sla_revision_toolbit" style="text-align:right">
+		<section>
+			Choose Revision: 
+			<select ng-repeat="data in vm.getRevisions()">
+				<option>{{data.version}} ({{data.state}})</option>
+			</select>
+		</section>
+		<br class="clear" />
+	</div>
 	<h4 class="text_purple">AddressServie getGEO</h4>
 	<div class="note status_edit">
 		*** This SLA is currently in edit mode ***
 	</div>
-	<section>
-		<h6><strong>Request Details</strong></h6>
-		<ul>
+	<section ng-init="showServices=true">
+		<label>
+  			<a href="" ng-show="!showServices" ng-click="showServices=!showServices">+</a>
+ 			 <a href="" ng-show="showServices" ng-click="showServices=!showServices">-</a>
+			 <a href="" ng-click="showServices=!showServices">Request Detials</a>
+		</label>
+		<ul ng-show="showServices">
 			<li>
 				<label>Requestor</label>
-				<input type="text" value="200604" />
+				<span class="value">{{vm.getSlaData().requestor}}</span>
 			</li>
 			<li>
 				<label>Application Contacts: IT Owner</label>
-				<input type="text" value="810543" />
+				<span class="value">Need Data from APIG</span>
 			</li>
 			<li>
 				<label>Inital Test Date/ Access Needed Date</label>
-				<input type="text" value="05/15/2016" />
+				<span class="value">{{vm.getSlaData().test_date}}</span>
 			</li>
 			<li>
 				<label>Client System</label>
-				<input type="text" value="ServiceRegistry" />
+				<span class="value">Need Data from APIG</span>
 			</li>
 			<li>
 				<label>Application Contacts: Tech Lead</label>
-				<input type="text" value="200604" />
+				<span class="value">Need Data from APIG</span>
 			</li>
 			<li>
 				<label>Inital Move to Production Date</label>
-				<input type="text" value="05/16/2017" />
+				<span class="value">{{vm.getSlaData().mtp_date}}</span>
 			</li>
 			<li>
 				<label>Client EAI</label>
-				<input type="text" value="7003" />
+				<span class="value">{{vm.getSlaData().client_eai}}</span>
 			</li>
 			<li>
-				<label>Date Center</label>
-				<input type="text" value="WTC" />
+				<label>Data Center</label>
+				<span class="value">{{vm.getSlaData().datacenter}}</span>
 			</li>
 			<li>
 				<label>OpCo</label>
-				<input type="text" value="FXE" />
+				<span class="value">Need Data from APIG</span>
 			</li>
 			<li>
 				<label>Client BCDR Tier</label>
-				<input type="text" value="Tier 2" />
+				<span class="value">Need Data from APIG</span>
 			</li>
 			<li>
 				<label>Region</label>
-				<input type="text" value="US" />
+				<span class="value">{{vm.getSlaData().region}}</span>
 			</li>
 			<li>
 				<label>Comments</label>
-				<input type="text" value="" />
+				<span class="value">{{vm.getSlaData().comment}}</span>
 			</li>
 		</ul>
 		<br class="clear" />
 	</section>
 	<br class="clear" />
-	<section>
-		<a href="#/sla/edit/12312" class="button center btn_create_sla">Create SLA</a>
-	</section>
-	<section>
-		<h6><strong>Outage Information</strong></h6>
-		<ul>
+	<section ng-init="showServices1=true">
+		<label>
+  			<a href="" ng-show="!showServices1" ng-click="showServices1=!showServices1">+</a>
+ 			 <a href="" ng-show="showServices1" ng-click="showServices1=!showServices1">-</a>
+			 <a href="" ng-click="showServices1=!showServices1">Outage Information</a>
+		</label>
+		<ul ng-show="showServices1">
 			<li>
-				<label>Requestor</label>
-				<input type="text" value="200604" />
+				<label>Preferred Outage Window (If Needed)</label>
+				<select ng-model="vm.outage.window">
+					<option>Monday</option>
+					<option>Tuesday</option>
+					<option>Wednesday</option>
+					<option>Thursday</option>
+					<option>Friday</option>
+					<option>Saturday</option>
+					<option>Sunday</option>
+				</select>
+
 			</li>
 			<li>
-				<label>Application Contacts: IT Owner</label>
-				<input type="text" value="810543" />
+				<label>Preferred Outage Start</label>
+				<select ng-model="vm.outage.timeStart">
+					<option ng-repeat="i in vm.timeStart">{{i}}</option>
+				</select>
 			</li>
 			<li>
-				<label>Inital Test Date/ Access Needed Date</label>
-				<input type="text" value="05/15/2016" />
+				<label>Preferred Outage Duration</label>
+				<span class="value"><input type="number" ng-model="vm.outage.plannedDuration"></input> Hour(s)</span>
 			</li>
 			<li>
-				<label>Client System</label>
-				<input type="text" value="ServiceRegistry" />
+				<label>Unplanned Outage Duration</label>
+				<span class="value"><input type="number" ng-model="vm.outage.unplannedDuration"></input> Hour(s)</span>
 			</li>
 			<li>
-				<label>Application Contacts: Tech Lead</label>
-				<input type="text" value="200604" />
+				<label>Disaster Recovery Outage Duration</label>
+				<span class="value"><input type="number" ng-model="vm.outage.drDuration"></input> Hour(s)</span>
 			</li>
 			<li>
-				<label>Inital Move to Production Date</label>
-				<input type="text" value="05/16/2017" />
-			</li>
-			<li>
-				<label>Client EAI</label>
-				<input type="text" value="7003" />
-			</li>
-			<li>
-				<label>Date Center</label>
-				<input type="text" value="WTC" />
-			</li>
-			<li>
-				<label>OpCo</label>
-				<input type="text" value="FXE" />
-			</li>
-			<li>
-				<label>Client BCDR Tier</label>
-				<input type="text" value="Tier 2" />
-			</li>
-			<li>
-				<label>Region</label>
-				<input type="text" value="US" />
-			</li>
-			<li>
-				<label>Comments</label>
-				<input type="text" value="" />
+				<label>Quantified Impact</label>
+				<span class="value"><input type="number" ng-model="vm.outage.impact"> </input></span>
 			</li>
 		</ul>
 		<br class="clear" />
@@ -134,26 +124,32 @@
 			<ul>
 				<li>
 					<label>Average Daily Total</label>
-					<input type="text" value="5000" />
+					<input type="number" value="5000" ng-model="vm.slaDetails.averageDailyTotal"/>
 				</li>
 				<li>
 					<label>Peak Hourly Total</label>
-					<input type="text" value="1000" />
+					<input type="number" value="1000" ng-model="vm.slaDetails.peakHourlyTotal"/>
 				</li>
 				<li>
 					<label>Peak Hour of Day</label>
-					<input type="text" value="12" />
+					<select ng-model="vm.slaDetails.peakHourOfDay">
+						<option ng-repeat="i in vm.timeStart">{{i}}</option>
+					</select>
 				</li>
 				<li>
 					<label>Max Connections</label>
-					<input type="text" value="10" />
+					<input type="number" value="10" ng-model="vm.slaDetails.maxConnections"/>
 				</li>
 				<li>
 					<label>Days Applied</label>
-					<select>
-						<option selected>All</option>
-						<option></option>
-						<option></option>
+					<select ng-model="vm.slaDetails.daysApplied" multiple size="3">
+						<option value="M" >Monday</option>
+						<option value="TU" >Tuesday</option>
+						<option value="W" >Wednesday</option>
+						<option value="TH" >Thursday</option>
+						<option value="F" >Friday</option>
+						<option value="SA" >Saturday</option>
+						<option value="SU" >Sunday</option>
 					</select>
 				</li>
 			</ul>
@@ -163,15 +159,15 @@
 			<ul>
 				<li>
 					<label>Burst TPS</label>
-					<input type="text" value="500" />
+					<input type="number" value="500" ng-model="vm.slaDetails.burstTPS"/>
 				</li>
 				<li>
 					<label>Burst Duration (min)</label>
-					<input type="text" value="60" />
+					<input type="number" value="60" ng-model="vm.slaDetails.burstDuration"/>
 				</li>
 				<li>
 					<label>Frequency</label>
-					<input type="text" value="1" />
+					<input type="number" value="1" ng-model="vm.slaDetails.frequency"/>
 				</li>
 			</ul>
 		</section>
@@ -180,15 +176,15 @@
 			<ul>
 				<li>
 					<label>Msgs Per Request</label>
-					<input type="text" value="2" />
+					<input type="number" value="2" ng-model="vm.slaDetails.messagesPerRequest"/>
 				</li>
 				<li>
 					<label>Avg # of Msgs</label>
-					<input type="text" value="2" />
+					<input type="number" value="2" ng-model="vm.slaDetails.averageNumberOfMessages"/>
 				</li>
 				<li>
 					<label>Max # of Msgs</label>
-					<input type="text" value="2" />
+					<input type="number" value="2" ng-model="vm.slaDetails.maxNumberOfMessages"/>
 				</li>
 			</ul>
 		</section>
@@ -197,37 +193,30 @@
 			<ul>
 				<li>
 					<label>Avg Response Time(ms)</label>
-					<input type="text" value="10" />
+					<input type="number" value="10" ng-model="vm.slaDetails.averageResponseTime"/>
 				</li>
 				<li>
 					<label>Max Acceptable Response Time</label>
-					<input type="text" value="20" />
+					<input type="number" value="20" ng-model="vm.slaDetails.maxResponseTime"/>
 				</li>
 				<li>
 					<label>TPS</label>
-					<input type="text" value="100" />
+					<input type="number" value="100" ng-model="vm.slaDetails.tps"/>
 				</li>
 			</ul>
 		</section>
 		<section class="availability">
 			<h6>Apply the values above to the following months:</h6>
-			<input type="checkbox">All  
-			<input type="checkbox">Jan 
-			<input type="checkbox">Fed 
-			<input type="checkbox">Mar 
-			<input type="checkbox">Apr 
-			<input type="checkbox">May 
-			<input type="checkbox">Jun 
-			<input type="checkbox">Jul 
-			<input type="checkbox">Aug 
-			<input type="checkbox">Sep 
-			<input type="checkbox">Oct 
-			<input type="checkbox">Nov  
-			<input type="checkbox">Dec 
+
+			<label ng-repeat="month in vm.months" id="checkMonths">
+				<input type="checkbox" ng-model="vm.slaDetailsMonths[month]" value="month"> {{month}}
+			</label>
+			<a href="" class="button" ng-click="vm.UncheckAll('checkMonths', true)">Check All</a>
+			<a href="" class="button" ng-click="vm.UncheckAll('checkMonths', false)">Uncheck All</a>
 		</section>
 		<br class="clear" />
 		<br class="clear" />
-		<a href="#/sla/edit/12312" class="button center btn_update_sla">Update SLA</a>
+		<a href="" class="button center btn_update_sla" ng-click="vm.updateSLA()">Update SLA</a>
 	</section>
 	<br class="clear" />
 	<br class="clear" />
@@ -236,7 +225,7 @@
 	<br class="clear" />
 	<br class="clear" />
 	<div class="action_buttons_long"> 
-		<a href="" class="button">Submit changes for review</a> &nbsp;&nbsp;
-		<a href="" class="button">Cancel changes in Workflow</a>
+		<a href="" class="button" ng-click="vm.submitForReview()">Submit changes for review</a> &nbsp;&nbsp;
+		<a href="" class="button">Cancel Changes</a>
 	</div>
 </div>

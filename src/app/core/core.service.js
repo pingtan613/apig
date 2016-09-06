@@ -10,10 +10,14 @@
     function coreservice(){
 
     	var serverHost = "https://ec2-54-164-123-94.compute-1.amazonaws.com:8443";    	
+        var slaClickedView = [];
     	var service = {
     		getServerHost: getServerHost,
-            custDialog: custDialog
+            custDialog: custDialog,
+            setSlaClickedView: setSlaClickedView,
+            getSlaClickedView: getSlaClickedView,
     	};
+
 
     	return service;
 
@@ -23,6 +27,16 @@
     	function getServerHost(){
     		return serverHost;
     	}
+
+        function setSlaClickedView(data)
+        {
+            slaClickedView = data;
+        }
+
+        function getSlaClickedView()
+        {
+            return slaClickedView;
+        }
 
 
         function custDialog(text, buttonOptions, esc) {
