@@ -29,6 +29,7 @@
 			getNewWsdlOperations: getNewWsdlOperations,
 			postNewWsdl: postNewWsdl,
 			custPopUp: custPopUp,
+			getServiceDetails: getServiceDetails,
 
 		};
 
@@ -80,6 +81,15 @@
 				url: coreservice.getServerHost() + "/apig/v2/services/" + eai + "/operations?apig_token=" + userservice.getApigToken()
 			});
 		}
+
+
+		function getServiceDetails(serviceId)
+    	{
+    		return $http({
+	        method : "GET",
+	        url : coreservice.getServerHost() + "/apig/v2/services/" + serviceId + "?apig_token=" + userservice.getApigToken()
+    		});
+    	}
 
 
 		function setNewWsdlOperations(data)

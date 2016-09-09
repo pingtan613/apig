@@ -79,9 +79,13 @@
 		
 		<a style="align:center" href="#/sla/edit/1234" class="button" ng-hide="vm.showButton" ng-click="vm.showButton = !vm.showButton">Create SLA</a>
 	</section>
-	<section ng-hide="!vm.showButton">
-		<h6><strong>Outage Information</strong></h6>
-		<ul>
+	<section ng-hide="!vm.showButton" ng-init="showServices1=true">
+		<label>
+  			<a href="" ng-show="!showServices1" ng-click="showServices1=!showServices">+</a>
+ 			 <a href="" ng-show="showServices1" ng-click="showServices1=!showServices">-</a>
+			 <a href="" ng-click="showServices1=!showServices1">Outage Information</a>
+		</label>
+		<ul ng-show="showServices1">
 			<li>
 				<label>Preferred Outage Window (If Needed)</label>
 				<span class="value"></span>
@@ -110,110 +114,6 @@
 		</ul>
 		<br class="clear" />
 	</section>
-	<section ng-hide="!vm.showButton">
-		<h6><strong>SLA Details</strong></h6>
-		<section>
-			<h6>Volume</h6>
-			<ul>
-				<li>
-					<label>Average Daily Total</label>
-					<span class="value">5000</span>
-				</li>
-				<li>
-					<label>Peak Hourly Total</label>
-					<span class="value">1000</span>
-				</li>
-				<li>
-					<label>Peak Hour of Day</label>
-					<span class="value">12</span>
-				</li>
-				<li>
-					<label>Max Connections</label>
-					<span class="value">10</span>
-				</li>
-				<li>
-					<label>Days Applied</label>
-					<select>
-						<option selected>All</option>
-						<option></option>
-						<option></option>
-					</select>
-				</li>
-			</ul>
-		</section>
-		<section>
-			<h6>Bursts</h6>
-			<ul>
-				<li>
-					<label>Burst TPS</label>
-					<span class="value">500</span>
-				</li>
-				<li>
-					<label>Burst Duration (min)</label>
-					<span class="value">60</span>
-				</li>
-				<li>
-					<label>Frequency</label>
-					<span class="value">1</span>
-				</li>
-			</ul>
-		</section>
-		<section>
-			<h6>Message Size</h6>
-			<ul>
-				<li>
-					<label>Msgs Per Request</label>
-					<span class="value">2</span>
-				</li>
-				<li>
-					<label>Avg # of Msgs</label>
-					<span class="value">2</span>
-				</li>
-				<li>
-					<label>Max # of Msgs</label>
-					<span class="value">2</span>
-				</li>
-			</ul>
-		</section>
-		<section>
-			<h6>Processing Time</h6>
-			<ul>
-				<li>
-					<label>Avg Response Time(ms)</label>
-					<span class="value">10</span>
-				</li>
-				<li>
-					<label>Max Acceptable Response Time</label>
-					<span class="value">20</span>
-				</li>
-				<li>
-					<label>TPS</label>
-					<span class="value">100</span>
-				</li>
-			</ul>
-		</section>
-		<section class="availability">
-			<h6>Apply the values above to the following months:</h6>
-			<input type="checkbox">All  
-			<input type="checkbox">Jan 
-			<input type="checkbox">Fed 
-			<input type="checkbox">Mar 
-			<input type="checkbox">Apr 
-			<input type="checkbox">May 
-			<input type="checkbox">Jun 
-			<input type="checkbox">Jul 
-			<input type="checkbox">Aug 
-			<input type="checkbox">Sep 
-			<input type="checkbox">Oct 
-			<input type="checkbox">Nov  
-			<input type="checkbox">Dec 
-		</section>
-		<br class="clear" />
-		<br class="clear" />
-		<a href="" class="button center btn_update_sla">Update SLA</a>
-	</section>
-	<br class="clear" />
-	<br class="clear" />
 	<!-- include sla table -->
 	<div ng-include="'/app/sla/_slaTable.html'" ng-hide="!vm.showButton"></div>
 	<br class="clear" />

@@ -189,9 +189,9 @@
 
 	    function setSearchParam(catPicked, searchText)
 	    {
-	    	search.splice(0,search.length);
 	    	search.categoryPicked = catPicked;
 	    	search.textSearch = searchText;
+	    	console.log(search);
 	    }
 
 	    function getSearchParam()

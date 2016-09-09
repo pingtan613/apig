@@ -5,14 +5,14 @@
         .module('app.sla')
         .controller('Sla', Sla);
 
-    Sla.$inject = ['slaservice', '$location'];
+    Sla.$inject = ['slaservice', '$location', '$scope'];
 
-    function Sla(slaservice, $location) {
+    function Sla(slaservice, $location, $scope) {
     	var vm = this;
 
         vm.showButton = false;
-        vm.outage = [];
-        vm.slaDetails = [];
+        vm.outage = {};
+        vm.slaDetails = {};
         vm.slaDetailsMonths = [];
 
         vm.timeStart = [
@@ -26,7 +26,8 @@
 
         vm.monthsTrue = {"Jan": true, "Feb": true, "Mar": true, "Apr": true, "May": true, "Jun": true, "Jul": true, "Aug": true, "Sep": true, "Oct": true, "Nov": true, "Dec": true};
 
-        vm.monthTableData = {"Jan": [], "Feb": [], "Mar": [], "Apr": [], "May": [], "Jun": [], "Jul": [], "Aug": [], "Sep": [], "Oct": [], "Nov": [], "Dec": []};;
+        vm.monthTableData = {"Jan": {}, "Feb": {}, "Mar": {}, "Apr": {}, "May": {}, "Jun": {}, "Jul": {}, "Aug": {}, "Sep": {}, "Oct": {}, "Nov": {}, "Dec": {}};
+
 
 
     	vm.init = function()
@@ -36,14 +37,20 @@
                 slaservice.setRevisions(response.data.engagements);
 
                 slaservice.getSlaDetails(response.data.engagements[0].id).then(function(response) {
+                    console.log(response.data);
                     console.log(response.data.engagement.test_date);
+                    console.log(response.data.engagement.mtp_date);
 
-                    var date = new Date(response.data.engagement.test_date);
+                    var date = parseInt(response.data.engagement.test_date*1000);
+
+                    var date = new Date(date);
                     console.log(date);
                     response.data.engagement.test_date = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
                     console.log(response.data.engagement.test_date);
 
-                    var date = new Date(response.data.engagement.mtp_date);
+                    var date = parseInt(response.data.engagement.mtp_date*1000);
+
+                    var date = new Date(date);
                     console.log(date);
                     response.data.engagement.mtp_date = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
                     console.log(response.data.engagement.mtp_date);
@@ -127,12 +134,57 @@
 
         vm.submitForReview = function()
         {
-            console.log(vm.outage); 
-            console.log(vm.slaDetails);
-            console.log(vm.slaDetailsMonths);
 
-            console.log(slaservice.getTableData());
+            var table = slaservice.getTableData();
 
+            for(var i in table)
+            {
+                for(var j in table[i])
+                {
+                    table[i][j] = table[i][j].toString();
+                }
+            }
+
+            var data = vm.getSlaData();
+            data.outage = vm.outage;
+            data.sla = table;
+            console.log(data);
+
+            for(var i in data.outage)
+            {
+                data.outage[i] = data.outage[i].toString();
+            }
+
+            data.state = "pending";
+
+            data = JSON.stringify(data);
+            console.log(data);
+
+            slaservice.putSlaData(data).then(function(response) 
+            {
+                if(response.status < 400)
+                {
+                    console.log(response.data);
+
+
+                    console.log(response.data)
+                        vm.display_error = false;
+                        vm.getCustDialog("SLA Submission Successfull<br>Workflow ID:" + response.data.workflow_id, {
+                            "OK": function() {
+                                jQuery(this).dialog( "destroy" );
+                                $location.path("/service/overview");
+                                $scope.$apply();                           
+                            }
+                        });
+
+
+
+                }
+            }, 
+            function(data)
+            {
+                console.log(data);
+            });
         }
         
 
@@ -157,6 +209,13 @@
 
         }
 
+
+        vm.initView = function()
+        {
+
+        }
+
+
         vm.getRevisions = function()
         {
             return slaservice.getRevisions();
@@ -164,12 +223,18 @@
 
         vm.getSlaData = function()
         {
+            console.log(slaservice.getSlaData());
             return slaservice.getSlaData();
         }
 
         vm.getTableData = function()
         {
             return slaservice.getTableData();
+        }
+
+        vm.getCustDialog = function(message, buttons, etc)
+        {
+            slaservice.getCustDialog(message, buttons, etc);
         }
 
     }

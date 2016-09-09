@@ -18,6 +18,7 @@
 
       vm.searchParameters = [];      
       vm.clicked = [];
+      vm.bothCLicked = {};
       vm.serviceToEngage = [];
       vm.accessableServices = [];
       vm.servicePicked = [];
@@ -45,8 +46,8 @@
       vm.checkEngagement = function() {
 
         clientservice.setPicked(vm.servicePicked);
-        clientservice.setClicked(vm.clicked);
-        clientservice.checkSlaExists(vm.clicked.operation.id, vm.servicePicked.eai_number).then(function(response) 
+        clientservice.setClicked(vm.bothCLicked);
+        clientservice.checkSlaExists(vm.bothCLicked.operation.id, vm.servicePicked.eai_number).then(function(response) 
         {
           if(response.status === 404)
           {
@@ -76,11 +77,11 @@
        */
       vm.clientService = function() 
       {
-        vm.clicked.operation = clientservice.getclickedOperation();
+        vm.bothCLicked.operation = clientservice.getclickedOperation();
         clientservice.getOperationServiceDetails().then(function(response) {
           if(response.status < 400)
           {
-              vm.clicked.service = response.data;
+              vm.bothCLicked.operation.service = response.data.services[0];
           }
         },
         function(data)
@@ -89,6 +90,8 @@
           vm.display_error = true;
           window.scrollTo(0, 0);
         });
+
+        
       }
 
         
@@ -146,21 +149,12 @@
         vm.initialTestDate = document.getElementsByName("initialTestDate")[0].value;
         vm.productionDate = document.getElementsByName("productionDate")[0].value;
 
-        console.log(vm.initialTestDate);
         var date1 = new Date(vm.initialTestDate)
-        console.log(date1);
         //vm.initialTestDate = (date1.getMonth() + 1) + "/" + date1.getDate() + "/" + date1.getFullYear();
-
-        console.log(vm.initialTestDate);
 
         var date2 = new Date(vm.productionDate)
 
         //vm.productionDate = (date2.getMonth() + 1) + "/" + date2.getDate() + "/" + date2.getFullYear();
-
-        console.log(vm.productionDate);
-
-        console.log(date1.getTime());
-
 
         if(date1.getTime() < Date.now() || date2.getTime() < Date.now())
         {
@@ -181,18 +175,12 @@
         else
         {
 
-          
-          console.log(clientservice.getPicked());
-          console.log(clientservice.getClicked());
-
 
           var client = clientservice.getPicked();
           var click = clientservice.getClicked();
 
           date1 = date1.getTime() / 1000;
           date2 = date2.getTime() / 1000; 
-
-          console.log(isNaN(date1.toString()));
 
           vm.missingValues = false;
           var json = JSON.stringify({version : "",
@@ -239,6 +227,11 @@
       vm.searchText = function()
       {
         vm.searchParameters = clientservice.getSearchDetails();
+      }
+
+      vm.getSearchText = function()
+      {
+        return vm.searchParameters;
       }
 
       /**

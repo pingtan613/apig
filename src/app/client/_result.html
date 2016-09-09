@@ -8,9 +8,7 @@
 			Message: {{vm.errorInfo.message}} <br/>
 			success: {{vm.errorInfo.success}} <br/>
 			clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
-
 		</div>
-		<h1 ng-show="vm.hasCat">{{vm.searchParameters.categoryPicked}}</h1>
 		<ul class="list client_list">
 			<li ng-repeat="items in vm.getServiceArray()">
 			<label ng-init="showServices=false">
@@ -20,7 +18,7 @@
         		</label>
 				
 				<ul style="list-style: none;" ng-show="showServices">
-					<li ng-repeat="item in items.data | filter:vm.searchParameters.textSearch ">
+					<li ng-repeat="item in items.data | filter:vm.getSearchText().textSearch:strict">
 						<a href="#/client/service/{{item.id}}" title="{{item.description}}" ng-click="vm.serviceClicked(item)">{{item.operation_name}} ({{item.interface}})</a>
 					</li>
 				</ul> 

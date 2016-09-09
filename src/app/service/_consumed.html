@@ -3,7 +3,7 @@
 
 <div class="content services" ng-contoller="Service as vm"  ng-init="vm.consumedService()">
 	<h5 class="text_purple">Services</h5>
-	<section class="consumed_services" ng-repeat="data in vm.newConsumedArr">
+	<section class="consumed_services" ng-repeat="data in vm.newConsumedArr" style="background-color: #efefef">
 		<div ng-init="showServices=false">
 			<label>
       			<a href="" ng-show="!showServices" ng-click="showServices=!showServices">+</a>
@@ -29,5 +29,6 @@
 				</li>
 			</ul>
 		</div>
+		<br class="clear">
 	</section>
 </div>

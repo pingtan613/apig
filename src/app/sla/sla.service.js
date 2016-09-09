@@ -11,7 +11,7 @@
 	{
 		var revisions = [];
 		var slaData = [];
-		var tableData = {"Jan": [], "Feb": [], "Mar": [], "Apr": [], "May": [], "Jun": [], "Jul": [], "Aug": [], "Sep": [], "Oct": [], "Nov": [], "Dec": []};
+		var tableData = {"Jan": {}, "Feb": {}, "Mar": {}, "Apr": {}, "May": {}, "Jun": {}, "Jul": {}, "Aug": {}, "Sep": {}, "Oct": {}, "Nov": {}, "Dec": {}};
 
 		var service = {
 			getClickeSlaData: getClickeSlaData,
@@ -22,7 +22,9 @@
 			getSlaData: getSlaData,
 			setTableData: setTableData,
 			getTableData: getTableData,
-
+			putSlaData: putSlaData,
+			getCustDialog: getCustDialog,
+			setAllTableData: setAllTableData,
 		};
 
 		return service;
@@ -41,6 +43,16 @@
 			return $http ({
 				method: "GET",
 				url: coreservice.getServerHost() + "/apig/v2/engagement/" + id + "?apig_token=" + userservice.getApigToken()
+			});
+		}
+
+		function putSlaData(body)
+		{
+			return $http ({
+				method: "PUT",
+				headers: {'Content-Type': 'application/json'},
+				data: body,
+				url: coreservice.getServerHost() + "/apig/v2/engagement?apig_token=" + userservice.getApigToken()
 			});
 		}
 
@@ -70,9 +82,19 @@
 			tableData[month] = data;
 		}
 
+		function setAllTableData(data)
+		{
+			tableData = data;
+		}
+
 		function getTableData()
 		{
 			return tableData;
+		}
+
+		function getCustDialog(message, buttons, etc)
+		{
+			coreservice.custDialog(message, buttons, etc);
 		}
 	}		
 

@@ -114,7 +114,7 @@
 					{
 						console.log(response.data)
 						vm.display_error = false;
-						vm.getCustDialog("Service Registation Successful<br>", {
+						vm.getCustDialog("Service Registation Successfull<br>", {
 	                		"Register Another Service": function() {
 	                    		jQuery(this).dialog( "destroy" );
 								numberData = 1; 
@@ -125,13 +125,7 @@
 								numberData = 2;  
 								vm.callback(2);                  		  
 	                    		
-	                		},
-	                		"My Published Services": function() {
-	                    		jQuery(this).dialog( "destroy" );
-								numberData = 3;
-								vm.callback(3);                    		  
-	                    		
-	                    	}
+	                		}
 	                	});
 					}
 				
@@ -161,11 +155,6 @@
 	            	$scope.$apply();
 
 	               	break;
-	            case 3:
-	              	$location.path("/service/published").replace();   
-	            	$scope.$apply();
-
-	              	break;
 	            default:
 	            	$location.path("/service/overview").replace();     
 	            	$scope.$apply();
@@ -271,11 +260,12 @@
 		}
 
 		vm.getNewNames = function(){
+			console.log(vm.categoryPicked + " - " + vm.searchText)
 			serviceservice.setSearchParam(vm.categoryPicked, vm.searchText);
 
 			vm.names.splice(0,vm.names.length);	
 			serviceservice.getNamesWithCat(vm.categoryPicked).then(function(response){
-				display_error = false;
+				vm.display_error = false;
 				if(response.status < 400)
 				{
 					for(var i = 0; i < response.data.result.length; i++){

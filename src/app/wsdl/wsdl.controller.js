@@ -44,8 +44,23 @@
 
     		var largest = 0;
     		var eai = wsdlservice.getServiceEAI();
-
     		vm.details = eai.data.services[0];
+
+
+            wsdlservice.getServiceDetails(vm.details.eai_number).then(function(response)
+            {
+                if(response.status < 400)
+                {
+                    vm.details = response.data.services[0];
+                }
+
+            },
+            function(data)
+            {
+                vm.errorInfo = data.data;
+                vm.display_error = true;
+                window.scrollTo(0, 0);
+            });
 
     		wsdlservice.getWsdlList(eai.data.services[0].eai_number).then(function(response) {
     			if(response.status < 400)
@@ -111,7 +126,6 @@
     		{
     			wsdlservice.setWsdlSubList(oldArr);
     			vm.wsdlList = wsdlservice.getWsdlSubList();
-                console.log(vm.wsdlList);
     			return;
     		}
 
@@ -129,8 +143,7 @@
     		}
     		wsdlservice.setWsdlSubList(newArr);
     		vm.wsdlList = wsdlservice.getWsdlSubList();
-                console.log(vm.wsdlList);
-
+            console.log(vm.wsdlList);
 
     	}
 
@@ -155,7 +168,7 @@
 
     					for(var i = 0; i < vm.newWsdlList.length; i++)
     					{
-    						vm.newWsdlList[i].internal = false;
+    						vm.newWsdlList[i].internal = 'false';
     						vm.newWsdlList[i].state = 'active';
     					}
     				}
@@ -187,7 +200,7 @@
 
     					for(var i = 0; i < vm.newWsdlList.result.length; i++)
     					{
-    						vm.newWsdlList.result[i].internal = false;
+    						vm.newWsdlList.result[i].internal = 'false';
     						vm.newWsdlList.result[i].state = 'active';
     					}
     				}
@@ -211,7 +224,6 @@
 
     	vm.getWsdlList = function()
     	{
-            console.log(wsdlservice.getWsdlListArray());
     		return wsdlservice.getWsdlListArray();
     	}
 
@@ -235,8 +247,7 @@
 
     	vm.getInternal = function(operationInternal)
     	{
-            console.log(operationInternal);
-    		if(operationInternal === true)
+    		if(operationInternal === "true")
     		{
     			return true;
     		}
@@ -288,11 +299,9 @@
 
         vm.callback = function(num)
         {
-            console.log(num);
 
             switch(num){
                 case 1:
-                    console.log(num);
                     var newJson = JSON.stringify({service_id:vm.details.id, 
                         wsdl_name:vm.newWsdlList.wsdl_name, 
                         wsdl_url:vm.urlInput, 
@@ -300,7 +309,6 @@
                         version:"",
                         replace_existing:"true",
                         operation_list: vm.newWsdlList.result });
-
                     wsdlservice.postNewWsdl(newJson, vm.details.eai_number).then(function(response) {
                         if(response.status < 400)
                         {
@@ -317,7 +325,6 @@
                     break;
 
                 case 2:
-                    console.log(num);
                     var newJson = JSON.stringify({service_id:vm.details.id, 
                         wsdl_name:vm.newWsdlList.wsdl_name, 
                         wsdl_url:vm.urlInput, 
