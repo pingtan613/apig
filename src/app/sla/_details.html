@@ -1,5 +1,4 @@
 
-
 <div class="content sla" ng-controller="Sla as vm" ng-init="vm.init()">
 
 	<div class="sla_revision_toolbit" style="text-align:right">
@@ -12,12 +11,17 @@
 		<br class="clear" />
 	</div>
 
-	<h4 class="text_purple">AddressServie getGEO</h4>
-	<div class="note status_pending">
+	<h4 class="text_purple">{{vm.getSlaData().service_name}} - {{vm.getSlaData().operation}}</h4>
+	<div class="note status_pending" ng-show="vm.getSlaData().state === 'pending'" style="text-align:center">
 		*** This SLA is Pending Approval and is not currenlty active ***
 	</div>
-	<div class="note status_active">
-		This SLA is currently active. It must be unlocked before changes can be made. <a href="#/sla/edit/slaid1234">Unlock</a>
+	<div class="note status_pending" ng-show="vm.getSlaData().state === 'rejected'" style="text-align:center">
+		*** This SLA has been rejected. Please edit the SLA and re-submit for approval ***<br/>
+		Click <a href="#/sla/edit/{{vm.getSlaData().workflow_id}}">here</a> to make changes 
+
+	</div>
+	<div class="note status_active" ng-show="vm.getSlaData().state === 'active'">
+		This SLA is currently active. It must be unlocked before changes can be made. <a href="#/sla/edit/{{vm.getSlaData().workflow_id}}">Unlock</a>
 	</div>
 	<section ng-init="showServices=true">
 		<label>
@@ -36,7 +40,7 @@
 			</li>
 			<li>
 				<label>Inital Test Date/ Access Needed Date</label>
-				<span class="value">{{vm.getSlaData().test_date}}</span>
+				<span class="value">{{vm.dateChange("test_date")}}</span>
 			</li>
 			<li>
 				<label>Client System</label>
@@ -48,7 +52,7 @@
 			</li>
 			<li>
 				<label>Inital Move to Production Date</label>
-				<span class="value">{{vm.getSlaData().mtp_date}}</span>
+				<span class="value">{{vm.dateChange("mtp_date")}}</span>
 			</li>
 			<li>
 				<label>Client EAI</label>
@@ -70,11 +74,13 @@
 				<label>Region</label>
 				<span class="value">{{vm.getSlaData().region}}</span>
 			</li>
-			<li>
-				<label>Comments</label>
-				<span class="value">{{vm.getSlaData().comment}}</span>
-			</li>
 		</ul>
+		<div style="background-color:#dfdfdf">
+			
+			<label>Comments</label><br/>
+			<textarea style="width:100%" rows="5" cols="75" readonly>{{vm.getSlaData().comment}}</textarea>
+		</div>
+
 		<br class="clear" />
 		
 		<a style="align:center" href="#/sla/edit/1234" class="button" ng-hide="vm.showButton" ng-click="vm.showButton = !vm.showButton">Create SLA</a>
@@ -88,28 +94,28 @@
 		<ul ng-show="showServices1">
 			<li>
 				<label>Preferred Outage Window (If Needed)</label>
-				<span class="value"></span>
+				<span class="value">{{vm.getSlaData().outage.window}}</span>
 
 			</li>
 			<li>
 				<label>Preferred Outage Start</label>
-				<span class="value"> Hour(s)</span>
+				<span class="value">{{vm.getSlaData().outage.timeStart}}</span>
 			</li>
 			<li>
 				<label>Preferred Outage Duration</label>
-				<span class="value"> Hour(s)</span>
+				<span class="value">{{vm.getSlaData().outage.plannedDuration}} Hour(s)</span>
 			</li>
 			<li>
 				<label>Unplanned Outage Duration</label>
-				<span class="value">Hour(s)</span>
+				<span class="value">{{vm.getSlaData().outage.unplannedDuration}} Hour(s)</span>
 			</li>
 			<li>
 				<label>Disaster Recovery Outage Duration</label>
-				<span class="value">Hour(s)</span>
+				<span class="value"> {{vm.getSlaData().outage.drDuration}} Hour(s)</span>
 			</li>
 			<li>
 				<label>Quantified Impact</label>
-				<span class="value"></span>
+				<span class="value">{{vm.getSlaData().outage.impact}}</span>
 			</li>
 		</ul>
 		<br class="clear" />

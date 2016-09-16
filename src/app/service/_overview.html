@@ -26,7 +26,7 @@
 						<table style="width:100%">
 							<tr style="width:100%; border: 1px solid; padding:3px" ng-repeat="value in data.client_engagement">
 								<td style="width:14%; text-align:left; padding: 3px" >
-									{{value.workflow_id}}
+									{{vm.returnState(value.state)}}
 								</td>
 								<td style="width:44%">
 									{{value.service_display_name}}
@@ -35,7 +35,7 @@
 									<a href="#/sla/view/{{value.workflow_id}}" ng-click="vm.setClickedSLA(value)">View Engagement/SLA</a>
 								</td>
 								<td>
-									<a href="#/workflow/{{value.workflow_id}}">Workflow</a>
+									<a href="#/workflow/{{value.workflow_id}}" ng-hide="value.state === 'init'">Workflow</a>
 								</td>
 							</tr>
 						</table>

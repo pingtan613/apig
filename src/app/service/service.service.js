@@ -49,6 +49,9 @@
     		getViewClientDisplayName: getViewClientDisplayName,
     		setClickedSLAData: setClickedSLAData,
     		custPopUp: custPopUp,
+    		putServiceData: putServiceData,
+    		postNewUrlWsdlOperations: postNewUrlWsdlOperations,
+
     	};
 
     	return service;
@@ -63,7 +66,7 @@
 
     	function register(data) 
     	{
-
+    		console.log(data);
  			return $http({
  				method : "POST",
 	        	headers: {'Content-Type': 'application/json'},
@@ -134,9 +137,34 @@
 	    	});
 	    }
 
+	    function putServiceData(data)
+	    {
+	    	return $http({
+	    		method: "PUT",
+				headers: {'Content-Type': 'application/json'},
+	    		data: data,
+	    		url: coreservice.getServerHost() + "/apig/v2/services?apig_token=" + userservice.getApigToken()
+	    	});
+	    }
+
 
 
 	    //GET AND SET METHODS
+	    //
+	    //
+	   
+	    function postNewUrlWsdlOperations(data)
+	    {
+	    	return $http({
+				method: "POST",
+				headers: {'Content-Type': "application/json"},
+				data: data,
+				url: coreservice.getServerHost() + "/apig/v2/wsdl?apig_token=" + userservice.getApigToken()
+			});
+	    }
+
+
+
 	    function setPendingRequests(data)
 	    {
 	    	pendingRequests = data;
@@ -144,6 +172,7 @@
 
 	    function getPendingRequests()
 	    {
+	    	
 	    	return pendingRequests;
 	    }
 

@@ -55,7 +55,7 @@
 		{
 			return $http({
 				method: "POST",
-				headers: {'Content-Type': "text/xml"},
+				headers: {'Content-Type': 'text/plain'},
 				data: btoa(data),
 				url: coreservice.getServerHost() + "/apig/v2/wsdl?apig_token=" + userservice.getApigToken()
 			});

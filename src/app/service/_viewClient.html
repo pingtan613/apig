@@ -1,7 +1,7 @@
 <!-- include service tab tool bit -->
 <div ng-include="'/app/service/_tabToolbit.html'"></div>
 
-<div class="content services" ng-controller="Service as vm">
+<div class="content services" ng-controller="Service as vm" ng-init="">
 	<h1>{{vm.getclientDisplayName()}}</h1>
 	<section class="client_list" ng-repeat="data in vm.getClientListArr()">
 		<br>
@@ -22,7 +22,7 @@
 								</td>
 								
 								<td style="width:50%; text-align:center">
-									<a href="#/sla/view/{{info.workflow_id}}">View SLA</a>
+									<a href="#/sla/view/{{info.workflow_id}}">View Engagement/SLA</a>
 								</td>
 							</tr>
 						</table>

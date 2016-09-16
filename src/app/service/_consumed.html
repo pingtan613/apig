@@ -16,11 +16,12 @@
 					<ul>
 						<table style="width:100%">
 							<tr style="width:100%; border: .5px solid; padding: 3px" ng-repeat="value in data.client_engagement">
+								<td style="width:25%; text-align:left">{{vm.returnState(value.state)}}</td>
 								<td style="width:50%; text-align:left; padding: 3px" >
 									{{value.service_display_name}}
 								</td>
 								
-								<td style="width:50%; text-align:center">
+								<td style="width:25%; text-align:center">
 									<a href="#/sla/view/{{value.workflow_id}}" ng-click="vm.setClickedSLA(value)">View Engagement/SLA</a>
 								</td>
 							</tr>

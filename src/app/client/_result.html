@@ -9,6 +9,7 @@
 			success: {{vm.errorInfo.success}} <br/>
 			clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
 		</div>
+		<h3>{{vm.getSearchText().categoryPicked}}</h3>
 		<ul class="list client_list">
 			<li ng-repeat="items in vm.getServiceArray()">
 			<label ng-init="showServices=false">

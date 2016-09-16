@@ -15,11 +15,14 @@
 		<p>
 			{{vm.bothCLicked.operation.description}}
 		</p>
-		<!-- <p>
+		<p>
 			Helpful Links:<br/>
-			<a href="">http://getGEO.fedex.wsdl</a><br/>
-			<a href="">http://getGEO.fedex.wsdl</a>
-		</p> -->
+			<ul style="list-style:none">
+				<li ng-repeat="data in vm.bothCLicked.operation.service.url.split(',')">
+					<a href='{{data}}'>{{data}}</a>
+				</li>
+			</ul>
+		</p>
 		<section>
 			<div>
 			Use this service with:

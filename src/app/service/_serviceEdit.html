@@ -4,7 +4,7 @@
 <div class="content services" ng-controller="Service as vm">
 
 	<section>
-		<section class="edit_service" ng-init="data = vm.getServiceData()	">
+		<section class="edit_service" ng-init="vm.servicedataChanges = vm.getServiceDataEdit()">
 			<div ng-show="vm.display_error" class="message error">Error: Please try again.  
 				<br/>
 				Message: {{vm.errorInfo.message}} <br/>
@@ -13,48 +13,71 @@
 
 			</div>
 			<h4 class="text_purple">
-				{{data.eai_application_name}} - {{data.eai_number}}
+				{{vm.servicedataChanges.eai_application_name}} - {{vm.servicedataChanges.eai_number}}
 			</h4>
 			<ul>
 				<li>
 					<label>EAI Profile Name</label>
-					<input type="text" data-ng-model="data.eai_profile_name" readonly>
+					<input type="text" data-ng-model="vm.servicedataChanges.eai_profile_name" readonly>
 					</input>
 				</li>
 				<li>
 					<label>Category</label>
-					<input type="text" data-ng-model="data.eai_category" readonly>
+					<input type="text" data-ng-model="vm.servicedataChanges.category" readonly>
 					</input>
 				</li>
 				<li>
 					<label>Friendly Name</label>
-					<input type="text" data-ng-model="data.eai_friendly_name" />
+					<input type="text" data-ng-model="vm.servicedataChanges.eai_friendly_name" />
 				</li>
 				<li>
 					<label>Interface</label>
-					<input type="text" data-ng-model="data.interface" readonly/>
+					<input type="text" data-ng-model="vm.servicedataChanges.interface" readonly/>
 				</li>
 				<li  >  <!-- ng-show="data.interface === 'SOAP'" -->
-					&nbsp;&nbsp;&nbsp;<a href="/#/wsdl/upload/{{data.eai_number}}">Manage WSDL(s)</a>
+					&nbsp;&nbsp;&nbsp;<a href="#/wsdl/upload/{{vm.servicedataChanges.eai_number}}">Manage WSDL(s)</a>
 				</li>
 				<li>
 					<label>State</label>
-					<select data-ng-model="data.state">
-						<option ng-selected="data.state ==='active'" value="active">Active</option>
-						<option ng-selected="data.state ==='inactive'" value="inactive">Inactive</option>
-						<option ng-selected="data.state ==='deprecated'" value="deprecated">Deprecated</option>
+					<select data-ng-model="vm.servicedataChanges.state">
+						<option ng-selected="vm.servicedataChanges.state ==='active'" value="active">Active</option>
+						<option ng-selected="vm.servicedataChanges.state ==='inactive'" value="inactive">Inactive</option>
+						<option ng-selected="vm.servicedataChanges.state ==='deprecated'" value="deprecated">Deprecated</option>
 					</select>
 				</li>
 			</ul>
 			<ul>
 				<li>
 					<label>Description</label>
-					<textarea rows="5" cols="65" data-ng-model="data.eai_description"></textarea>
+					<textarea rows="5" cols="65" data-ng-model="vm.servicedataChanges.eai_description"></textarea>
 				</li>
 				<li>
-					<label>URL's</label>
-					<textarea rows="5" cols="65" data-ng-model="data.url">
-					</textarea>
+					<table>
+						<tr>
+							<td>
+								<label>URL's</label>
+								<input type="text" data-ng-model="vm.urlListAddEdit">
+								
+							</td>
+							<td>
+								<input type="submit" class="small-button" value="Add URL" ng-click="vm.addUrlEdit()"/>
+							</td>
+						</tr>
+						<tr ng-repeat="model in vm.servicedataChanges.url track by $index">
+							<td>
+								<label></label>
+								<input type="text" data-ng-model="vm.servicedataChanges.url[$index]" ng-hide="vm.servicedataChanges.url[$index] === ''"/>
+							</td>
+						</tr>
+					</table>
+
+					<!-- <ul style="list-style-type:none; float:right">
+						<li ng-repeat="model in vm.servicedataChanges.url track by $index">
+							<input type="text" data-ng-model="vm.servicedataChanges.url[$index]" ng-hide="vm.servicedataChanges.url[$index] === ''"/>
+							<input type="submit" class="small-button" value="Add URL" ng-click="vm.addUrlEdit()"/>
+
+						</li>
+					</ul> -->
 				</li>
 			</ul>
 		</section>
@@ -62,7 +85,7 @@
 		<br class="clear" />
 		<section class="wsdl_upload">
 			<div>
-				
+				<input type="submit" class="button" value="Save Changes" ng-click="vm.saveServiceChanges()"/>
 			</div>
 		</section>
 

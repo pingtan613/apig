@@ -5,9 +5,9 @@
         .module('app.user')
         .controller('User', User);
 
-    User.$inject = ['userservice', '$location'];
+    User.$inject = ['userservice', '$location', '$localStorage'];
 
-    function User(userservice, $location) {
+    function User(userservice, $location, $localStorage) {
     	var vm = this;
 
     	vm.user = [];
@@ -19,10 +19,6 @@
 	    vm.login = function() {
 	    	userservice.login(vm.user).then(function(response) {
 	    		if (userservice.isLoggedIn(response.data)) {
-
-
-	    			
-
 	    			$location.path( "/client/main" );
 	    			
 	    		} else {
@@ -48,8 +44,11 @@
 	     * @return default landing page if a page does not excist
 	     */
 	    vm.default = function() {
-	    	if(userservice.getApigToken().length > 0)
+	    	console.log($localStorage.$default().apig_token);
+
+	    	if($localStorage.$default().apig_token !== undefined)
 	    	{
+	    		userservice.setApigToken($localStorage.$default().apig_token);
 	    		$location.path("/client/main");
 	    	}
 	    	else

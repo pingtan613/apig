@@ -64,9 +64,16 @@
           }
           else
           {
-            vm.errorInfo = data.data;
-            vm.display_error = true;
-            window.scrollTo(0, 0);
+            if(data.data.message === 'Invalid Token')
+            {
+              $location.path("/")
+            }
+            else
+            {
+                vm.errorInfo = data.data;
+                vm.display_error = true;
+                window.scrollTo(0, 0);
+            }
           }
         });
       }
@@ -81,14 +88,24 @@
         clientservice.getOperationServiceDetails().then(function(response) {
           if(response.status < 400)
           {
+              console.log(response.data);
               vm.bothCLicked.operation.service = response.data.services[0];
+              clientservice.setBothClicked(vm.bothCLicked);
+              console.log(vm.bothCLicked.operation.service)
           }
         },
         function(data)
         {
-          vm.errorInfo = data.data;
-          vm.display_error = true;
-          window.scrollTo(0, 0);
+          if(data.data.message === 'Invalid Token')
+          {
+            $location.path("/")
+          }
+          else
+          {
+              vm.errorInfo = data.data;
+              vm.display_error = true;
+              window.scrollTo(0, 0);
+          }
         });
 
         
@@ -109,15 +126,22 @@
         },
         function(data)
         {
-          vm.errorInfo = data.data;
-          vm.display_error = true;
-          window.scrollTo(0, 0);
+          if(data.data.message === 'Invalid Token')
+          {
+            $location.path("/")
+          }
+          else
+          {
+              vm.errorInfo = data.data;
+              vm.display_error = true;
+              window.scrollTo(0, 0);
+          }
         });
       }
 
       vm.getEngagementDetails = function()
       {
-
+        console.log(vm.bothCLicked);
         clientservice.getClientDetailsEngagement(clientservice.getPicked().eai_number).then(function(response) {
           if(response.status < 400)
           {
@@ -125,20 +149,35 @@
           }
         },function(data)
         {
-          vm.errorInfo = data.data;
-          vm.display_error = true;
-          window.scrollTo(0, 0);
+          if(data.data.message === 'Invalid Token')
+          {
+            $location.path("/")
+          }
+          else
+          {
+              vm.errorInfo = data.data;
+              vm.display_error = true;
+              window.scrollTo(0, 0);
+          }
         });
 
 
         clientservice.getServiceDetailsEngagement(clientservice.getPicked().eai_number).then(function(response) {
           if(response.status < 400)
           {
-            console.log(response.data.services[0]);
             clientservice.setCenterEngagement(response.data.services[0]);
           }
         },function(data){
-          console.log(data);
+          if(data.data.message === 'Invalid Token')
+          {
+            $location.path("/")
+          }
+          else
+          {
+              vm.errorInfo = data.data;
+              vm.display_error = true;
+              window.scrollTo(0, 0);
+          }
         });
       }
 
@@ -175,12 +214,14 @@
         else
         {
 
-
           var client = clientservice.getPicked();
           var click = clientservice.getClicked();
 
           date1 = date1.getTime() / 1000;
           date2 = date2.getTime() / 1000; 
+
+          console.log(click);
+
 
           vm.missingValues = false;
           var json = JSON.stringify({version : "",
@@ -196,6 +237,7 @@
               comment : vm.textarea});
 
           console.log(json);
+
             clientservice.postEngagementForm(json).then(function(response) {
               if(response.data.result === 'success')
               {
@@ -207,12 +249,70 @@
                 $location.path("/service/overview");
               }
             }, function(data) {
-              vm.errorInfo = data.data;
-              vm.display_error = true;
-              window.scrollTo(0, 0);
+              if(data.data.message === 'Invalid Token')
+              {
+                $location.path("/")
+              }
+              else
+              {
+                  vm.errorInfo = data.data;
+                  vm.display_error = true;
+                  window.scrollTo(0, 0);
+              }
             });
 
         }
+      }
+
+      vm.boxTopShow = true;
+      vm.purpleShow = false;
+      vm.platinum = false;
+      vm.multi = false;
+      vm.corporate = false;
+      vm.title = "Welcome!"
+      vm.boxTop = function(num)
+      {
+        switch(num)
+        {
+          case 1:
+            vm.title = "Multi-Core";
+            vm.boxTopShow = false;
+            vm.multi = true;
+            break;
+          case 2:
+            vm.title = "Platinum Core";
+            vm.boxTopShow = false;
+            vm.platinum = true;
+            break;
+          case 3:
+            vm.title = "Purple Core";
+            vm.boxTopShow = false;
+            vm.purpleShow = true;
+            break;
+          case 4:
+            vm.title = "Corporate";
+            vm.boxTopShow = false;
+            vm.corporate = true;
+            break;
+          case 5:
+            vm.title = "Welcome!"
+            vm.boxTopShow = true;
+            vm.purpleShow = false;
+            vm.platinum = false;
+            vm.multi = false;
+            vm.corporate = false;
+            break;
+          default:
+            vm.title = "Welcome!"
+            vm.boxTopShow = true;
+            vm.purpleShow = false;
+            vm.platinum = false;
+            vm.multi = false;
+            vm.corporate = false;
+
+        }
+
+
       }
 
 
@@ -227,11 +327,17 @@
       vm.searchText = function()
       {
         vm.searchParameters = clientservice.getSearchDetails();
+        console.log(vm.searchParameters);
       }
 
       vm.getSearchText = function()
       {
         return vm.searchParameters;
+      }
+
+      vm.setSearchDetails = function(cat)
+      {
+        clientservice.setSearchDetails(cat, "");
       }
 
       /**
@@ -303,6 +409,11 @@
       vm.getCustDialog = function(message, buttons, etc)
       {
         clientservice.getButton(message, buttons, etc);
+      }
+
+      vm.getBothClicked = function()
+      {
+        return clientservice.getBothClicked();
       }
     }
 })();

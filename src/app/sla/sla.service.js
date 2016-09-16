@@ -25,6 +25,7 @@
 			putSlaData: putSlaData,
 			getCustDialog: getCustDialog,
 			setAllTableData: setAllTableData,
+			clearTableData: clearTableData,
 		};
 
 		return service;
@@ -77,8 +78,14 @@
 			return revisions;
 		}
 
+		function clearTableData()
+		{
+			tableData = {"Jan": {}, "Feb": {}, "Mar": {}, "Apr": {}, "May": {}, "Jun": {}, "Jul": {}, "Aug": {}, "Sep": {}, "Oct": {}, "Nov": {}, "Dec": {}};
+		}
+
 		function setTableData(month,data)
 		{
+
 			tableData[month] = data;
 		}
 

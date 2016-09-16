@@ -20,6 +20,8 @@
 		vm.category.list = [""];
 		vm.names =[];
         vm.editList = [];
+		vm.urlListArray = [];
+		vm.servicedataChanges = [];
 
 		vm.getClientListArrData = [];
         vm.newConsumedArr = {};
@@ -69,9 +71,16 @@
 				},
 		        function(data)
 		        {
-		            vm.errorInfo = data.data;
-		            vm.display_error = true;
-		            window.scrollTo(0, 0);
+		        	if(data.data.message === 'Invalid Token')
+		        	{
+		        		$location.path("/")
+		        	}
+		        	else
+		        	{
+			            vm.errorInfo = data.data;
+			            vm.display_error = true;
+			            window.scrollTo(0, 0);
+		        	}
 		        });
 			}
 			else
@@ -88,9 +97,16 @@
 				},
 		        function(data)
 		        {
-		            vm.errorInfo = data.data;
-		            vm.display_error = true;
-		            window.scrollTo(0, 0);
+		        	if(data.data.message === 'Invalid Token')
+		        	{
+		        		$location.path("/")
+		        	}
+		        	else
+		        	{
+			            vm.errorInfo = data.data;
+			            vm.display_error = true;
+			            window.scrollTo(0, 0);
+		        	}		        
 		        });
 			}
 		}
@@ -98,6 +114,9 @@
 		vm.saveServiceDetails = function() {
 
 			var numberData = 0;
+
+			vm.list.data.services[0].url = vm.urlListArray.toString();
+			console.log(vm.list.data.services[0].url);
 
 			if(vm.list.data.services[0].eai_profile_name === "" || vm.list.data.services[0].interface === "" || vm.list.data.services[0].state === "")
 			{
@@ -133,16 +152,22 @@
 
 				},function(data)
 		        {
-		            vm.errorInfo = data.data;
-		            vm.display_error = true;
-		            window.scrollTo(0, 0);
+		            if(data.data.message === 'Invalid Token')
+		        	{
+		        		$location.path("/")
+		        	}
+		        	else
+		        	{
+			            vm.errorInfo = data.data;
+			            vm.display_error = true;
+			            window.scrollTo(0, 0);
+		        	}
 		        });
 			}
 		}
 
 		vm.callback = function(num)
 		{
-			console.log("callback" + num);
 			switch(num) 
 			{
 				case 1: 
@@ -177,10 +202,17 @@
 			},
 	        function(data)
 	        {
-	        	vm.displayForm = false;
-	            vm.errorInfo = data.data;
-	            vm.display_error = true;
-	            window.scrollTo(0, 0);
+	   	            if(data.data.message === 'Invalid Token')
+		        	{
+		        		$location.path("/")
+		        	}
+		        	else
+		        	{
+		        		vm.displayForm = false;
+			            vm.errorInfo = data.data;
+			            vm.display_error = true;
+			            window.scrollTo(0, 0);
+		        	}
 	        });
 		}
 
@@ -227,9 +259,16 @@
 			},
 	        function(data)
 	        {
-	            vm.errorInfo = data.data;
-	            vm.display_error = true;
-	            window.scrollTo(0, 0);
+	            if(data.data.message === 'Invalid Token')
+	        	{
+	        		$location.path("/")
+	        	}
+	        	else
+	        	{
+		            vm.errorInfo = data.data;
+		            vm.display_error = true;
+		            window.scrollTo(0, 0);
+	        	}
 	        });
 
 			serviceservice.getSearchNames().then(function(response){
@@ -253,10 +292,17 @@
 			},
 	        function(data)
 	        {
-	            vm.errorInfo = data.data;
-	            vm.display_error = true;
-	            window.scrollTo(0, 0);
-	        });
+	            if(data.data.message === 'Invalid Token')
+	        	{
+	        		$location.path("/")
+	        	}
+	        	else
+	        	{
+		            vm.errorInfo = data.data;
+		            vm.display_error = true;
+		            window.scrollTo(0, 0);
+	        	}	        
+		    });
 		}
 
 		vm.getNewNames = function(){
@@ -284,9 +330,16 @@
 			},
 	        function(data)
 	        {
-	            vm.errorInfo = data.data;
-	            vm.display_error = true;
-	            window.scrollTo(0, 0);
+	            if(data.data.message === 'Invalid Token')
+	        	{
+	        		$location.path("/")
+	        	}
+	        	else
+	        	{
+		            vm.errorInfo = data.data;
+		            vm.display_error = true;
+		            window.scrollTo(0, 0);
+	        	}
 	        });
 		}
 
@@ -295,6 +348,8 @@
 			serviceservice.getServiceDetails(serviceID).then(function(response) {
 				if(response.status < 400)
 				{
+					console.log("Edit service Detials");
+					console.log(response.data);
 					vm.display_error = false;
 					serviceservice.setServiceData(response);
 					vm.list = serviceservice.getServiceData();
@@ -310,9 +365,16 @@
 			},
 	        function(data)
 	        {
-	            vm.errorInfo = data.data;
-	            vm.display_error = true;
-	            window.scrollTo(0, 0);
+	            if(data.data.message === 'Invalid Token')
+	        	{
+	        		$location.path("/")
+	        	}
+	        	else
+	        	{
+		            vm.errorInfo = data.data;
+		            vm.display_error = true;
+		            window.scrollTo(0, 0);
+	        	}
 	        });
 		}
 
@@ -343,15 +405,23 @@
 				{
 					vm.display_error = false;
 					var newArr = uniquePending(response.data.engagements);
+					console.log(newArr);
 					serviceservice.setPendingRequests(newArr);
 				}
 			},
 			function(data)
 	        {
-	            vm.errorInfo = data.data;
-	            vm.display_error = true;
-	            window.scrollTo(0, 0);
-	        });
+	            if(data.data.message === 'Invalid Token')
+	        	{
+	        		$location.path("/")
+	        	}
+	        	else
+	        	{
+		            vm.errorInfo = data.data;
+		            vm.display_error = true;
+		            window.scrollTo(0, 0);
+	        	}	       
+		    });
 
 		}
 
@@ -390,13 +460,21 @@
 					vm.display_error = false;
 
 					vm.newConsumedArr = uniqueConsumed(response.data.engagements);
+					console.log(vm.newConsumedArr);
 				}
 			},
 			function(data)
 	        {
-	            vm.errorInfo = data.data;
-	            vm.display_error = true;
-	            window.scrollTo(0, 0);
+	            if(data.data.message === 'Invalid Token')
+	        	{
+	        		$location.path("/")
+	        	}
+	        	else
+	        	{
+		            vm.errorInfo = data.data;
+		            vm.display_error = true;
+		            window.scrollTo(0, 0);
+	        	}
 	        });
 
 
@@ -406,6 +484,7 @@
 		{
 			serviceservice.setViewClientDisplayName(eai_num, eai_app_name);
 			serviceservice.getClientList(eai_num).then(function(response){
+				console.log(response.data);
 				if(response.status < 400)
 				{
 					var opArray = [];
@@ -423,9 +502,6 @@
 							if(opArray[j].operation === listArr[i].operation)
 							{
 								found = true;
-
-
-
 								break;
 							}
 						}
@@ -437,14 +513,216 @@
 							vm.getClientListArrData.push(item);
 						}
 					}
+					console.log(vm.getClientListArrData[0].service[0].workflow_id);
 					serviceservice.setClientListArr(vm.getClientListArrData);
 				}
 
 			},function(data)
 			{
-				console.log(data);
+				if(data.data.message === 'Invalid Token')
+	        	{
+	        		$location.path("/")
+	        	}
+	        	else
+	        	{
+		            vm.errorInfo = data.data;
+		            vm.display_error = true;
+		            window.scrollTo(0, 0);
+	        	}
 			});
 		}
+
+		vm.urlListAdd = "";
+		vm.addUrl = function()
+		{
+			console.log(vm.list.data.services[0].url);
+			if(vm.urlListArray == '' && vm.urlListAdd != "")
+			{
+				vm.urlListArray = [];
+				vm.urlListArray.push(vm.urlListAdd);
+			}
+			else if( vm.urlListAdd != "")
+			{
+				vm.urlListArray.push(vm.urlListAdd);
+			}
+			else
+			{
+				alert("Please enter a URL");
+			}
+			vm.urlListAdd = "";
+		}
+
+		vm.urlListAddEdit = "";
+		vm.addUrlEdit = function()
+		{
+			if(vm.urlListAddEdit != "")
+			{
+				console.log(vm.getServiceData());
+				vm.getServiceData().url.push(vm.urlListAddEdit);
+				vm.urlListAddEdit = "";
+			}
+			else
+			{
+				alert("Please enter a URL");
+			}
+		}
+
+
+		vm.saveServiceChanges = function()
+		{
+			console.log(vm.servicedataChanges);
+
+			for(var i = 0; i < vm.servicedataChanges.url.length; i++)
+			{
+				if(vm.servicedataChanges.url[i] === "")
+				{
+					vm.servicedataChanges.url.splice(i, 1);
+				}
+			}
+
+			serviceservice.putServiceData(vm.servicedataChanges).then(function(response){
+				if(response.status < 400)
+				{
+					vm.getCustDialog("Service changes saved successfully", {
+	                		"Continue": function() {
+	                    		jQuery(this).dialog( "destroy" ); 
+								vm.callback(); 		  
+	                   		}
+	                   	});
+				}
+			}, function(data)
+			{
+				if(data.data.message === 'Invalid Token')
+	        	{
+	        		$location.path("/")
+	        	}
+	        	else
+	        	{
+		            vm.errorInfo = data.data;
+		            vm.display_error = true;
+		            window.scrollTo(0, 0);
+	        	}
+			});
+		}
+
+
+
+		vm.urlInput = "";
+		vm.textarea = "";
+        vm.wsdlAddGoCLicked = false;
+
+
+		vm.getWsdldetails = function()
+    	{
+    		var body = {};
+
+    		if((vm.urlInput === undefined || vm.urlinput === "") && vm.textarea === "")
+    		{
+    			alert("Please enter a proper URL or a XML document")
+    		}
+    		else if(vm.urlRadio == 'text' && vm.textarea !== "")
+    		{
+
+                body = JSON.stringify({service_id:vm.list.data.services[0].id, url:vm.urlInput, xml:btoa(vm.textarea)});             
+
+    			serviceservice.postNewXMLWsdlOperations(body).then(function(response)
+    			{
+    				if(response.status < 400)
+    				{
+
+                        vm.wsdlAddGoCLicked = true;
+                        console.log(response.data);
+    					vm.display_error = false;
+    					wsdlservice.setNewWsdlOperations(response.data);
+    					vm.newWsdlList = wsdlservice.getNewWsdlOperations();
+
+    					for(var i = 0; i < vm.newWsdlList.result.length; i++)
+    					{
+    						vm.newWsdlList.result[i].internal = 'false';
+    						vm.newWsdlList.result[i].state = 'active';
+    					}
+                        console.log(vm.newWsdlList);
+    				}
+    			},
+    			function(data)
+    			{
+    				if(data.data.message === 'Invalid Token')
+                    {
+                      $location.path("/")
+                    }
+                    else
+                    {
+                        vm.wsdlAddGoCLicked = false;
+                        vm.errorInfo = data.data;
+                        vm.display_error = true;
+                        window.scrollTo(0, 0);
+                    }	
+    			});
+    			//alert("A XML doc will be sent to the backend")
+    		}
+    		else if(vm.urlInput !== undefined && vm.urlRadio == 'url')
+    		{
+				body = JSON.stringify({service_id:vm.list.data.services[0].id, url:vm.urlInput, xml:""});    			
+
+    			serviceservice.postNewUrlWsdlOperations(body).then(function(response)
+    			{
+    				if(response.status < 400)
+    				{
+                        vm.wsdlAddGoCLicked = true;
+
+    					vm.display_error = false;
+    					wsdlservice.setNewWsdlOperations(response.data);
+    					vm.newWsdlList = wsdlservice.getNewWsdlOperations();
+
+    					for(var i = 0; i < vm.newWsdlList.result.length; i++)
+    					{
+    						vm.newWsdlList.result[i].internal = 'false';
+    						vm.newWsdlList.result[i].state = 'active';
+    					}
+    				}
+    			},
+    			function(data)
+    			{
+    				if(data.data.message === 'Invalid Token')
+                    {
+                      $location.path("/")
+                    }
+                    else
+                    {
+                        vm.wsdlAddGoCLicked = false;
+                        vm.errorInfo = data.data;
+                        vm.display_error = true;
+                        window.scrollTo(0, 0);
+                    }    
+    			});
+    			
+
+    			//alert("the WSDL will be pulled from the url")
+
+    		}
+    		else
+    		{
+    			alert("Please enter either a URL or XML not both")
+    		}
+    	}
+
+
+    	vm.returnState = function(state)
+    	{
+       		if(state === "init")
+    		{
+    			return "Inital";
+    		}
+    		else if(state === "pending")
+    		{
+    			return "Pending Approvel";
+    		}
+    		else if(state === "rejected")
+    		{
+    			return "Rejected";
+    		}
+    	}
+
 
 		// SET AND GET
 		// for local page data
@@ -465,8 +743,16 @@
 			return viewLocation === $location.path();
 		}
 
-		vm.getServiceData = function() {
+		vm.getServiceDataEdit = function() 
+		{
+			var temp = serviceservice.getServiceData().data.services[0];
+			temp.url = temp.url.split(",");
 
+			return serviceservice.getServiceData().data.services[0];
+		}
+
+		vm.getServiceData = function() 
+		{
 			return serviceservice.getServiceData().data.services[0];
 		}
 

@@ -10,10 +10,12 @@
     function Sla(slaservice, $location, $scope) {
     	var vm = this;
 
+        vm.display_error = false;
         vm.showButton = false;
         vm.outage = {};
         vm.slaDetails = {};
         vm.slaDetailsMonths = [];
+        vm.errorInfo = {};
 
         vm.timeStart = [
             "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM",
@@ -32,58 +34,94 @@
 
     	vm.init = function()
     	{
-    		slaservice.getClickeSlaData().then(function(response) {
-                console.log(response.data.engagements[0]);
+                slaservice.clearTableData();
+        		slaservice.getClickeSlaData().then(function(response) {
                 slaservice.setRevisions(response.data.engagements);
 
                 slaservice.getSlaDetails(response.data.engagements[0].id).then(function(response) {
-                    console.log(response.data);
-                    console.log(response.data.engagement.test_date);
-                    console.log(response.data.engagement.mtp_date);
-
-                    var date = parseInt(response.data.engagement.test_date*1000);
-
-                    var date = new Date(date);
-                    console.log(date);
-                    response.data.engagement.test_date = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
-                    console.log(response.data.engagement.test_date);
-
-                    var date = parseInt(response.data.engagement.mtp_date*1000);
-
-                    var date = new Date(date);
-                    console.log(date);
-                    response.data.engagement.mtp_date = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
-                    console.log(response.data.engagement.mtp_date);
-
+                    slaservice.setSlaData(response.data.engagement);
+                    console.log(response.data.engagement);
                     if(response.data.engagement.sla.length !== 0)
                     {
                         vm.showButton = true;
                     }
+                    
+                    if(response.data.engagement.sla.length === undefined)
+                    {
+                        for(var i in response.data.engagement.sla)
+                        {
+                            slaservice.setTableData(i, response.data.engagement.sla[i]);
+                        }
+                    }
+                    vm.outage = response.data.engagement.outage;
+                    vm.outage.drDuration = parseInt(vm.outage.drDuration);
+                    vm.outage.plannedDuration = parseInt(vm.outage.plannedDuration);
+                    vm.outage.unplannedDuration = parseInt(vm.outage.unplannedDuration);
 
-                    slaservice.setSlaData(response.data.engagement);
 
                 }, function(data)
                 {
-                    console.log(data);
+                    if(data.data.message === 'Invalid Token')
+                    {
+                      $location.path("/")
+                    }
+                    else
+                    {
+                        vm.errorInfo = data.data;
+                        vm.display_error = true;
+                        window.scrollTo(0, 0);
+                    }
                 });
-
-
-
             },function(data)
             {
-                console.log(data);
+                if(data.data.message === 'Invalid Token')
+                {
+                  $location.path("/")
+                }
+                else
+                {
+                    vm.errorInfo = data.data;
+                    vm.display_error = true;
+                    window.scrollTo(0, 0);
+                }
             });
     	}
 
+        vm.dateChange = function(data)
+        {
+            if(data  === "mtp_date")
+            {
+                var date = parseInt(vm.getSlaData().mtp_date * 1000);
+
+                date = new Date(date);
+                return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+
+            }
+            else if (data === "test_date")
+            {
+                var date = parseInt(vm.getSlaData().test_date * 1000);
+
+                date = new Date(date);
+                return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+
+            }
+            
+
+        }
+
+        vm.tempData = {};
         vm.updateSLA = function()
         {
-            console.log(vm.slaDetails.daysApplied);
 
             var days = vm.slaDetails.daysApplied;
 
-            if(days.length === 7)
+
+            if(days === undefined)
             {
-                console.log("All");
+
+            }
+            else if(days.length === 7)
+            {
                 vm.slaDetails.daysApplied = "All"
             }
             else if(days[0] === "M" && days[days.length-1] === "SA" && days.length === 6)
@@ -120,6 +158,7 @@
                 vm.slaDetails.daysApplied = temp;
             }
 
+            vm.tempData = vm.slaDetails;
 
 
             for(var i in vm.slaDetailsMonths)
@@ -127,13 +166,21 @@
                 slaservice.setTableData(i, vm.slaDetails);
 
             }
+
+            vm.slaDetailsMonths = undefined;
+            vm.slaDetailsMonths = [];
             vm.slaDetails = undefined;
-            vm.slaDetails = [];
+            vm.slaDetails = {};
+            console.log(vm.tempData);
             vm.UncheckAll('checkMonths', false);
         }
 
+
         vm.submitForReview = function()
         {
+
+            vm.slaDetails = undefined;
+            vm.slaDetails = {};
 
             var table = slaservice.getTableData();
 
@@ -146,9 +193,10 @@
             }
 
             var data = vm.getSlaData();
+            //data.comment = vm.newComments;
+            console.log(data);
             data.outage = vm.outage;
             data.sla = table;
-            console.log(data);
 
             for(var i in data.outage)
             {
@@ -156,18 +204,17 @@
             }
 
             data.state = "pending";
+            console.log(data);
 
             data = JSON.stringify(data);
-            console.log(data);
 
             slaservice.putSlaData(data).then(function(response) 
             {
                 if(response.status < 400)
                 {
-                    console.log(response.data);
 
+                    slaservice.clearTableData();
 
-                    console.log(response.data)
                         vm.display_error = false;
                         vm.getCustDialog("SLA Submission Successfull<br>Workflow ID:" + response.data.workflow_id, {
                             "OK": function() {
@@ -176,14 +223,20 @@
                                 $scope.$apply();                           
                             }
                         });
-
-
-
                 }
             }, 
             function(data)
             {
-                console.log(data);
+                if(data.data.message === 'Invalid Token')
+                {
+                  $location.path("/")
+                }
+                else
+                {
+                    vm.errorInfo = data.data;
+                    vm.display_error = true;
+                    window.scrollTo(0, 0);
+            }           
             });
         }
         
@@ -223,7 +276,6 @@
 
         vm.getSlaData = function()
         {
-            console.log(slaservice.getSlaData());
             return slaservice.getSlaData();
         }
 

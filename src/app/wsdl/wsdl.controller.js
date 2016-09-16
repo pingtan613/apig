@@ -21,6 +21,7 @@
     	vm.wsdlList = {};
     	vm.newWsdlList = {};
     	vm.item = {};
+        vm.urlRadio = '';
 
     	vm.getWsdlDetails = function()
     	{
@@ -57,9 +58,16 @@
             },
             function(data)
             {
-                vm.errorInfo = data.data;
-                vm.display_error = true;
-                window.scrollTo(0, 0);
+                if(data.data.message === 'Invalid Token')
+                {
+                  $location.path("/")
+                }
+                else
+                {
+                    vm.errorInfo = data.data;
+                    vm.display_error = true;
+                    window.scrollTo(0, 0);
+                }
             });
 
     		wsdlservice.getWsdlList(eai.data.services[0].eai_number).then(function(response) {
@@ -106,9 +114,16 @@
     				},
     				function(data)
     				{
-    					vm.errorInfo = data.data;
-		    			vm.display_error = true;
-		    			window.scrollTo(0, 0);
+    					if(data.data.message === 'Invalid Token')
+                        {
+                          $location.path("/")
+                        }
+                        else
+                        {
+                            vm.errorInfo = data.data;
+                            vm.display_error = true;
+                            window.scrollTo(0, 0);
+                        }
     				});
     			}
     		});
@@ -155,35 +170,47 @@
     		{
     			alert("Please enter a proper URL or a XML document")
     		}
-    		else if((vm.urlInput === undefined || vm.urlinput === "") && vm.textarea !== "")
+    		else if(vm.urlRadio == 'text' && vm.textarea !== "")
     		{
-    			vm.wsdlAddGoCLicked = true;
-    			wsdlservice.postNewXMLWsdlOperations(vm.textarea).then(function(response)
+                body = JSON.stringify({service_id:vm.details.id, url:vm.urlInput, xml:btoa(vm.textarea)});             
+
+    			wsdlservice.postNewXMLWsdlOperations(body).then(function(response)
     			{
     				if(response.status < 400)
     				{
+
+                        vm.wsdlAddGoCLicked = true;
+                        console.log(response.data);
     					vm.display_error = false;
     					wsdlservice.setNewWsdlOperations(response.data);
     					vm.newWsdlList = wsdlservice.getNewWsdlOperations();
 
-    					for(var i = 0; i < vm.newWsdlList.length; i++)
+    					for(var i = 0; i < vm.newWsdlList.result.length; i++)
     					{
-    						vm.newWsdlList[i].internal = 'false';
-    						vm.newWsdlList[i].state = 'active';
+    						vm.newWsdlList.result[i].internal = 'false';
+    						vm.newWsdlList.result[i].state = 'active';
     					}
+                        console.log(vm.newWsdlList);
     				}
     			},
     			function(data)
     			{
-    				vm.errorInfo = data.data;
-	    			vm.display_error = true;
-	    			window.scrollTo(0, 0);	
+    				if(data.data.message === 'Invalid Token')
+                    {
+                      $location.path("/")
+                    }
+                    else
+                    {
+                        vm.wsdlAddGoCLicked = false;
+                        vm.errorInfo = data.data;
+                        vm.display_error = true;
+                        window.scrollTo(0, 0);
+                    }	
     			});
     			//alert("A XML doc will be sent to the backend")
     		}
-    		else if(vm.urlInput !== undefined && vm.textarea === "")
+    		else if(vm.urlInput !== undefined && vm.urlRadio == 'url')
     		{
-    			vm.wsdlAddGoCLicked = true;
 
 				body = JSON.stringify({service_id:vm.details.id, url:vm.urlInput, xml:""});    			
     			// body.service_id = vm.details.id;
@@ -194,6 +221,8 @@
     			{
     				if(response.status < 400)
     				{
+                        vm.wsdlAddGoCLicked = true;
+
     					vm.display_error = false;
     					wsdlservice.setNewWsdlOperations(response.data);
     					vm.newWsdlList = wsdlservice.getNewWsdlOperations();
@@ -207,9 +236,17 @@
     			},
     			function(data)
     			{
-    				vm.errorInfo = data.data;
-	    			vm.display_error = true;
-	    			window.scrollTo(0, 0);
+    				if(data.data.message === 'Invalid Token')
+                    {
+                      $location.path("/")
+                    }
+                    else
+                    {
+                        vm.wsdlAddGoCLicked = false;
+                        vm.errorInfo = data.data;
+                        vm.display_error = true;
+                        window.scrollTo(0, 0);
+                    }    
     			});
     			
 
@@ -305,7 +342,7 @@
                     var newJson = JSON.stringify({service_id:vm.details.id, 
                         wsdl_name:vm.newWsdlList.wsdl_name, 
                         wsdl_url:vm.urlInput, 
-                        wsdl_xml:vm.textarea,
+                        wsdl_xml:"",
                         version:"",
                         replace_existing:"true",
                         operation_list: vm.newWsdlList.result });
@@ -317,9 +354,16 @@
                         }
                     },
                     function(data){
-                        vm.errorInfo = data.data;
-                        vm.display_error = true;
-                        window.scrollTo(0, 0);
+                        if(data.data.message === 'Invalid Token')
+                        {
+                          $location.path("/")
+                        }
+                        else
+                        {
+                            vm.errorInfo = data.data;
+                            vm.display_error = true;
+                            window.scrollTo(0, 0);
+                        }
 
                     });
                     break;
@@ -328,7 +372,7 @@
                     var newJson = JSON.stringify({service_id:vm.details.id, 
                         wsdl_name:vm.newWsdlList.wsdl_name, 
                         wsdl_url:vm.urlInput, 
-                        wsdl_xml:vm.textarea,
+                        wsdl_xml:"",
                         version:"",
                         replace_existing:"false",
                         operation_list: vm.newWsdlList.result });
@@ -341,10 +385,16 @@
                         }
                     },
                     function(data){
-                        vm.errorInfo = data.data;
-                        vm.display_error = true;
-                        window.scrollTo(0, 0);
-
+                        if(data.data.message === 'Invalid Token')
+                        {
+                          $location.path("/")
+                        }
+                        else
+                        {
+                            vm.errorInfo = data.data;
+                            vm.display_error = true;
+                            window.scrollTo(0, 0);
+                        }
                     });
                     break;
 
@@ -368,6 +418,7 @@
         {
             wsdlservice.custPopUp(message, buttons, etc);
         }
+
     }
 
 })();

@@ -49,7 +49,7 @@
 								<label>Category</label>
 							</td>
 							<td>
-								<input style="width:200px" type="text" data-ng-model="vm.list.data.services[0].eai_category" readonly></input>
+								<input style="width:200px" type="text" data-ng-model="vm.list.data.services[0].category" readonly></input>
 							</td>
 						</tr>
 						<tr> <!-- by default same as eai application name changable -->
@@ -95,12 +95,79 @@
 							<td class="registerTable">
 								<label>URL's</label>
 							</td>
-							<td style="width:100%">
-								<textarea rows="5" cols="65" data-ng-model="vm.list.data.services[0].url" >
-								</textarea>
+							<br/>
+							<td>
+								<form>
+									<input type="text" data-ng-model="vm.urlListAdd">
+									<input type="submit" class="button" value="Add URL" ng-click="vm.addUrl();"/>
+								</form>
+
+								<ul style="list-style-type:none">
+								 	<li ng-repeat="url in vm.urlListArray">
+								 		<label>{{url}}</label>
+								 	</li>
+								 </ul>
 							</td>
 						</tr>
 					</table>
+					<!-- <section ng-show="vm.list.data.services[0].interface === 'SOAP'">
+
+ -->			<section ng-hide="true">		
+ 					<label>Add WSDL</label>
+						<section class="wsdl_upload">
+							<form name="myForm">
+								<table>
+									<tr>
+										<td>
+											<input type="radio" ng-model="vm.urlRadio" value="url" checked="true">
+											<label>WSDL URL</label>
+											<input ng-model="vm.urlInput" type="url" id="wsdlUrlInput" ng-show="vm.urlRadio == 'url'" />
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="radio" ng-model="vm.urlRadio" value="text" >
+											<label>WSDL XML</label>
+											<textarea ng-model="vm.textarea" cols="45" rows="7" ng-show="vm.urlRadio == 'text'" /></textarea>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<a href="" class="button-small" ng-click="vm.getWsdldetails()">Go</a>
+										</td>
+									</tr>
+								</table>
+							</form>
+						</section>
+						<br>
+						<section class="wsdl_operations" ng-show="vm.wsdlAddGoCLicked">
+							<table>
+								<thead>
+									<tr>
+										<td>Name</td>
+										<td>State</td>
+										<td>Internal</td>
+										<td>Description</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="data in vm.newWsdlList.result | orderBy: 'operation_name' | orderBy: 'state' track by $index">
+										<td>{{data.operation_name}}</td>
+										<td>
+											<select ng-model="data.state">
+												<option ng-selected="data.state === 'active'" value="active">Active</option>
+												<option ng-selected="data.state === 'inactive'" value="inactive">
+												Inactive</option>
+												<option ng-selected="data.state === 'deprecated'" value="deprecated">Deprecated</option>
+											</select>
+										</td>
+										<td><input type="checkbox" ng-checked="vm.getInternal(data.internal)" ng-true-value="'true'" ng-false-value="'false'" ng-model="data.internal"></td>
+										<td><input type="text" value="{{data.description}}" ng-model="data.description"/></td>
+									</tr>
+								</tbody>
+							</table>
+						</section>
+					</section>
 					<p  style="color: red"> * Indicates Required Fields</p>
 					<input type="submit" class="button" value="Register Service" ng-click="vm.saveServiceDetails()">
 				</form>

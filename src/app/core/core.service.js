@@ -9,7 +9,7 @@
 
     function coreservice(){
 
-    	var serverHost = "https://ec2-54-164-123-94.compute-1.amazonaws.com:8443";    	
+    	var serverHost = "https://ec2-54-197-37-244.compute-1.amazonaws.com:8443";    	
         var slaClickedView = [];
     	var service = {
     		getServerHost: getServerHost,

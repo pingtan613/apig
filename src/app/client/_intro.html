@@ -1,14 +1,83 @@
 <!-- include search/browse tool bit -->
 <div ng-include="'/app/service/_searchToolbit.html'"></div>
 
-<div class="content" ng-controller="Client as vm">
-	<h1>Welcome!</h1>
-	<span>{{ vm.abc }}<span>
-	<span>{{ vm.eais.eai_number }}<span>
-	<!-- <p>
-		 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mattis nunc id libero mollis, nec faucibus lectus rutrum. Nullam eu rhoncus turpis. Donec malesuada rhoncus risus eu eleifend. Fusce metus nisl, rutrum ornare feugiat a, malesuada non risus. Nulla facilisi. Praesent vitae est sed mi facilisis ultricies ut sed tortor. Phasellus ullamcorper ullamcorper iaculis.
-	</p>
-	<p>
-		Nulla nec efficitur augue, quis euismod velit. Nulla luctus neque a turpis porta, id faucibus nulla fermentum. Morbi ut ipsum congue, lacinia odio dapibus, convallis lectus. Donec vestibulum quam id mauris congue vulputate vel at mi. Donec nec ligula vel turpis pellentesque vehicula nec ac turpis. Donec feugiat nibh nec venenatis vehicula. Quisque nunc magna. 
-	</p> -->
+<div class="content" ng-controller="Client as vm" style="width:175%; margin: 0px -220px;" ng-init="showBoxTop = false">
+	<h1>{{vm.title}}</h1>
+
+	<img src="/css/images/boxTopThumbnail.png" ng-hide="showBoxTop" ng-click="showBoxTop = true">
+
+	<section ng-show="showBoxTop">
+		<a ng-click="showBoxTop = false">Back to Welcome </a>
+		<img src="/css/images/Boxtop.png" width="100%" alt="CLickable Box Top" usemap="#boxTop" ng-show="vm.boxTopShow">
+
+		<map name="boxTop">
+			<!-- MULTI CORE SECION MAP -->
+			<area shape="rect" coords="58,853,669,940"  ng-click="vm.setSearchDetails()"> <!-- Directed Handling and Data Capture -->
+			<area shape="rect" coords="676,853,850,940" ng-click="vm.setSearchDetails()" > <!-- Operation Asset Management -->
+			<area shape="rect" coords="889,635,971,946" ng-click="vm.boxTsetSearchDetailsop()" > <!-- Retail -->
+			<area shape="rect" coords="58,759,408,847" ng-click="vm.setSearchDetails()" > <!-- Transportation Support Services -->
+			<area shape="rect" coords="416,759,565,847" ng-click="vm.setSearchDetails()" > <!-- Network Integration -->
+			<area shape="rect" coords="572,759,782,847" ng-click="vm.setSearchDetails()" > <!-- Wharehouse Management -->
+			<area shape="rect" coords="786,649,882,842" ng-click="vm.setSearchDetails()" > <!-- Clearance Brokerage & Reg Interaction -->
+			<area shape="rect" coords="58,649,158,755" ng-click="vm.setSearchDetails()" > <!-- Linehaul -->
+			<area shape="rect" coords="160,649,370,755" ng-click="vm.setSearchDetails()" > <!-- PickUp and Deilvery -->
+			<area shape="rect" coords="379,649,585,755" ng-click="vm.setSearchDetails()" > <!-- Sort -->
+			<area shape="rect" coords="589,649,779,755" ng-click="vm.setSearchDetails()" > <!-- Entity Administration -->
+
+			
+			<!-- PURPLE CORE -->
+			<!-- left, top, right, bottom -->
+			<area shape="rect" coords="39,8,205,120" ng-click="vm.setSearchDetails()" > <!-- Channels -->
+			<area shape="rect" coords="218,8,382,120" ng-click="vm.setSearchDetails()" > <!-- eCommerce & Cust Svc -->
+			<area shape="rect" coords="395,8,600,120" ng-click="vm.setSearchDetails()" > <!-- Sales Support-->
+			<area shape="rect" coords="625,8,717,120" ng-click="vm.setSearchDetails()" > <!-- Waybill -->
+			<area shape="rect" coords="862,8,951,120" ng-click="vm.setSearchDetails()" > <!-- Pricing -->
+
+			<!-- Corporate -->
+			<area shape="rect" coords="988,49,1090,146" ng-click="vm.setSearchDetails()" > <!-- Legal -->
+			<area shape="rect" coords="988,188,1090,348" ng-click="vm.setSearchDetails()" > <!-- HR -->
+			<area shape="rect" coords="988,400,1090,550" ng-click="vm.setSearchDetails()" > <!-- Finance -->
+			<area shape="rect" coords="988,588,1090,695" ng-click="vm.setSearchDetails()" > <!-- IT -->
+
+			<!-- Platinum Core -->
+			<area shape="rect" coords="39,138,95,585" ng-click="vm.setSearchDetails()" href="#/client/search/result" > <!-- Connector Grid -->
+
+			<!-- EFS -->
+			<area shape="rect" coords="129,341,236,582" ng-click="vm.setSearchDetails('EFS - Geospatial')" href="#/client/search/result" > <!-- Geospatial -->
+			<area shape="rect" coords="249,341,462,488" ng-click="vm.setSearchDetails('EFS - Customer')" href="#/client/search/result" > <!-- Customer -->
+			<area shape="rect" coords="255,495,462,582" ng-click="vm.setSearchDetails('EFS - Label')" href="#/client/search/result" > <!-- Label -->
+			<area shape="rect" coords="470,272,571,450" ng-click="vm.setSearchDetails('EFS - Product & Location')" href="#/client/search/result" > <!-- Product & Location -->
+			<area shape="rect" coords="470,458,571,582" ng-click="vm.setSearchDetails('EFS - Address')" href="#/client/search/result" > <!-- Address -->
+			<area shape="rect" coords="129,269,465,338" ng-click="vm.setSearchDetails('EFS - Shipment')" href="#/client/search/result" > <!-- Shipment -->
+
+			<!-- EBS -->
+			<area shape="rect" coords="143,169,230,190" ng-click="vm.setSearchDetails('EBS - Shipment of Interest')" href="#/client/search/result" > <!-- Shipment of Interest -->
+			<area shape="rect" coords="143,195,230,218" ng-click="vm.setSearchDetails('EBS - Dispatch/Pickup Request')" href="#/client/search/result" > <!-- Dispatch/Pickup Request -->
+			<area shape="rect" coords="260,169,353,190" ng-click="vm.setSearchDetails('EBS - Shipping Request')" href="#/client/search/result" > <!-- Shipping Request -->
+			<area shape="rect" coords="260,195,353,218" ng-click="vm.setSearchDetails('EBS - In Flight Shipment')" href="#/client/search/result" > <!-- In Flight Shipment -->
+			<area shape="rect" coords="376,169,458,190" ng-click="vm.setSearchDetails('EBS - Currency Conversion')" href="#/client/search/result" > <!-- Currency Conversion -->
+			<area shape="rect" coords="376,195,458,218" ng-click="vm.setSearchDetails('EBS - DG/Hazmat')" href="#/client/search/result" > <!-- DG/ Hazmat -->
+			<area shape="rect" coords="472,169,542,190" ng-click="vm.setSearchDetails('EBS - Document Management')" href="#/client/search/result" > <!-- Document Management -->
+			<area shape="rect" coords="472,195,542,218" ng-click="vm.setSearchDetails('EBS - Notification')" href="#/client/search/result" > <!-- Notification -->
+
+
+
+
+
+
+
+
+	 
+		</map>
+	</section>
+
+
+
+
+
+
+
+
+
+
 </div>

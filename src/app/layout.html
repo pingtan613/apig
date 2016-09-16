@@ -1,4 +1,4 @@
-<div class="app" id="app">
+<div class="app" id="app" ng-controller="User as vm" ng-init="vm.default()">
 	<div ng-include="'app/header.html'"></div>
 	<div ng-view=""></div>
 	<div ng-include="'app/footer.html'"></div>

@@ -13,6 +13,7 @@
         var leftEngagement = [];
         var centerEngagement = [];
         var clicked = [];
+        var bothCLicked = {};
 
         var service = {
             getSearchDetails: getSearchDetails,
@@ -34,6 +35,9 @@
             getClicked: getClicked,
             postEngagementForm: postEngagementForm,
             getButton: getButton,
+            setBothClicked: setBothClicked,
+            getBothClicked: getBothClicked,
+            setSearchDetails: setSearchDetails,
         };
 
         return service;
@@ -114,13 +118,27 @@
          * Get and Set methods
          */
 
+         function setBothClicked(data)
+         {
+            bothCLicked = data;
+         }
 
+         function getBothClicked()
+         {
+            return bothCLicked;
+         }
+         
         /**
          * @return 
          */
         function getSearchDetails()
         {
             return serviceservice.getSearchParam();
+        }
+
+        function setSearchDetails(cat, text)
+        {
+            serviceservice.setSearchParam(cat, "");
         }
 
         /**

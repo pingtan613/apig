@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('app.user')
-        .factory('userservice', ['$http', 'coreservice', userservice]);
+        .module('app.user', ['ngStorage'])
+        .factory('userservice', ['$http', 'coreservice', '$localStorage', userservice]);
 
     userservice.$inject = [];
 
-    function userservice($http, coreservice) {
+    function userservice($http, coreservice, $localStorage) {
 
     	var apig_token = "";
 
@@ -16,6 +16,7 @@
             isLoggedIn: isLoggedIn,
             logout: logout,
             getApigToken: getApigToken,
+            setApigToken: setApigToken,
         };
 
         return service;
@@ -38,8 +39,11 @@
          * @return return ture or false depending if the login was a success or failure
          */
         function isLoggedIn(data) {
+            $localStorage.$reset();
         	if (data !== {} && data.success && data.apig_token.length > 0) {
-        		apig_token = data.apig_token;
+                var storage = $localStorage.$default({apig_token: data.apig_token});
+                console.log(storage);
+        		apig_token = storage.apig_token;
         		return true;
         	} else if(apig_token.length > 0) {
         		return true;
@@ -53,6 +57,7 @@
          */
         function logout() {
         	apig_token = "";
+            $localStorage.$reset();
         	return true;
         }
 
@@ -60,7 +65,13 @@
          * @return returns the apig token for use with every api call. 
          */
 		function getApigToken(){
+
 			return apig_token;
 		}      
+
+        function setApigToken(token)
+        {
+            apig_token = token;
+        }
     }
 })();

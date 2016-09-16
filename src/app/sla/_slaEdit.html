@@ -9,9 +9,15 @@
 		</section>
 		<br class="clear" />
 	</div>
-	<h4 class="text_purple">AddressServie getGEO</h4>
-	<div class="note status_edit">
+	<h4 class="text_purple">{{vm.getSlaData().service_name}} - {{vm.getSlaData().operation}}</h4>
+	<div class="note status_edit" style="text-align:center">
 		*** This SLA is currently in edit mode ***
+	</div>
+	<div ng-show="vm.display_error" class="message error">Error: Please try again.  
+		<br/>
+		Message: {{vm.errorInfo.message}} <br/>
+		success: {{vm.errorInfo.success}} <br/>
+		clientTxnId: {{vm.errorInfo.clientTxnId}} <br/>
 	</div>
 	<section ng-init="showServices=true">
 		<label>
@@ -30,7 +36,7 @@
 			</li>
 			<li>
 				<label>Inital Test Date/ Access Needed Date</label>
-				<span class="value">{{vm.getSlaData().test_date}}</span>
+				<span class="value">{{vm.dateChange("test_date")}}</span>
 			</li>
 			<li>
 				<label>Client System</label>
@@ -42,7 +48,7 @@
 			</li>
 			<li>
 				<label>Inital Move to Production Date</label>
-				<span class="value">{{vm.getSlaData().mtp_date}}</span>
+				<span class="value">{{vm.dateChange("mtp_date")}}</span>
 			</li>
 			<li>
 				<label>Client EAI</label>
@@ -64,11 +70,12 @@
 				<label>Region</label>
 				<span class="value">{{vm.getSlaData().region}}</span>
 			</li>
-			<li>
-				<label>Comments</label>
-				<span class="value">{{vm.getSlaData().comment}}</span>
-			</li>
 		</ul>
+		<div style="background-color:#dfdfdf">
+			
+			<label>Comments</label><br/>
+			<textarea style="width:100%" rows="5" cols="75" ng-model="vm.getSlaData().comment">{{vm.getSlaData().comment}}</textarea>
+		</div>
 		<br class="clear" />
 	</section>
 	<br class="clear" />
@@ -100,19 +107,19 @@
 			</li>
 			<li>
 				<label>Preferred Outage Duration</label>
-				<span class="value"><input type="number" ng-model="vm.outage.plannedDuration"></input> Hour(s)</span>
+				<span class="value"><input type="number" min="0" ng-model="vm.outage.plannedDuration"></input> Hour(s)</span>
 			</li>
 			<li>
 				<label>Unplanned Outage Duration</label>
-				<span class="value"><input type="number" ng-model="vm.outage.unplannedDuration"></input> Hour(s)</span>
+				<span class="value"><input type="number" min="0" ng-model="vm.outage.unplannedDuration"></input> Hour(s)</span>
 			</li>
 			<li>
 				<label>Disaster Recovery Outage Duration</label>
-				<span class="value"><input type="number" ng-model="vm.outage.drDuration"></input> Hour(s)</span>
+				<span class="value"><input type="number" min="0" ng-model="vm.outage.drDuration"></input> Hour(s)</span>
 			</li>
 			<li>
 				<label>Quantified Impact</label>
-				<span class="value"><input type="text" ng-model="vm.outage.impact"> </input></span>
+				<span class="value"><input type="text" min="0" ng-model="vm.outage.impact"> </input></span>
 			</li>
 		</ul>
 		<br class="clear" />
@@ -124,11 +131,11 @@
 			<ul>
 				<li>
 					<label>Average Daily Total</label>
-					<input type="number" value="5000" ng-model="vm.slaDetails.averageDailyTotal"/>
+					<input type="number" value="5000" min="0" ng-bind-html="vm.tempData.averageDailyTotal" ng-model="vm.slaDetails.averageDailyTotal"/>
 				</li>
 				<li>
 					<label>Peak Hourly Total</label>
-					<input type="number" value="1000" ng-model="vm.slaDetails.peakHourlyTotal"/>
+					<input type="number" value="1000" min="0" ng-model="vm.slaDetails.peakHourlyTotal"/>
 				</li>
 				<li>
 					<label>Peak Hour of Day</label>
@@ -138,7 +145,7 @@
 				</li>
 				<li>
 					<label>Max Connections</label>
-					<input type="number" value="10" ng-model="vm.slaDetails.maxConnections"/>
+					<input type="number" value="10" min="0" ng-model="vm.slaDetails.maxConnections"/>
 				</li>
 				<li>
 					<label>Days Applied</label>
@@ -159,15 +166,15 @@
 			<ul>
 				<li>
 					<label>Burst TPS</label>
-					<input type="number" value="500" ng-model="vm.slaDetails.burstTPS"/>
+					<input type="number" value="500" min="0" ng-model="vm.slaDetails.burstTPS"/>
 				</li>
 				<li>
 					<label>Burst Duration (min)</label>
-					<input type="number" value="60" ng-model="vm.slaDetails.burstDuration"/>
+					<input type="number" value="60" min="0" ng-model="vm.slaDetails.burstDuration"/>
 				</li>
 				<li>
 					<label>Frequency</label>
-					<input type="number" value="1" ng-model="vm.slaDetails.frequency"/>
+					<input type="number" value="1" min="0" ng-model="vm.slaDetails.frequency"/>
 				</li>
 			</ul>
 		</section>
@@ -176,15 +183,15 @@
 			<ul>
 				<li>
 					<label>Msgs Per Request</label>
-					<input type="number" value="2" ng-model="vm.slaDetails.messagesPerRequest"/>
+					<input type="number" value="2" min="0" ng-model="vm.slaDetails.messagesPerRequest"/>
 				</li>
 				<li>
 					<label>Avg # of Msgs</label>
-					<input type="number" value="2" ng-model="vm.slaDetails.averageNumberOfMessages"/>
+					<input type="number" value="2" min="0" ng-model="vm.slaDetails.averageNumberOfMessages"/>
 				</li>
 				<li>
 					<label>Max # of Msgs</label>
-					<input type="number" value="2" ng-model="vm.slaDetails.maxNumberOfMessages"/>
+					<input type="number" value="2" min="0" ng-model="vm.slaDetails.maxNumberOfMessages"/>
 				</li>
 			</ul>
 		</section>
@@ -193,15 +200,15 @@
 			<ul>
 				<li>
 					<label>Avg Response Time(ms)</label>
-					<input type="number" value="10" ng-model="vm.slaDetails.averageResponseTime"/>
+					<input type="number" value="10" min="0" ng-model="vm.slaDetails.averageResponseTime"/>
 				</li>
 				<li>
 					<label>Max Acceptable Response Time</label>
-					<input type="number" value="20" ng-model="vm.slaDetails.maxResponseTime"/>
+					<input type="number" value="20" min="0" ng-model="vm.slaDetails.maxResponseTime"/>
 				</li>
 				<li>
 					<label>TPS</label>
-					<input type="number" value="100" ng-model="vm.slaDetails.tps"/>
+					<input type="number" value="100" min="0" ng-model="vm.slaDetails.tps"/>
 				</li>
 			</ul>
 		</section>
