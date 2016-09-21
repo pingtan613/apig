@@ -1,14 +1,16 @@
 <!-- include search/browse tool bit -->
 <div ng-include="'/app/service/_searchToolbit.html'"></div>
 
-<div class="content" ng-controller="Client as vm" style="width:175%; margin: 0px -220px;" ng-init="showBoxTop = false">
+<div class="content" ng-controller="Client as vm" style="width:1137.5px; margin: 0px -220px" ng-init="showBoxTop = false">
 	<h1>{{vm.title}}</h1>
 
 	<img src="/css/images/boxTopThumbnail.png" ng-hide="showBoxTop" ng-click="showBoxTop = true">
+	<h1 ng-click="showBoxTop = true">Clickable Box Top</h1>
 
 	<section ng-show="showBoxTop">
 		<a ng-click="showBoxTop = false">Back to Welcome </a>
 		<img src="/css/images/Boxtop.png" width="100%" alt="CLickable Box Top" usemap="#boxTop" ng-show="vm.boxTopShow">
+		<!-- <canvas id="myCanvas" width="1098" height="1010" style="border: 3px solid red; position: absolute; top 0px; left 1px;"> -->
 
 		<map name="boxTop">
 			<!-- MULTI CORE SECION MAP -->
@@ -59,16 +61,10 @@
 			<area shape="rect" coords="376,195,458,218" ng-click="vm.setSearchDetails('EBS - DG/Hazmat')" href="#/client/search/result" > <!-- DG/ Hazmat -->
 			<area shape="rect" coords="472,169,542,190" ng-click="vm.setSearchDetails('EBS - Document Management')" href="#/client/search/result" > <!-- Document Management -->
 			<area shape="rect" coords="472,195,542,218" ng-click="vm.setSearchDetails('EBS - Notification')" href="#/client/search/result" > <!-- Notification -->
-
-
-
-
-
-
-
-
-	 
 		</map>
+
+			
+		<!-- </canvas> -->
 	</section>
 
 

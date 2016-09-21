@@ -403,6 +403,7 @@
 			serviceservice.getPendingSLA().then(function(response) {
 				if(response.status < 400)
 				{
+					console.log(response);
 					vm.display_error = false;
 					var newArr = uniquePending(response.data.engagements);
 					console.log(newArr);
@@ -480,7 +481,50 @@
 
 		}
 
-		vm.getClientList = function(eai_num, eai_app_name) 
+
+
+		var uniqueClient = function(origArr) {
+    		var newArr = [],
+       		origLen = origArr.length,
+       		found, x, y;
+
+		    for (x = 0; x < origLen; x++) {
+  		      found = undefined;
+    		    for (y = 0; y < newArr.length; y++) {
+    		        if (origArr[x] === newArr[y]) {
+      		          found = true;
+        	        break;
+         	   		 }
+       			}
+        		if (!found) {
+           		 newArr.push(origArr[x]);
+       		 	}
+    		}
+   			 return newArr;
+		}
+
+
+		var uniqueClientArr = function(origArr) {
+    		var newArr = [],
+       		origLen = origArr.length,
+       		found, x, y;
+
+		    for (x = 0; x < origLen; x++) {
+  		      found = undefined;
+    		    for (y = 0; y < newArr.length; y++) {
+    		        if (origArr[x].client_display_name === newArr[y].client_display_name) {
+      		          found = true;
+        	        break;
+         	   		 }
+       			}
+        		if (!found) {
+           		 newArr.push(origArr[x]);
+       		 	}
+    		}
+   			 return newArr;
+		}
+
+		vm.getClientList = function(eai_num, eai_app_name, id) 
 		{
 			serviceservice.setViewClientDisplayName(eai_num, eai_app_name);
 			serviceservice.getClientList(eai_num).then(function(response){
@@ -491,30 +535,72 @@
 					var listArr = response.data.clients;
 					var found = undefined;
 
+					var newArr = [];
+					var services = undefined;
+					services = {};
+					services.data = [];
+
+
+					var operations = [];
 					for(var i in listArr)
 					{
-						var item = []
-						item.service = [];
-
-						found = undefined;
-						for(var j in opArray)
-						{
-							if(opArray[j].operation === listArr[i].operation)
-							{
-								found = true;
-								break;
-							}
-						}
-						if(!found)
-						{
-							item.operation = listArr[i].operation;
-							item.service.push(listArr[i]);
-							opArray.push(listArr[i].operation);
-							vm.getClientListArrData.push(item);
-						}
+						operations.push(listArr[i].operation);						
 					}
-					console.log(vm.getClientListArrData[0].service[0].workflow_id);
-					serviceservice.setClientListArr(vm.getClientListArrData);
+
+					operations = uniqueClient(operations);					
+
+					for(var i in operations)				
+					{
+						for(var j in listArr)
+						{
+
+							if(operations[i] === listArr[j].operation)
+							{
+								services.operation = operations[i];
+								services.data.push(listArr[j]);
+							}						}
+
+						newArr.push(services);
+
+						services = undefined;
+						services = {};
+						services.data = [];
+
+					}
+
+					for(var i in newArr)
+					{
+						newArr[i].data = uniqueClientArr(newArr[i].data)
+					}
+					// newArr = uniqueClientArr(newArr);
+
+
+					serviceservice.setClientListArr(newArr);
+
+					// for(var i in listArr)
+					// {
+					// 	var item = []
+					// 	item.service = [];
+
+					// 	found = undefined;
+					// 	for(var j in opArray)
+					// 	{
+					// 		if(opArray[j].operation === listArr[i].operation)
+					// 		{
+					// 			found = true;
+					// 			break;
+					// 		}
+					// 	}
+					// 	if(!found)
+					// 	{
+					// 		item.operation = listArr[i].operation;
+					// 		item.service.push(listArr[i]);
+					// 		opArray.push(listArr[i].operation);
+					// 		vm.getClientListArrData.push(item);
+					// 	}
+					// }
+					// console.log(vm.getClientListArrData);
+					// serviceservice.setClientListArr(vm.getClientListArrData);
 				}
 
 			},function(data)
@@ -711,7 +797,7 @@
     	{
        		if(state === "init")
     		{
-    			return "Inital";
+    			return "Initialize";
     		}
     		else if(state === "pending")
     		{
@@ -720,6 +806,10 @@
     		else if(state === "rejected")
     		{
     			return "Rejected";
+    		}
+    		else if(state === "active")
+    		{
+    			return "Active";
     		}
     	}
 
@@ -732,6 +822,7 @@
 		}
 
 		vm.getPublishedData = function(){
+
 			return serviceservice.getServicesTrue();
 		}
 
@@ -760,12 +851,34 @@
 			return serviceservice.getCategories();
 		}
 
+
+
 		vm.getPendingSLAData = function() {
-			return serviceservice.getPendingRequests();
+			var temp = serviceservice.getPendingRequests();
+			var tempEnagaement = temp.client_engagement;
+
+			for(var i = 0; i < temp.length; i++)
+			{
+				for(var j = 0; j < temp[i].client_engagement.length; j++)
+				{
+					if(temp[i].client_engagement[j].state === 'active')
+					{
+						temp[i].client_engagement.splice(j,1);
+					}									
+				}
+
+			}
+
+			return temp;
+
+
+
+
 		}
 
 		vm.getClientListArr = function()
 		{
+			console.log(serviceservice.getClientListArr());
 			return serviceservice.getClientListArr();
 		}
 
@@ -776,7 +889,20 @@
 
 		vm.setClickedSLA = function(data)
 		{
+			console.log(data);
 			serviceservice.setClickedSLAData(data);
+		}
+
+		vm.setClickedSLAClient = function(data)
+		{
+			console.log(data)
+			
+		}
+
+		vm.setViewClientSLA = function(info, data)
+		{
+			console.log(info);
+			console.log(data);
 		}
 
 		vm.getCustDialog = function(message, buttons, etc)

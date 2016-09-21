@@ -16,6 +16,7 @@
         vm.slaDetails = {};
         vm.slaDetailsMonths = [];
         vm.errorInfo = {};
+        vm.initData = '';
 
         vm.timeStart = [
             "12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM",
@@ -34,13 +35,47 @@
 
     	vm.init = function()
     	{
-                slaservice.clearTableData();
-        		slaservice.getClickeSlaData().then(function(response) {
+            var foundActive = false;
+            slaservice.clearTableData();
+    		slaservice.getClickeSlaData().then(function(response) {
                 slaservice.setRevisions(response.data.engagements);
 
-                slaservice.getSlaDetails(response.data.engagements[0].id).then(function(response) {
+                for(var i in response.data.engagements)
+                {
+                    console.log(i);
+                    if(response.data.engagements[i].state === 'active')
+                    {
+                        foundActive = true;
+                        vm.initData = response.data.engagements[i].id;
+                    }
+                }
+
+                if(!foundActive)
+                {
+                    vm.initData = response.data.engagements[0].id;
+                }
+
+                vm.init2();
+                
+            },function(data)
+            {
+                if(data.data.message === 'Invalid Token')
+                {
+                  $location.path("/")
+                }
+                else
+                {
+                    vm.errorInfo = data.data;
+                    vm.display_error = true;
+                    window.scrollTo(0, 0);
+                }
+            });
+    	}
+
+        vm.init2 = function()
+        {
+            slaservice.getSlaDetails(vm.initData).then(function(response) {
                     slaservice.setSlaData(response.data.engagement);
-                    console.log(response.data.engagement);
                     if(response.data.engagement.sla.length !== 0)
                     {
                         vm.showButton = true;
@@ -72,20 +107,7 @@
                         window.scrollTo(0, 0);
                     }
                 });
-            },function(data)
-            {
-                if(data.data.message === 'Invalid Token')
-                {
-                  $location.path("/")
-                }
-                else
-                {
-                    vm.errorInfo = data.data;
-                    vm.display_error = true;
-                    window.scrollTo(0, 0);
-                }
-            });
-    	}
+        }
 
         vm.dateChange = function(data)
         {
@@ -193,51 +215,134 @@
             }
 
             var data = vm.getSlaData();
-            //data.comment = vm.newComments;
             console.log(data);
-            data.outage = vm.outage;
-            data.sla = table;
-
-            for(var i in data.outage)
+            if(data.state === 'init' || data.state === 'rejected')
             {
-                data.outage[i] = data.outage[i].toString();
+                data.outage = vm.outage;
+                data.sla = table;
+
+                for(var i in data.outage)
+                {
+                    data.outage[i] = data.outage[i].toString();
+                }
+
+                data.state = "pending";
+                console.log(data);
+
+                data = JSON.stringify(data);
+
+                slaservice.putSlaData(data).then(function(response) 
+                {
+                    if(response.status < 400)
+                    {
+
+                        slaservice.clearTableData();
+
+                            vm.display_error = false;
+                            vm.getCustDialog("SLA Submission Successfull<br>Workflow ID:" + response.data.workflow_id, {
+                                "OK": function() {
+                                    jQuery(this).dialog( "destroy" );
+                                    $location.path("/service/overview");
+                                    $scope.$apply();                           
+                                }
+                            });
+                    }
+                }, 
+                function(data)
+                {
+                    if(data.data.message === 'Invalid Token')
+                    {
+                      $location.path("/")
+                    }
+                    else
+                    {
+                        vm.errorInfo = data.data;
+                        vm.display_error = true;
+                        window.scrollTo(0, 0);
+                }           
+                });
             }
-
-            data.state = "pending";
-            console.log(data);
-
-            data = JSON.stringify(data);
-
-            slaservice.putSlaData(data).then(function(response) 
+            else if(data.state === 'active')
             {
-                if(response.status < 400)
-                {
+                var json = JSON.stringify({version : "",
+                  client_eai : data.client_eai,
+                  service_eai : data.service_eai,
+                  operation : data.operation,
+                  state : "init",
+                  test_date : data.test_date,
+                  mtp_date : data.mtp_date,
+                  datacenter : data.datacenter,
+                  region : data.region,
+                  sla : "",
+                  comment : data.comment});
 
-                    slaservice.clearTableData();
+                  console.log(json); 
 
-                        vm.display_error = false;
-                        vm.getCustDialog("SLA Submission Successfull<br>Workflow ID:" + response.data.workflow_id, {
-                            "OK": function() {
-                                jQuery(this).dialog( "destroy" );
-                                $location.path("/service/overview");
-                                $scope.$apply();                           
+                  slaservice.postEngagementForm(json).then(function(response){
+                    console.log(response);
+                    if(response.status < 400)
+                    {
+                        data.outage = vm.outage;
+                        data.sla = table;
+                        data.id = response.data.id
+                        for(var i in data.outage)
+                        {
+                            data.outage[i] = data.outage[i].toString();
+                        }
+
+                        data.state = "pending";
+                        console.log(data);
+
+                        data = JSON.stringify(data);
+
+                        slaservice.putSlaData(data).then(function(response) 
+                        {
+                            if(response.status < 400)
+                            {
+
+                                slaservice.clearTableData();
+
+                                    vm.display_error = false;
+                                    vm.getCustDialog("SLA Submission Successfull<br>Workflow ID:" + response.data.workflow_id, {
+                                        "OK": function() {
+                                            jQuery(this).dialog( "destroy" );
+                                            $location.path("/service/overview");
+                                            $scope.$apply();                           
+                                        }
+                                    });
                             }
+                        }, 
+                        function(data)
+                        {
+                            if(data.data.message === 'Invalid Token')
+                            {
+                              $location.path("/")
+                            }
+                            else
+                            {
+                                vm.errorInfo = data.data;
+                                vm.display_error = true;
+                                window.scrollTo(0, 0);
+                            }           
                         });
-                }
-            }, 
-            function(data)
-            {
-                if(data.data.message === 'Invalid Token')
+                    }
+
+                }, 
+                function(data)
                 {
-                  $location.path("/")
-                }
-                else
-                {
-                    vm.errorInfo = data.data;
-                    vm.display_error = true;
-                    window.scrollTo(0, 0);
-            }           
-            });
+                    console.log(data);
+                    if(data.data.message === 'Invalid Token')
+                    {
+                      $location.path("/")
+                    }
+                    else
+                    {
+                        vm.errorInfo = data.data;
+                        vm.display_error = true;
+                        window.scrollTo(0, 0);
+                    }           
+                });
+            }      
         }
         
 

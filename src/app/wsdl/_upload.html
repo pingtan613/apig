@@ -105,7 +105,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="data in vm.newWsdlList.result | orderBy: 'operation_name' | orderBy: 'state' track by $index">
+					<tr ng-repeat="data in vm.newWsdlList.result | orderBy: 'operation_name' track by $index">
 						<td>{{data.operation_name}}</td>
 						<td>
 							<select ng-model="data.state">

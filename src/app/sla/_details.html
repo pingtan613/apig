@@ -4,24 +4,24 @@
 	<div class="sla_revision_toolbit" style="text-align:right">
 		<section>
 			Choose Revision: 
-			<select ng-repeat="data in vm.getRevisions()">
-				<option>{{data.version}} ({{data.state}})</option>
+			<select ng-change="vm.init2()" ng-model="vm.initData">
+				<option ng-repeat="data in vm.getRevisions() track by $index" ng-selected="data.state === 'active'" value="{{data.id}}">{{data.version}} ({{data.state}})</option>
 			</select>
 		</section>
 		<br class="clear" />
 	</div>
 
 	<h4 class="text_purple">{{vm.getSlaData().service_name}} - {{vm.getSlaData().operation}}</h4>
-	<div class="note status_pending" ng-show="vm.getSlaData().state === 'pending'" style="text-align:center">
+	<div class="WARNING" ng-show="vm.getSlaData().state === 'pending'" style="text-align:center">
 		*** This SLA is Pending Approval and is not currenlty active ***
 	</div>
-	<div class="note status_pending" ng-show="vm.getSlaData().state === 'rejected'" style="text-align:center">
+	<div class="rejected" ng-show="vm.getSlaData().state === 'rejected'" style="text-align:center">
 		*** This SLA has been rejected. Please edit the SLA and re-submit for approval ***<br/>
 		Click <a href="#/sla/edit/{{vm.getSlaData().workflow_id}}">here</a> to make changes 
 
 	</div>
-	<div class="note status_active" ng-show="vm.getSlaData().state === 'active'">
-		This SLA is currently active. It must be unlocked before changes can be made. <a href="#/sla/edit/{{vm.getSlaData().workflow_id}}">Unlock</a>
+	<div class="ACTIVESLA" ng-show="vm.getSlaData().state === 'active'" style="text-align:center">
+		This SLA is currently active. It must be unlocked before changes can be made. <a href="#/sla/edit/{{vm.getSlaData().workflow_id}}" style="color:black">Unlock</a>
 	</div>
 	<section ng-init="showServices=true">
 		<label>

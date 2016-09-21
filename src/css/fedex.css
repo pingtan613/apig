@@ -620,3 +620,21 @@ input[readonly] {
 	color:#000000; 
 	border: 1px solid;
 }
+
+.rejected {
+	border-color: red;
+	background-color: #ff4d4d;
+	color: #000000;
+	border: 1px solid;
+}
+
+.rejected a{
+	background-color: transparent;
+	text-decoration: none;
+}
+.ACTIVESLA {
+	border-color: green;
+	background-color: lightgreen;
+	color: #000000;
+	border: 1px solid;
+}

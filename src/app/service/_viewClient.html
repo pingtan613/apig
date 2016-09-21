@@ -16,13 +16,13 @@
 				<li>
 					<ul>
 						<table style="width:100%">
-							<tr style="width:100%; border: 1px solid" ng-repeat="info in data.service">
+							<tr style="width:100%; border: 1px solid" ng-repeat="info in data.data">
 								<td style="width:50%; text-align:left;" >
 									{{info.client_display_name}}
 								</td>
 								
-								<td style="width:50%; text-align:center">
-									<a href="#/sla/view/{{info.workflow_id}}">View Engagement/SLA</a>
+								<td style="width:50%%; text-align:center">
+									<a href="#/sla/view/{{info.workflow_id}}" ng-click="vm.setClickedSLA(info)">View Engagement/SLA</a>
 								</td>
 							</tr>
 						</table>

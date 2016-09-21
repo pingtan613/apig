@@ -3,14 +3,14 @@
 	<div class="sla_revision_toolbit" style="text-align:right">
 		<section>
 			Choose Revision: 
-			<select ng-repeat="data in vm.getRevisions()">
-				<option>{{data.version}} ({{data.state}})</option>
+			<select>
+				<option ng-repeat="data in vm.getRevisions()">{{data.version}} ({{data.state}})</option>
 			</select>
 		</section>
 		<br class="clear" />
 	</div>
 	<h4 class="text_purple">{{vm.getSlaData().service_name}} - {{vm.getSlaData().operation}}</h4>
-	<div class="note status_edit" style="text-align:center">
+	<div class="WARNING" style="text-align:center">
 		*** This SLA is currently in edit mode ***
 	</div>
 	<div ng-show="vm.display_error" class="message error">Error: Please try again.  

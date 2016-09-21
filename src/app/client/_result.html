@@ -19,7 +19,7 @@
         		</label>
 				
 				<ul style="list-style: none;" ng-show="showServices">
-					<li ng-repeat="item in items.data | filter:vm.getSearchText().textSearch:strict">
+					<li ng-repeat="item in items.data | orderBy: 'operation_name' | filter:vm.getSearchText().textSearch:strict">
 						<a href="#/client/service/{{item.id}}" title="{{item.description}}" ng-click="vm.serviceClicked(item)">{{item.operation_name}} ({{item.interface}})</a>
 					</li>
 				</ul> 
